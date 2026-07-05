@@ -1,0 +1,296 @@
+/* ===== 基础重置与全局 ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green: #4CAF50;
+  --green-dark: #388E3C;
+  --red: #D32F2F;
+  --gold: #F9A825;
+  --bg: #f5f5f5;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+  --nav-height: 64px;
+  --topbar-height: 56px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  max-width: 750px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: var(--nav-height);
+}
+
+/* ===== 顶部标题栏 ===== */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  color: #fff;
+  text-align: center;
+  padding: 10px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.top-bar h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+.top-bar .subtitle {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+/* ===== Tab 页面切换 ===== */
+.tab-page {
+  display: none;
+  padding-bottom: 16px;
+}
+.tab-page.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 顶部大图 ===== */
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: #e0e0e0;
+}
+.hero-banner .hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hero-banner .hero-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.65));
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ===== 信息块 ===== */
+.info-block {
+  background: var(--card-bg);
+  margin: 12px 12px 0;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.info-block h2 {
+  font-size: 17px;
+  color: var(--green-dark);
+  margin-bottom: 8px;
+  padding-left: 10px;
+  border-left: 4px solid var(--green);
+}
+.info-block p {
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+/* 高亮文字 */
+.highlight {
+  color: var(--green-dark);
+  font-weight: 700;
+}
+
+/* 种养流程列表 */
+.process-list {
+  list-style: none;
+  counter-reset: step;
+}
+.process-list li {
+  counter-increment: step;
+  padding: 8px 0 8px 32px;
+  position: relative;
+  font-size: 14px;
+  color: var(--text-light);
+  border-left: 2px dashed #ddd;
+  margin-left: 8px;
+}
+.process-list li:last-child { border-left-color: transparent; }
+.process-list li::before {
+  content: counter(step);
+  position: absolute;
+  left: -12px;
+  top: 8px;
+  width: 22px;
+  height: 22px;
+  background: var(--green);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 体验项目列表 */
+.experience-list {
+  list-style: none;
+}
+.experience-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: var(--text);
+}
+.experience-list li:last-child { border-bottom: none; }
+.experience-list li::before {
+  content: "✅ ";
+}
+
+/* ===== 产品卡片（特产溯源Tab） ===== */
+.product-card {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  margin: 12px 12px 0;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.15s;
+}
+.product-card:active { transform: scale(0.98); }
+.product-card img {
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #eee;
+  flex-shrink: 0;
+}
+.product-card .product-info {
+  flex: 1;
+  margin-left: 12px;
+}
+.product-card .product-info h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.product-card .product-info p {
+  font-size: 13px;
+  color: var(--text-light);
+}
+.product-card .arrow {
+  font-size: 20px;
+  color: #ccc;
+  flex-shrink: 0;
+}
+
+/* ===== 节庆活动卡片 ===== */
+.event-card {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.event-card .event-date {
+  background: var(--red);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+/* ===== 视频占位 ===== */
+.video-placeholder {
+  background: var(--card-bg);
+  margin: 12px 12px 0;
+  padding: 48px 16px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.video-placeholder .play-icon {
+  font-size: 48px;
+  color: #ccc;
+  margin-bottom: 8px;
+}
+
+/* ===== 路线地图容器 ===== */
+.route-map {
+  width: 100%;
+  height: 240px;
+  background: #e8e8e8;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== 占位提示 ===== */
+.placeholder, .placeholder-item {
+  color: #aaa !important;
+  font-style: italic;
+}
+
+/* ===== 底部导航栏 ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 750px;
+  height: var(--nav-height);
+  background: var(--card-bg);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -1px 6px rgba(0,0,0,0.08);
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  color: #999;
+  transition: color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-btn .nav-icon {
+  font-size: 20px;
+  margin-bottom: 2px;
+}
+.nav-btn .nav-label {
+  font-size: 10px;
+}
+.nav-btn.active {
+  color: var(--green);
+}
+.nav-btn.active .nav-label {
+  font-weight: 700;
+}

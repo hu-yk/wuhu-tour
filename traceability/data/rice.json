@@ -1,0 +1,16 @@
+{
+  "name": "伍湖虾稻米",
+  "category": "rice",
+  "origin": "湖北省孝感市云梦县沙河乡伍湖村",
+  "gps": {"lat": 31.0000, "lng": 113.0000},
+  "producer": {
+    "name": "现场补充",
+    "avatar": "../images/farmer-rice.svg",
+    "intro": "现场补充：生产者介绍"
+  },
+  "method": "现场补充：虾稻共生、双水双绿、一田双收的生态种养模式介绍",
+  "story": "现场补充：伍湖村虾稻米的产品故事、品牌历程",
+  "images": ["../images/rice-thumb.svg", "../images/rice-thumb.svg", "../images/rice-thumb.svg"],
+  "buyLink": "",
+  "certifications": ["现场补充认证信息"]
+}
