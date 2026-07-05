@@ -4,7 +4,8 @@
 :root {
   --green: #4CAF50;
   --green-dark: #388E3C;
-  --red: #D32F2F;
+  --red: #C62828;
+  --red-dark: #8E0000;
   --gold: #F9A825;
   --bg: #f5f5f5;
   --card-bg: #ffffff;
@@ -32,7 +33,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  background: linear-gradient(135deg, var(--red), #5D1010);
   color: #fff;
   text-align: center;
   padding: 10px 16px;
@@ -103,9 +104,16 @@ body {
   padding-left: 10px;
   border-left: 4px solid var(--green);
 }
+.info-block.red-accent h2 {
+  color: var(--red);
+  border-left-color: var(--red);
+}
 .info-block p {
   color: var(--text-light);
   font-size: 14px;
+}
+.info-block p strong {
+  color: var(--text);
 }
 
 /* 高亮文字 */
@@ -250,6 +258,56 @@ body {
   font-style: italic;
 }
 
+/* ===== 时间线卡片（循迹Tab） ===== */
+.timeline-card {
+  display: flex;
+  margin-top: 12px;
+  padding: 12px;
+  background: #fafafa;
+  border-radius: 8px;
+  border-left: 3px solid var(--red);
+}
+.timeline-card .tl-dot {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-right: 10px;
+  line-height: 1.4;
+}
+.timeline-card .tl-content {
+  flex: 1;
+}
+.timeline-card .tl-content h4 {
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.timeline-card .tl-content p {
+  font-size: 13px;
+  color: var(--text-light);
+  margin: 0;
+}
+
+/* ===== 红色高亮框 ===== */
+.highlight-box {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, #FFF3E0, #FFEBEE);
+  border-radius: 8px;
+  border: 1px solid #FFCDD2;
+}
+.highlight-box .highlight-icon {
+  font-size: 22px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+.highlight-box span {
+  font-size: 14px;
+  color: var(--red-dark);
+  font-weight: 600;
+}
+
 /* ===== 底部导航栏 ===== */
 .bottom-nav {
   position: fixed;
@@ -289,7 +347,7 @@ body {
   font-size: 10px;
 }
 .nav-btn.active {
-  color: var(--green);
+  color: var(--red);
 }
 .nav-btn.active .nav-label {
   font-weight: 700;
