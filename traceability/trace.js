@@ -123,7 +123,7 @@ function render(data) {
     iframe.src = 'https://uri.amap.com/marker?position=' + data.gps.lng + ',' + data.gps.lat +
       '&name=' + encodeURIComponent(data.name) + '&callnative=1';
     iframe.width = '100%';
-    iframe.height = '220';
+    iframe.height = '360';
     iframe.style.border = 'none';
     iframe.style.borderRadius = '8px';
     iframe.onerror = function () { mapFallback.style.display = 'flex'; };
