@@ -16,12 +16,15 @@ xhr.onload = function () {
     document.getElementById('product-name').textContent = '数据加载失败';
   }
 };
+xhr.onerror = function () {
+  document.getElementById('product-name').textContent = '数据加载失败';
+};
 xhr.send();
 
 function render(data) {
   // 标题
   document.getElementById('product-name').textContent = data.name;
-  document.title = data.name + ' · 伍湖农文旅';
+  document.title = data.name + ' · 循迹悟思想 数智兴农旅';
 
   // 轮播图
   var track = document.getElementById('swiper-track');
@@ -30,6 +33,8 @@ function render(data) {
     var el = document.createElement('img');
     el.src = img;
     el.alt = data.name;
+    // 图片加载失败降级
+    el.onerror = function () { this.src = '../assets/images/og-cover.svg'; };
     track.appendChild(el);
 
     var dot = document.createElement('span');
@@ -60,7 +65,6 @@ function render(data) {
         else if (diff < 0 && current > 0) goTo(current - 1);
       }
     });
-    // 自动播放
     if (total > 1) {
       setInterval(function () { goTo((current + 1) % total); }, 4000);
     }
@@ -73,27 +77,72 @@ function render(data) {
   document.getElementById('field-cert').textContent =
     (data.certifications || []).join(' / ') || '暂无';
 
-  // 地图嵌入（使用 GPS 坐标，纯静态方案：iframe 嵌入）
-  var lat = data.gps.lat, lng = data.gps.lng;
+  // 地图：优先使用高德 JS API，否则降级为 iframe
   var mapContainer = document.getElementById('map-container');
-  // 优先用高德地图静态图（无需 API Key，纯图片）
-  // 如果有网，尝试加载 iframe 版地图
-  var iframe = document.createElement('iframe');
-  iframe.src = 'https://uri.amap.com/marker?position=' + lng + ',' + lat +
-    '&name=' + encodeURIComponent(data.name) +
-    '&callnative=1';
-  iframe.width = '100%';
-  iframe.height = '220';
-  iframe.style.border = 'none';
-  iframe.style.borderRadius = '8px';
-  iframe.onerror = function () {
-    document.getElementById('map-fallback').style.display = 'flex';
-  };
-  mapContainer.innerHTML = '';
-  mapContainer.appendChild(iframe);
+  var mapFallback = document.getElementById('map-fallback');
+
+  // 判断是否为占位数据（整数坐标 = 假数据）
+  var isPlaceholder = (data.gps.lat === Math.floor(data.gps.lat) &&
+                       data.gps.lng === Math.floor(data.gps.lng));
+
+  function renderMap() {
+    // 如果有高德 SDK 且有真实数据，用 JS API
+    if (!isPlaceholder && window.AMap && AMAP_CONFIG.key && AMAP_CONFIG.key !== 'YOUR_AMAP_KEY') {
+      try {
+        var map = new AMap.Map('map-container', {
+          zoom: 15,
+          center: [data.gps.lng, data.gps.lat],
+          resizeEnable: true
+        });
+        map.addControl(new AMap.Scale());
+
+        var marker = new AMap.Marker({
+          map: map,
+          position: [data.gps.lng, data.gps.lat],
+          title: data.name
+        });
+
+        var infoWindow = new AMap.InfoWindow({
+          content: '<div style="padding:8px 12px;"><strong>' + data.name +
+            '</strong><br><span style="color:#666;font-size:12px;">' +
+            data.origin + '</span></div>',
+          offset: new AMap.Pixel(0, -30)
+        });
+        marker.on('click', function () { infoWindow.open(map, marker.getPosition()); });
+        infoWindow.open(map, marker.getPosition());
+
+        mapFallback.style.display = 'none';
+        return;
+      } catch (e) {
+        console.warn('地图渲染失败，降级为 iframe: ' + e.message);
+      }
+    }
+
+    // iframe 降级方案
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://uri.amap.com/marker?position=' + data.gps.lng + ',' + data.gps.lat +
+      '&name=' + encodeURIComponent(data.name) + '&callnative=1';
+    iframe.width = '100%';
+    iframe.height = '220';
+    iframe.style.border = 'none';
+    iframe.style.borderRadius = '8px';
+    iframe.onerror = function () { mapFallback.style.display = 'flex'; };
+    mapContainer.innerHTML = '';
+    mapContainer.appendChild(iframe);
+    mapFallback.style.display = 'none';
+  }
+
+  // 如果 SDK 已加载就直接渲染，否则等 SDK 加载
+  if (window.AMap || !AMAP_CONFIG.key || AMAP_CONFIG.key === 'YOUR_AMAP_KEY') {
+    renderMap();
+  } else {
+    MapModule.loadSDK(renderMap);
+  }
 
   // 生产者
-  document.getElementById('producer-avatar').src = data.producer.avatar;
+  var avatar = document.getElementById('producer-avatar');
+  avatar.src = data.producer.avatar;
+  avatar.onerror = function () { this.src = '../assets/images/og-cover.svg'; };
   document.getElementById('producer-name').textContent = data.producer.name;
   document.getElementById('producer-intro').textContent = data.producer.intro;
 
@@ -110,12 +159,21 @@ function render(data) {
   }
 
   // 生成溯源二维码（指向当前页面）
-  new QRCode(document.getElementById('qrcode-container'), {
-    text: window.location.href,
-    width: 150,
-    height: 150,
-    colorDark: '#333333',
-    colorLight: '#ffffff',
-    correctLevel: QRCode.CorrectLevel.M
-  });
+  if (typeof QRCode !== 'undefined') {
+    var qrContainer = document.getElementById('qrcode-container');
+    // 清空旧二维码（如果有）
+    qrContainer.innerHTML = '';
+    try {
+      new QRCode(qrContainer, {
+        text: window.location.href,
+        width: 150,
+        height: 150,
+        colorDark: '#333333',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } catch (e) {
+      qrContainer.innerHTML = '<p style="color:#999;">二维码生成失败</p>';
+    }
+  }
 }

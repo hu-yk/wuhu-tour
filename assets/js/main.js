@@ -1,4 +1,6 @@
 // Tab 切换
+var mapRendered = false;
+
 document.querySelectorAll('.nav-btn').forEach(function (btn) {
   btn.addEventListener('click', function () {
     var tabId = this.getAttribute('data-tab');
@@ -13,6 +15,14 @@ document.querySelectorAll('.nav-btn').forEach(function (btn) {
 
     // 滚动到顶部
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 切换到"游玩路线"Tab 时，延迟加载地图（首次点击才加载）
+    if (tabId === 'tour' && !mapRendered) {
+      mapRendered = true;
+      setTimeout(function () {
+        MapModule.render('tour-map', TOUR_POIS);
+      }, 300);
+    }
   });
 });
 

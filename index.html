@@ -23,7 +23,7 @@
     <!-- Tab 1: 循迹（红色文化 + 博物馆） -->
     <section class="tab-page active" id="tab-red">
       <div class="hero-banner">
-        <img src="assets/images/red-hero.svg" alt="云梦县博物馆" class="hero-img" />
+        <img src="assets/images/red-hero.svg" alt="云梦县博物馆" class="hero-img" loading="lazy" />
         <div class="hero-text">追寻总书记足迹 · 走好新时代长征路</div>
       </div>
 
@@ -80,7 +80,7 @@
     <!-- Tab 2: 稻虾共作 -->
     <section class="tab-page" id="tab-farming">
       <div class="hero-banner">
-        <img src="assets/images/farming-hero.svg" alt="稻虾共作基地" class="hero-img" />
+        <img src="assets/images/farming-hero.svg" alt="稻虾共作基地" class="hero-img" loading="lazy" />
         <div class="hero-text">稻虾共作 · 一田双收</div>
       </div>
       <div class="info-block">
@@ -138,9 +138,7 @@
       </div>
       <div class="info-block">
         <h2>游玩路线推荐</h2>
-        <div class="route-map" id="route-map-container">
-          <p class="placeholder">地图加载中…（需现场采集GPS点位后标注）</p>
-        </div>
+        <div class="route-map" id="tour-map"></div>
       </div>
       <div class="info-block">
         <h2>体验项目</h2>
@@ -214,6 +212,8 @@
   </nav>
 
   <script src="assets/js/qrcode.min.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/map.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
