@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>微信登录中…</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #F6F8F3; }
+    .container { text-align: center; padding: 40px; }
+    .spinner { width: 40px; height: 40px; border: 3px solid #E8F5E9; border-top-color: #2E7D32; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    p { color: #666; font-size: 15px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="spinner"></div>
+  <p>正在登录...</p>
+  <p style="font-size:12px;color:#999;margin-top:8px;">授权后将自动返回首页</p>
+</div>
+
+<script>
+(function () {
+  var params = new URL(window.location.href).searchParams;
+  var code = params.get('code');
+  var state = params.get('state');
+  var savedState = localStorage.getItem('wx_state');
+
+  if (!code) {
+    document.querySelector('p').textContent = '登录失败：未获取到授权码';
+    return;
+  }
+
+  if (state !== savedState) {
+    console.warn('State mismatch, but continuing');
+  }
+
+  // 后端接口用 code 换取用户信息
+  // 示例请求（需要你们自己的后端）：
+  // fetch('/api/wx-login?code=' + code)
+  //   .then(r => r.json())
+  //   .then(user => {
+  //     localStorage.setItem('wuhu_user', JSON.stringify(user));
+  //     window.location.href = '../index.html';
+  //   })
+  //   .catch(err => {
+  //     document.querySelector('p').textContent = '登录失败：' + err.message;
+  //   });
+
+  // Demo 模式：直接用 code 前6位做昵称
+  var demoUser = {
+    nickname: '微信用户' + code.substr(0, 6),
+    code: code,
+    demo: true,
+    time: Date.now()
+  };
+  localStorage.setItem('wuhu_user', JSON.stringify(demoUser));
+  setTimeout(function () {
+    window.location.href = '../index.html';
+  }, 800);
+})();
+</script>
+</body>
+</html>
