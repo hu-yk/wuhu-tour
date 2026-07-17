@@ -5,34 +5,35 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 <meta property="og:title" content="一码游伍湖"/>
 <meta property="og:description" content="循迹悟思想 · 数智兴农旅 · 走好新时代长征路"/>
+<meta property="og:image" content="assets/images/og-cover.svg"/>
 <title>一码游伍湖</title>
 <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
 <body>
 
-<!-- 顶部栏 -->
-<header class="topbar">
-  <div class="t-left">
-    <span class="t-brand">一码游<span>伍湖</span></span>
+<!-- 顶部导航 -->
+<header class="topbar" id="topbar">
+  <div class="t-l">
+    <span class="t-brand">一码游<em>伍湖</em></span>
   </div>
-  <div class="t-right">
+  <div class="t-r">
     <button class="t-btn" id="login-btn" onclick="doLogin()">👤 登录</button>
-    <button class="t-menu" onclick="toggleDir()" style="margin-left:4px">☰</button>
+    <button class="t-menu" onclick="toggleDir()" style="margin-left:2px">☰</button>
   </div>
 </header>
 
 <!-- 目录 -->
 <div class="dir-overlay" id="dir-overlay" onclick="if(event.target===this)closeDir()">
   <div class="dir-panel">
-    <div class="dp-hd"><h3>导航</h3><button class="dp-close" onclick="closeDir()">✕</button></div>
+    <div class="dp-hd"><h3>全站导航</h3><button class="dp-close" onclick="closeDir()">✕</button></div>
     <div class="dp-list">
-      <div class="dp-item" onclick="switchTab('home');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#2c6e3f,#4a9d5e)">🏠</div>首页<div class="dp-arrow">→</div></div>
+      <div class="dp-item" onclick="switchTab('home');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#2d8659,#4A6F5D)">🏠</div>首页<div class="dp-arrow">→</div></div>
       <div class="dp-item" onclick="switchTab('culture');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#9b2d2d,#c45050)">🚩</div>循迹研学<div class="dp-arrow">→</div></div>
-      <div class="dp-item" onclick="switchTab('farming');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#2c6e3f,#6aaa6a)">🌾</div>稻虾产业<div class="dp-arrow">→</div></div>
+      <div class="dp-item" onclick="switchTab('farming');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#2d8659,#6aaa6a)">🌾</div>稻虾产业<div class="dp-arrow">→</div></div>
       <div class="dp-item" onclick="switchTab('tour');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#2d5f9b,#5a8ec4)">🎣</div>生态农旅<div class="dp-arrow">→</div></div>
-      <div class="dp-item" onclick="goPage('pages/onefield.html')"><div class="dp-badge" style="background:linear-gradient(135deg,#8b6914,#d4a853)">📋</div>产业档案<div class="dp-arrow">→</div></div>
-      <div class="dp-item" onclick="goPage('pages/survey.html')"><div class="dp-badge" style="background:linear-gradient(135deg,#7a4a2e,#c49060)">💬</div>建言献策<div class="dp-arrow">→</div></div>
-      <div class="dp-item" onclick="goPage('pages/service.html')"><div class="dp-badge" style="background:linear-gradient(135deg,#5c3d6e,#8b6eaa)">🛠</div>实践服务<div class="dp-arrow">→</div></div>
+      <div class="dp-item" onclick="goPage('pages/onefield.html')"><div class="dp-badge" style="background:linear-gradient(135deg,#8b5a2b,#c49060)">📋</div>产业档案<div class="dp-arrow">→</div></div>
+      <div class="dp-item" onclick="goPage('pages/survey.html')"><div class="dp-badge" style="background:linear-gradient(135deg,#a65d2e,#d48058)">💬</div>建言献策<div class="dp-arrow">→</div></div>
+      <div class="dp-item" onclick="goPage('pages/service.html')"><div class="dp-badge" style="background:linear-gradient(135deg,#6d3b8b,#9b6eb0)">🛠</div>实践服务<div class="dp-arrow">→</div></div>
       <div class="dp-item" onclick="goPage('pages/about.html')"><div class="dp-badge" style="background:linear-gradient(135deg,#3b7d8e,#5aa0b4)">ℹ</div>项目说明<div class="dp-arrow">→</div></div>
     </div>
   </div>
@@ -43,158 +44,142 @@
 <!-- ═══════ 首页 ═══════ -->
 <section class="tab-page active" id="tab-home">
 
-  <!-- 轮播 -->
-  <div class="carousel">
-    <div class="cr-view"><div class="cr-track" id="cr-track"></div></div>
-    <div class="cr-dots" id="cr-dots"></div>
+  <!-- 3D轮播 -->
+  <div class="carousel" id="carousel">
+    <div class="cr-stage" id="cr-stage">
+      <div class="cr-track" id="cr-track"></div>
+      <button class="cr-prev" onclick="crPrev()">◀</button>
+      <button class="cr-next" onclick="crNext()">▶</button>
+    </div>
+    <div class="cr-indicators" id="cr-indicators"></div>
   </div>
 
-  <!-- 数据 -->
+  <!-- 数据看板 -->
   <div class="kpi-row">
-    <div class="kpi"><span class="kpi-n" id="kpi-visitors">1,280</span><span class="kpi-l">累计游客</span></div>
-    <div class="kpi"><span class="kpi-n">3,500</span><span class="kpi-l">亩生态田</span></div>
+    <div class="kpi"><span class="kpi-n" id="kpi-v">1,280</span><span class="kpi-l">累计游客</span></div>
+    <div class="kpi"><span class="kpi-n">3,500</span><span class="kpi-l">亩生态稻田</span></div>
     <div class="kpi"><span class="kpi-n">6</span><span class="kpi-l">文化景点</span></div>
     <div class="kpi"><span class="kpi-n">3</span><span class="kpi-l">游玩路线</span></div>
   </div>
 
-  <!-- 横向入口 -->
-  <div class="sec-title"><span class="st-l">特色体验</span><span class="st-r" onclick="switchTab('culture')">全部 →</span></div>
+  <!-- 特色体验 -->
+  <div class="sec-hd"><span class="sec-title">特色体验</span></div>
   <div class="h-scroll">
     <div class="h-item" onclick="switchTab('culture')"><div class="hi-icon">🏛</div><div class="hi-label">循迹研学</div><div class="hi-hint">总书记考察足迹</div></div>
     <div class="h-item" onclick="switchTab('farming')"><div class="hi-icon">🌾</div><div class="hi-label">稻虾共作</div><div class="hi-hint">一田双收</div></div>
-    <div class="h-item" onclick="switchTab('tour')"><div class="hi-icon">🎣</div><div class="hi-label">生态农旅</div><div class="hi-hint">路线·体验</div></div>
+    <div class="h-item" onclick="switchTab('tour')"><div class="hi-icon">🎣</div><div class="hi-label">生态农旅</div><div class="hi-hint">路线·体验·应急</div></div>
     <div class="h-item" onclick="goPage('pages/onefield.html')"><div class="hi-icon">📋</div><div class="hi-label">产业档案</div><div class="hi-hint">溯源展示</div></div>
     <div class="h-item" onclick="goPage('pages/survey.html')"><div class="hi-icon">💬</div><div class="hi-label">建言献策</div><div class="hi-hint">反馈画像</div></div>
   </div>
 
   <!-- 热门推荐 -->
-  <div class="sec-title"><span class="st-l">热门推荐</span></div>
+  <div class="sec-hd"><span class="sec-title">热门推荐</span></div>
   <div class="card-grid">
-    <div class="card" onclick="switchTab('culture')">
-      <div class="c-icon">🏛</div>
-      <div class="c-title">循迹云梦</div>
-      <div class="c-tag">博物馆 · 总书记足迹</div>
-      <div class="c-desc">云梦县博物馆、秦汉简牍、红色文化资源。</div>
+    <div class="c-card" onclick="switchTab('culture')">
+      <div class="cc-img">🏛</div>
+      <div class="cc-body"><div class="cc-title">循迹云梦</div><div class="cc-tag">博物馆 · 总书记足迹</div><div class="cc-desc">云梦县博物馆、秦汉简牍、红色文化。</div></div>
     </div>
-    <div class="card" onclick="switchTab('farming')">
-      <div class="c-icon">🌾</div>
-      <div class="c-title">稻虾产业</div>
-      <div class="c-tag">双水双绿 · 生态种养</div>
-      <div class="c-desc">稻虾共作、农产品溯源、梦辰泽农业。</div>
+    <div class="c-card" onclick="switchTab('farming')">
+      <div class="cc-img">🌾</div>
+      <div class="cc-body"><div class="cc-title">稻虾产业</div><div class="cc-tag">双水双绿 · 生态种养</div><div class="cc-desc">稻虾共作、农产品溯源、梦辰泽农业。</div></div>
     </div>
-    <div class="card" onclick="switchTab('tour')">
-      <div class="c-icon">🎣</div>
-      <div class="c-title">生态农旅</div>
-      <div class="c-tag">路线 · 体验 · 应急</div>
-      <div class="c-desc">伍湖四海生态园、三条推荐游玩路线。</div>
+    <div class="c-card" onclick="switchTab('tour')">
+      <div class="cc-img">🎣</div>
+      <div class="cc-body"><div class="cc-title">生态农旅</div><div class="cc-tag">路线 · 体验 · 应急</div><div class="cc-desc">伍湖四海生态园、三条游玩路线。</div></div>
     </div>
-    <div class="card" onclick="goPage('pages/onefield.html')">
-      <div class="c-icon">📋</div>
-      <div class="c-title">产业档案</div>
-      <div class="c-tag">一田一码 · 溯源</div>
-      <div class="c-desc">示范田块、种养方式、产品故事。</div>
+    <div class="c-card" onclick="goPage('pages/onefield.html')">
+      <div class="cc-img">📋</div>
+      <div class="cc-body"><div class="cc-title">产业档案</div><div class="cc-tag">一田一码 · 溯源</div><div class="cc-desc">示范田块、种养方式、产品故事。</div></div>
     </div>
-    <div class="card cg-wide" onclick="goPage('pages/survey.html')">
-      <div class="c-icon">💬</div>
-      <div class="c-title">建言献策</div>
-      <div class="c-tag">问卷反馈 · 游客画像</div>
-      <div class="c-desc">收集游客来源、偏好、文化认知与发展建议。</div>
+    <div class="c-card cg-wide" onclick="goPage('pages/survey.html')">
+      <div class="cc-img">💬</div>
+      <div class="cc-body"><div class="cc-title">建言献策</div><div class="cc-tag">问卷反馈 · 游客画像</div><div class="cc-desc">收集游客来源、偏好、文化认知与发展建议。</div></div>
     </div>
   </div>
 
-  <!-- 实践服务 -->
   <div class="feat-list">
-    <div class="feat-item" onclick="goPage('pages/service.html')">
-      <div class="fi-icon" style="background:linear-gradient(135deg,#2c6e3f,#4a9d5e)">🛠</div>
-      <div class="fi-body"><h4>实践服务</h4><p>理论宣讲 · AI科普 · 防诈骗 · 数字技能培训</p></div>
-      <div class="fi-arrow">→</div>
+    <div class="feat-row" onclick="goPage('pages/service.html')">
+      <div class="fr-icon" style="background:linear-gradient(135deg,#2d8659,#4A6F5D)">🛠</div>
+      <div class="fr-body"><h4>实践服务</h4><p>理论宣讲 · AI科普 · 防诈骗 · 数字技能培训</p></div>
+      <div class="fr-arrow">→</div>
     </div>
   </div>
 </section>
 
 <!-- ═══════ 循迹 ═══════ -->
 <section class="tab-page" id="tab-culture">
-  <div class="hero ht-red">
-    <div class="h-title">循迹云梦</div>
-    <div class="h-sub">云梦县博物馆 · 秦汉简牍 · 总书记考察足迹</div>
+  <div class="hero h-red">
+    <div class="h-t">循迹云梦</div>
+    <div class="h-s">云梦县博物馆 · 秦汉简牍 · 总书记考察足迹</div>
     <div class="h-chip">📍 2024年11月习近平总书记考察</div>
   </div>
-
   <div class="info-block">
     <h2>从云梦到伍湖</h2>
     <p>沿着总书记考察足迹，从云梦县博物馆走进伍湖村，把文化传承保护与乡村振兴实践紧密结合，在田野一线走好新时代长征路。</p>
   </div>
-
-  <div class="sec-title"><span class="st-l">循迹时间线</span></div>
+  <div class="sec-hd"><span class="sec-title">循迹时间线</span></div>
   <div class="timeline">
     <div class="tl-row"><div class="tl-dot">📍</div><div class="tl-card"><h4>2024.11 总书记考察云梦县博物馆</h4><p>了解文物保护研究利用，为文化传承保护提供根本遵循</p></div></div>
     <div class="tl-row"><div class="tl-dot">📜</div><div class="tl-card"><h4>云梦秦汉简牍</h4><p>睡虎地秦简等珍贵文物，云梦深厚的历史文化底蕴</p></div></div>
     <div class="tl-row"><div class="tl-dot">🚩</div><div class="tl-card"><h4>2026 长征胜利90周年</h4><p>走好新时代长征路，数字赋能乡村振兴</p></div></div>
     <div class="tl-row"><div class="tl-dot">🏘</div><div class="tl-card"><h4>走进伍湖村</h4><p>从县域文化资源走向乡村实践，用青年力量服务农文旅融合</p></div></div>
   </div>
-
-  <div class="sec-title"><span class="st-l">文化故事</span></div>
-  <div id="story-list"></div>
+  <div class="sec-hd"><span class="sec-title">文化故事</span></div>
+  <div id="story-list" class="dc-list"></div>
 </section>
 
 <!-- ═══════ 稻虾 ═══════ -->
 <section class="tab-page" id="tab-farming">
-  <div class="hero ht-green">
-    <div class="h-title">稻虾产业</div>
-    <div class="h-sub">稻虾共作 · 双水双绿 · 梦辰泽农业</div>
+  <div class="hero h-green">
+    <div class="h-t">稻虾产业</div>
+    <div class="h-s">稻虾共作 · 双水双绿 · 梦辰泽农业</div>
     <div class="h-chip">🌱 生态种养 · 一田双收 · 绿色循环</div>
   </div>
-
   <div class="kpi-row" style="margin-top:10px">
     <div class="kpi"><span class="kpi-n">3,500</span><span class="kpi-l">亩生态田</span></div>
-    <div class="kpi"><span class="kpi-n">XXX</span><span class="kpi-l">稻米年产量(吨)</span></div>
+    <div class="kpi"><span class="kpi-n">XXX</span><span class="kpi-l">年产稻米(吨)</span></div>
     <div class="kpi"><span class="kpi-n">绿色</span><span class="kpi-l">认证标准</span></div>
   </div>
-
-  <div class="sec-title"><span class="st-l">产业模块</span></div>
-  <div id="agri-list"></div>
-
+  <div class="sec-hd"><span class="sec-title">产业模块</span></div>
+  <div id="agri-list" class="dc-list"></div>
   <div class="feat-list">
-    <div class="feat-item" onclick="goPage('pages/onefield.html')">
-      <div class="fi-icon" style="background:linear-gradient(135deg,#8b6914,#d4a853)">📋</div>
-      <div class="fi-body"><h4>产业档案</h4><p>伍湖虾稻米示范田块 · 完整溯源信息</p></div>
-      <div class="fi-arrow">→</div>
+    <div class="feat-row" onclick="goPage('pages/onefield.html')">
+      <div class="fr-icon" style="background:linear-gradient(135deg,#8b5a2b,#c49060)">📋</div>
+      <div class="fr-body"><h4>产业档案</h4><p>伍湖虾稻米示范田块 · 完整溯源信息</p></div>
+      <div class="fr-arrow">→</div>
     </div>
   </div>
 </section>
 
 <!-- ═══════ 农旅 ═══════ -->
 <section class="tab-page" id="tab-tour">
-  <div class="hero ht-blue">
-    <div class="h-title">生态农旅</div>
-    <div class="h-sub">伍湖四海生态园 · 体验项目 · 路线规划</div>
+  <div class="hero h-blue">
+    <div class="h-t">生态农旅</div>
+    <div class="h-s">伍湖四海生态园 · 体验项目 · 路线规划</div>
     <div class="h-chip">🗺 3条推荐路线</div>
   </div>
-
-  <div class="sec-title"><span class="st-l">游玩路线</span></div>
-  <div id="route-list"></div>
-
-  <div class="sec-title"><span class="st-l">体验项目</span></div>
-  <div class="scroll-cards" style="margin-top:4px">
-    <div class="sc"><div class="sc-img">🌾</div><div class="sc-txt"><h4>稻虾科普</h4><p>了解生态种养模式</p></div></div>
-    <div class="sc" onclick="goPage('pages/onefield.html')"><div class="sc-img">🏷</div><div class="sc-txt"><h4>产品溯源</h4><p>扫码知来源</p></div></div>
-    <div class="sc"><div class="sc-img">🎣</div><div class="sc-txt"><h4>钓虾体验</h4><p>生态园互动项目</p></div></div>
-    <div class="sc"><div class="sc-img">🍽</div><div class="sc-txt"><h4>生态农庄</h4><p>农家菜品尝</p></div></div>
-    <div class="sc" onclick="goPage('pages/service.html')"><div class="sc-img">🛠</div><div class="sc-txt"><h4>实践服务</h4><p>AI科普·宣讲</p></div></div>
+  <div class="sec-hd"><span class="sec-title">游玩路线</span></div>
+  <div id="route-list" class="dc-list"></div>
+  <div class="sec-hd"><span class="sec-title">体验项目</span></div>
+  <div class="sc-strip">
+    <div class="sc-card"><div class="sc-img">🌾</div><div class="sc-body"><h4>稻虾科普</h4><p>了解生态种养模式</p></div></div>
+    <div class="sc-card" onclick="goPage('pages/onefield.html')"><div class="sc-img">🏷</div><div class="sc-body"><h4>产品溯源</h4><p>扫码知来源</p></div></div>
+    <div class="sc-card"><div class="sc-img">🎣</div><div class="sc-body"><h4>钓虾体验</h4><p>生态园互动项目</p></div></div>
+    <div class="sc-card"><div class="sc-img">🍽</div><div class="sc-body"><h4>生态农庄</h4><p>农家菜品尝</p></div></div>
+    <div class="sc-card" onclick="goPage('pages/service.html')"><div class="sc-img">🛠</div><div class="sc-body"><h4>实践服务</h4><p>AI科普·宣讲</p></div></div>
   </div>
-
-  <button class="btn btn-primary mt" onclick="goPage('pages/service.html')">实践服务</button>
+  <button class="btn btn-p mt" onclick="goPage('pages/service.html')">实践服务</button>
 </section>
 
 </main>
 
 <!-- 底部导航 -->
-<nav class="bottom-nav">
-  <button class="nav-btn active" data-tab="home"><span class="nb-icon">🏠</span><span>首页</span><span class="nb-dot"></span></button>
-  <button class="nav-btn" data-tab="culture"><span class="nb-icon">🚩</span><span>循迹</span><span class="nb-dot"></span></button>
-  <button class="nav-btn" data-tab="farming"><span class="nb-icon">🌾</span><span>稻虾</span><span class="nb-dot"></span></button>
-  <button class="nav-btn" data-tab="tour"><span class="nb-icon">🎣</span><span>农旅</span><span class="nb-dot"></span></button>
-  <button class="nav-btn" data-tab="menu"><span class="nb-icon">☰</span><span>目录</span><span class="nb-dot"></span></button>
+<nav class="btm-nav">
+  <button class="nav-btn active" data-tab="home"><span class="nb-icon">🏠</span><span>首页</span></button>
+  <button class="nav-btn" data-tab="culture"><span class="nb-icon">🚩</span><span>循迹</span></button>
+  <button class="nav-btn" data-tab="farming"><span class="nb-icon">🌾</span><span>稻虾</span></button>
+  <button class="nav-btn" data-tab="tour"><span class="nb-icon">🎣</span><span>农旅</span></button>
+  <button class="nav-btn" data-tab="menu"><span class="nb-icon">☰</span><span>目录</span></button>
 </nav>
 
 <script src="assets/js/qrcode.min.js"></script>
