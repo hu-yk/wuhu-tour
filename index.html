@@ -4,65 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta property="og:title" content="一码游伍湖" />
-  <meta property="og:description" content="循迹悟思想 · 数智兴农旅" />
+  <meta property="og:description" content="循迹悟思想 · 数智兴农旅 · 走好新时代长征路" />
+  <meta property="og:image" content="assets/images/og-cover.svg" />
   <title>一码游伍湖</title>
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 
-  <!-- ===== 顶部栏（常驻） ===== -->
+  <!-- 顶部栏 -->
   <header class="fixed-topbar">
-    <button class="login-btn" id="login-btn" onclick="doWechatLogin()">微信登录</button>
+    <button class="login-btn" id="login-btn" onclick="doWechatLogin()">👤 微信登录</button>
     <span class="topbar-brand">一码游伍湖</span>
-    <button class="menu-btn" onclick="toggleDirectory()">
-      <span class="menu-icon">☰</span>
-    </button>
+    <button class="menu-btn" onclick="toggleDirectory()">☰</button>
   </header>
 
-  <!-- ===== 目录导航面板（全屏遮罩） ===== -->
-  <div class="dir-overlay" id="dir-overlay">
+  <!-- 目录面板 -->
+  <div class="dir-overlay" id="dir-overlay" onclick="if(event.target===this)closeDirectory()">
     <div class="dir-panel">
       <div class="dir-header">
         <span class="dir-title">全站导航</span>
         <button class="dir-close" onclick="closeDirectory()">✕</button>
       </div>
       <div class="dir-list">
-        <div class="dir-item" onclick="switchTab('home');closeDirectory()">
-          <span class="dir-icon">🏠</span><span>首页</span>
-        </div>
-        <div class="dir-item" onclick="switchTab('culture');closeDirectory()">
-          <span class="dir-icon">🏛️</span><span>循迹云梦</span>
-        </div>
-        <div class="dir-item" onclick="switchTab('farming');closeDirectory()">
-          <span class="dir-icon">🌾</span><span>稻虾产业</span>
-        </div>
-        <div class="dir-item" onclick="switchTab('tour');closeDirectory()">
-          <span class="dir-icon">🎣</span><span>生态农旅</span>
-        </div>
-        <div class="dir-item" onclick="goPage('pages/onefield.html')">
-          <span class="dir-icon">📋</span><span>产业档案</span>
-        </div>
-        <div class="dir-item" onclick="goPage('pages/survey.html')">
-          <span class="dir-icon">💬</span><span>建言献策</span>
-        </div>
-        <div class="dir-item" onclick="goPage('pages/service.html')">
-          <span class="dir-icon">🛠️</span><span>实践服务</span>
-        </div>
-        <div class="dir-item" onclick="goPage('pages/stats.html')">
-          <span class="dir-icon">📊</span><span>游客画像</span>
-        </div>
-        <div class="dir-item" onclick="goPage('pages/about.html')">
-          <span class="dir-icon">ℹ️</span><span>项目说明</span>
-        </div>
+        <div class="dir-item" onclick="switchTab('home');closeDirectory()"><span class="dir-num">1</span>首页<span class="dir-arrow">→</span></div>
+        <div class="dir-item" onclick="switchTab('culture');closeDirectory()"><span class="dir-num">2</span>循迹云梦<span class="dir-arrow">→</span></div>
+        <div class="dir-item" onclick="switchTab('farming');closeDirectory()"><span class="dir-num">3</span>稻虾产业<span class="dir-arrow">→</span></div>
+        <div class="dir-item" onclick="switchTab('tour');closeDirectory()"><span class="dir-num">4</span>生态农旅<span class="dir-arrow">→</span></div>
+        <div class="dir-item" onclick="goPage('pages/onefield.html')"><span class="dir-num">5</span>产业档案<span class="dir-arrow">→</span></div>
+        <div class="dir-item" onclick="goPage('pages/survey.html')"><span class="dir-num">6</span>建言献策<span class="dir-arrow">→</span></div>
+        <div class="dir-item" onclick="goPage('pages/service.html')"><span class="dir-num">7</span>实践服务<span class="dir-arrow">→</span></div>
+        <div class="dir-item" onclick="goPage('pages/stats.html')"><span class="dir-num">8</span>游客画像<span class="dir-arrow">→</span></div>
+        <div class="dir-item" onclick="goPage('pages/about.html')"><span class="dir-num">9</span>项目说明<span class="dir-arrow">→</span></div>
       </div>
     </div>
   </div>
 
-  <!-- 内容区域 -->
   <main id="content-area">
 
-    <!-- ===== Tab 0: 首页 ===== -->
+    <!-- ===== 首页 ===== -->
     <section class="tab-page active" id="tab-home">
+
       <!-- 头条轮播 -->
       <div class="headline-carousel">
         <div class="hl-container">
@@ -71,115 +52,194 @@
         <div class="hl-dots" id="headline-dots"></div>
       </div>
 
-      <!-- 首页入口卡片 -->
-      <div class="section-intro">
-        围绕"循迹云梦、稻虾产业、生态农旅、产业档案、建言献策"五个入口，展示伍湖村农文旅融合实践成果。
+      <!-- 数据看板 -->
+      <div class="stats-strip">
+        <div class="stat-chip">
+          <span class="stat-num" id="stat-visitors">1,280</span>
+          <span class="stat-label">累计游客</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-num">3,500</span>
+          <span class="stat-label">亩生态稻田</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-num">6</span>
+          <span class="stat-label">红色景点</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-num">3</span>
+          <span class="stat-label">游玩路线</span>
+        </div>
       </div>
 
+      <!-- 横向特色栏目 -->
+      <div class="feature-strip">
+        <div class="feat-item" onclick="switchTab('culture')">
+          <div class="feat-bg"></div>
+          <div class="feat-icon">🏛️</div>
+          <div class="feat-label">循迹研学</div>
+          <div class="feat-hint">总书记考察足迹</div>
+        </div>
+        <div class="feat-item" onclick="switchTab('farming')">
+          <div class="feat-bg"></div>
+          <div class="feat-icon">🌾</div>
+          <div class="feat-label">稻虾共作</div>
+          <div class="feat-hint">一田双收·绿色循环</div>
+        </div>
+        <div class="feat-item" onclick="switchTab('tour')">
+          <div class="feat-bg"></div>
+          <div class="feat-icon">🎣</div>
+          <div class="feat-label">生态农旅</div>
+          <div class="feat-hint">路线·体验·应急</div>
+        </div>
+        <div class="feat-item" onclick="goPage('pages/onefield.html')">
+          <div class="feat-bg"></div>
+          <div class="feat-icon">📋</div>
+          <div class="feat-label">产业档案</div>
+          <div class="feat-hint">溯源·展示</div>
+        </div>
+        <div class="feat-item" onclick="goPage('pages/survey.html')">
+          <div class="feat-bg"></div>
+          <div class="feat-icon">💬</div>
+          <div class="feat-label">建言献策</div>
+          <div class="feat-hint">反馈·画像</div>
+        </div>
+      </div>
+
+      <!-- 入口卡片 -->
+      <div class="section-header"><span class="sec-title">热门推荐</span><span class="sec-more">全部 →</span></div>
       <div class="home-grid">
         <div class="home-card" onclick="switchTab('culture')">
           <div class="card-icon">🏛️</div>
           <div class="card-title">循迹云梦</div>
-          <div class="card-tag">博物馆 · 简牍 · 总书记足迹</div>
-          <div class="card-desc">云梦县博物馆、秦汉简牍、总书记考察足迹。</div>
+          <div class="card-tag">博物馆 · 总书记足迹</div>
+          <div class="card-desc">云梦县博物馆、秦汉简牍、红色文化。</div>
         </div>
-
         <div class="home-card" onclick="switchTab('farming')">
           <div class="card-icon">🌾</div>
           <div class="card-title">稻虾产业</div>
-          <div class="card-tag">稻虾共作 · 双水双绿</div>
-          <div class="card-desc">梦辰泽农业、生态种养、农产品溯源。</div>
+          <div class="card-tag">双水双绿 · 一田双收</div>
+          <div class="card-desc">生态种养、农产品溯源、梦辰泽农业。</div>
         </div>
-
         <div class="home-card" onclick="switchTab('tour')">
           <div class="card-icon">🎣</div>
           <div class="card-title">生态农旅</div>
-          <div class="card-tag">生态园 · 路线 · 应急</div>
-          <div class="card-desc">伍湖四海生态园、体验项目、游玩路线。</div>
+          <div class="card-tag">路线 · 体验 · 应急</div>
+          <div class="card-desc">伍湖四海生态园、三条游玩路线。</div>
         </div>
-
         <div class="home-card" onclick="goPage('pages/onefield.html')">
           <div class="card-icon">📋</div>
           <div class="card-title">产业档案</div>
           <div class="card-tag">轻量溯源展示</div>
-          <div class="card-desc">聚焦示范田块，展示产地、种养方式与产品故事。</div>
+          <div class="card-desc">示范田块、产地、种养方式与产品故事。</div>
         </div>
-
         <div class="home-card full-width" onclick="goPage('pages/survey.html')">
           <div class="card-icon">💬</div>
           <div class="card-title">建言献策</div>
-          <div class="card-tag">问卷反馈 · 游客画像</div>
-          <div class="card-desc">收集游客来源、游玩偏好、文化认知、购买意愿和发展建议。</div>
+          <div class="card-tag">问卷 · 反馈 · 游客画像</div>
+          <div class="card-desc">收集游客来源、偏好、文化认知与发展建议。</div>
         </div>
       </div>
 
-      <button class="btn-primary" onclick="goPage('pages/about.html')">查看项目说明</button>
+      <!-- 实践服务入口 -->
+      <div class="info-block" style="margin-top:14px;cursor:pointer" onclick="goPage('pages/service.html')">
+        <h2>实践服务</h2>
+        <p style="margin-top:4px">理论宣讲 · AI科普 · 防诈骗 · 数字技能培训 →</p>
+      </div>
     </section>
 
-    <!-- ===== Tab 1: 循迹 ===== -->
+    <!-- ===== 循迹 ===== -->
     <section class="tab-page" id="tab-culture">
       <div class="hero hero-red">
         <div class="hero-title">循迹云梦</div>
         <div class="hero-sub">云梦县博物馆 · 秦汉简牍 · 总书记考察足迹</div>
+        <span class="hero-count">📍 2024年11月考察</span>
       </div>
+
       <div class="info-block">
-        <h2>循迹云梦</h2>
-        <p>本页聚焦云梦县博物馆、云梦秦汉简牍和总书记考察足迹；同时延伸到伍湖村红色文化和乡村振兴故事。</p>
+        <h2>从云梦到伍湖</h2>
+        <p>沿着总书记考察足迹，从云梦县博物馆走进伍湖村，把文化传承保护与乡村振兴实践紧密结合，在田野一线走好新时代长征路。</p>
       </div>
-      <div class="info-block">
-        <h2>走进伍湖</h2>
-        <p>伍湖村简介、龚华铭烈士纪念广场、乡村振兴故事，是连接县域文化资源与乡村实践场景的重要内容。</p>
+
+      <!-- 时间线 -->
+      <div class="section-header"><span class="sec-title">循迹时间线</span></div>
+      <div class="timeline" id="timeline-list">
+        <div class="tl-item">
+          <div class="tl-dot">📌</div>
+          <div class="tl-card"><h4>2024.11 总书记考察云梦县博物馆</h4><p>了解文物保护研究利用，为文化传承保护提供根本遵循</p></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">📜</div>
+          <div class="tl-card"><h4>云梦秦汉简牍</h4><p>睡虎地秦简等珍贵文物，云梦深厚的历史文化底蕴</p></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">🚩</div>
+          <div class="tl-card"><h4>2026 长征胜利90周年</h4><p>每一代人要走好自己的长征路，新时代长征路延伸到乡村振兴一线</p></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">🏘️</div>
+          <div class="tl-card"><h4>走进伍湖村</h4><p>从县域文化资源走向乡村实践，用青年力量服务农文旅融合</p></div>
+        </div>
       </div>
+
+      <div class="section-header"><span class="sec-title">文化故事</span></div>
       <div id="story-list"></div>
     </section>
 
-    <!-- ===== Tab 2: 稻虾 ===== -->
+    <!-- ===== 稻虾 ===== -->
     <section class="tab-page" id="tab-farming">
       <div class="hero hero-green">
         <div class="hero-title">稻虾产业</div>
         <div class="hero-sub">稻虾共作 · 双水双绿 · 梦辰泽农业</div>
+        <span class="hero-count">🌱 生态种养 · 一田双收</span>
       </div>
-      <div class="info-block">
-        <h2>产业模块</h2>
-        <p>本页展示可落地的项目。</p>
+
+      <div class="stats-strip" style="margin-top:10px">
+        <div class="stat-chip"><span class="stat-num">3,500</span><span class="stat-label">亩生态稻田</span></div>
+        <div class="stat-chip"><span class="stat-num">XXX</span><span class="stat-label">年产虾稻米(吨)</span></div>
+        <div class="stat-chip"><span class="stat-num">XXX</span><span class="stat-label">年产小龙虾(吨)</span></div>
       </div>
+
+      <div class="section-header"><span class="sec-title">产业介绍</span></div>
       <div id="agri-list"></div>
-      <button class="btn-primary" onclick="goPage('pages/onefield.html')">查看产业档案 →</button>
+
+      <div class="info-block" style="cursor:pointer" onclick="goPage('pages/onefield.html')">
+        <h2>产业档案</h2>
+        <p style="margin-top:4px">伍湖虾稻米示范田块 · 完整溯源信息 →</p>
+      </div>
     </section>
 
-    <!-- ===== Tab 3: 农旅 ===== -->
+    <!-- ===== 农旅 ===== -->
     <section class="tab-page" id="tab-tour">
       <div class="hero hero-blue">
         <div class="hero-title">生态农旅</div>
         <div class="hero-sub">伍湖四海生态园 · 体验项目 · 路线规划</div>
+        <span class="hero-count">🗺️ 3条推荐路线</span>
       </div>
-      <div class="info-block">
-        <h2>路线设计原则</h2>
-        <p>从伍湖村出发，按照近远顺序串联农业、文化和旅游点位；兼顾沿途风景、素材拍摄和安全应急，避免路线来回折返。</p>
-      </div>
+
+      <div class="section-header"><span class="sec-title">游玩路线</span></div>
       <div id="route-list"></div>
+
+      <div class="scroll-strip" style="margin-top:12px">
+        <div class="ss-card"><div class="ss-img">🌾</div><div class="ss-info"><h4>稻虾科普</h4><p>了解生态种养</p></div></div>
+        <div class="ss-card" onclick="goPage('pages/onefield.html')"><div class="ss-img">🏷️</div><div class="ss-info"><h4>产品溯源</h4><p>扫码知来源</p></div></div>
+        <div class="ss-card"><div class="ss-img">🎣</div><div class="ss-info"><h4>体验项目</h4><p>稻田观光</p></div></div>
+        <div class="ss-card"><div class="ss-img">🍽️</div><div class="ss-info"><h4>生态农庄</h4><p>农家菜品尝</p></div></div>
+        <div class="ss-card" onclick="goPage('pages/service.html')"><div class="ss-img">🛠️</div><div class="ss-info"><h4>实践服务</h4><p>AI科普·宣讲</p></div></div>
+      </div>
+
       <button class="btn-primary" onclick="goPage('pages/service.html')">实践服务</button>
     </section>
 
   </main>
 
-  <!-- 底部导航栏（5项：新增目录入口） -->
+  <!-- 底部导航 -->
   <nav class="bottom-nav">
-    <button class="nav-btn active" data-tab="home">
-      <span class="nav-icon">🏠</span><span class="nav-label">首页</span>
-    </button>
-    <button class="nav-btn" data-tab="culture">
-      <span class="nav-icon">🏛️</span><span class="nav-label">循迹</span>
-    </button>
-    <button class="nav-btn" data-tab="farming">
-      <span class="nav-icon">🌾</span><span class="nav-label">稻虾</span>
-    </button>
-    <button class="nav-btn" data-tab="tour">
-      <span class="nav-icon">🎣</span><span class="nav-label">农旅</span>
-    </button>
-    <button class="nav-btn" data-tab="menu">
-      <span class="nav-icon">☰</span><span class="nav-label">目录</span>
-    </button>
+    <button class="nav-btn active" data-tab="home"><span class="nav-icon">🏠</span><span class="nav-label">首页</span></button>
+    <button class="nav-btn" data-tab="culture"><span class="nav-icon">🏛️</span><span class="nav-label">循迹</span></button>
+    <button class="nav-btn" data-tab="farming"><span class="nav-icon">🌾</span><span class="nav-label">稻虾</span></button>
+    <button class="nav-btn" data-tab="tour"><span class="nav-icon">🎣</span><span class="nav-label">农旅</span></button>
+    <button class="nav-btn" data-tab="menu"><span class="nav-icon">☰</span><span class="nav-label">目录</span></button>
   </nav>
 
   <script src="assets/js/qrcode.min.js"></script>
