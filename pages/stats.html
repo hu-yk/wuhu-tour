@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>游客画像 · 一码游伍湖</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<div class="back-bar"><a href="survey.html">← 返回建言</a></div>
+
+<div class="hero hero-orange">
+  <div class="hero-title">游客画像演示</div>
+  <div class="hero-sub">本机问卷数据统计</div>
+</div>
+
+<div class="info-block">
+  <h2>问卷总数</h2>
+  <p style="font-size: 36px; font-weight: 800; color: #EF6C00;" id="total-count">0</p>
+</div>
+
+<div class="info-block">
+  <h2>兴趣分布</h2>
+  <div id="stats-list"><p>暂无数据</p></div>
+</div>
+
+<button class="btn-primary btn-secondary" onclick="clearData()" style="margin-bottom:24px;">清空本机数据</button>
+
+<script>
+function loadStats() {
+  var list = JSON.parse(localStorage.getItem('surveyList') || '[]');
+  document.getElementById('total-count').textContent = list.length;
+
+  var groups = {};
+  list.forEach(function (r) {
+    if (r.interest) {
+      groups[r.interest] = (groups[r.interest] || 0) + 1;
+    }
+  });
+
+  var statsList = document.getElementById('stats-list');
+  if (Object.keys(groups).length === 0) {
+    statsList.innerHTML = '<p>暂无数据</p>';
+    return;
+  }
+
+  statsList.innerHTML = '';
+  Object.keys(groups).sort(function (a, b) { return groups[b] - groups[a]; }).forEach(function (key) {
+    var div = document.createElement('div');
+    div.className = 'field-line';
+    div.innerHTML = '<strong>' + key + '</strong>：' + groups[key] + ' 人';
+    statsList.appendChild(div);
+  });
+}
+
+function clearData() {
+  if (confirm('确定要清空所有本机问卷数据吗？此操作不可恢复。')) {
+    localStorage.removeItem('surveyList');
+    loadStats();
+  }
+}
+
+loadStats();
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>路线详情 · 一码游伍湖</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<div class="back-bar"><a href="../index.html#tour">← 返回农旅</a></div>
+
+<div class="hero hero-blue">
+  <div class="hero-title" id="route-name">加载中…</div>
+  <div class="hero-sub" id="route-time"></div>
+</div>
+
+<div class="info-block">
+  <h2>路线逻辑</h2>
+  <p id="route-logic"></p>
+</div>
+
+<div class="info-block">
+  <h2>推荐点位</h2>
+  <div id="route-points"></div>
+</div>
+
+<div class="info-block">
+  <h2>沿途风景与素材</h2>
+  <p id="route-scenery"></p>
+</div>
+
+<div class="info-block warn-card">
+  <h2>应急方案</h2>
+  <p id="route-emergency"></p>
+</div>
+
+<script src="../assets/js/data.js"></script>
+<script>
+(function () {
+  var id = new URL(window.location.href).searchParams.get('id');
+  var route = (ROUTES || []).find(function (r) { return r.id === id; }) || (ROUTES[0]);
+
+  document.getElementById('route-name').textContent = route.name;
+  document.getElementById('route-time').textContent = '推荐时长：' + route.time;
+  document.getElementById('route-logic').textContent = route.logic;
+  document.getElementById('route-scenery').textContent = route.scenery;
+  document.getElementById('route-emergency').textContent = route.emergency;
+  document.title = route.name + ' · 一码游伍湖';
+
+  var pts = document.getElementById('route-points');
+  (route.points || []).forEach(function (p, i) {
+    var div = document.createElement('div');
+    div.className = 'field-line';
+    div.textContent = (i + 1) + '. ' + p;
+    pts.appendChild(div);
+  });
+})();
+</script>
+</body>
+</html>

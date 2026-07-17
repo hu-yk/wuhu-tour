@@ -1,9 +1,9 @@
 // ===== 高德地图配置 =====
 // 出发前替换为真实 Key：https://console.amap.com/dev/key/app
 var AMAP_CONFIG = {
-  key: 'YOUR_AMAP_KEY',     // ← 替换为真实 Key
+  key: '4fdae096ccadbd8631d6ea2557a6b2a7',
+  securityJsCode: '',          // 创建Key时若启用了安全密钥则填写，否则留空
   version: '2.0',
-  // 地图默认中心点（伍湖村大致坐标，现场更新）
   center: [113.7, 31.0],
   zoom: 13
 };

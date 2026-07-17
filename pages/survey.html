@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>建言献策 · 一码游伍湖</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<div class="back-bar"><a href="../index.html">← 返回首页</a></div>
+
+<div class="hero hero-orange">
+  <div class="hero-title">建言献策</div>
+  <div class="hero-sub">游客问卷 · 村民反馈 · 游客画像</div>
+</div>
+
+<div class="notice">本页面为本地演示版：提交后数据保存在当前设备缓存中。正式实践时可替换为腾讯问卷或问卷星。</div>
+
+<form id="survey-form">
+  <div class="form-group">
+    <label>您来自哪里？</label>
+    <input class="form-input" name="city" placeholder="如：武汉、孝感、云梦" />
+  </div>
+
+  <div class="form-group">
+    <label>您通过什么渠道了解伍湖村？</label>
+    <input class="form-input" name="channel" placeholder="如：朋友推荐、公众号、短视频" />
+  </div>
+
+  <div class="form-group">
+    <label>您最感兴趣的内容</label>
+    <select class="form-select" name="interest">
+      <option value="">请选择</option>
+      <option>稻虾共作</option>
+      <option>红色文化</option>
+      <option>生态旅游</option>
+      <option>农产品购买</option>
+      <option>亲子研学</option>
+      <option>AI科普</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>您是否愿意了解或购买伍湖特色农产品？</label>
+    <select class="form-select" name="willing">
+      <option value="">请选择</option>
+      <option>愿意</option>
+      <option>看价格和品质</option>
+      <option>暂不考虑</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>您对伍湖村农文旅融合发展的建议</label>
+    <textarea class="form-textarea" name="suggestion" placeholder="请输入建议"></textarea>
+  </div>
+
+  <button type="submit" class="btn-primary">提交建言</button>
+</form>
+
+<button class="btn-primary btn-secondary" onclick="goStats()" style="margin-bottom:24px;">查看游客画像演示 →</button>
+
+<script>
+var form = document.getElementById('survey-form');
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var fd = new FormData(form);
+  var data = {};
+  fd.forEach(function (v, k) { data[k] = v; });
+  if (!data.city || !data.interest) {
+    alert('请至少填写"来自哪里"和"最感兴趣的内容"');
+    return;
+  }
+  var list = JSON.parse(localStorage.getItem('surveyList') || '[]');
+  list.push({ city: data.city, channel: data.channel, interest: data.interest, willing: data.willing, suggestion: data.suggestion, time: new Date().toISOString() });
+  localStorage.setItem('surveyList', JSON.stringify(list));
+  alert('提交成功！感谢您的建言。');
+  form.reset();
+});
+
+function goStats() {
+  window.location.href = 'stats.html';
+}
+</script>
+</body>
+</html>

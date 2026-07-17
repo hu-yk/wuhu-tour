@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>文化故事 · 一码游伍湖</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<div class="back-bar"><a href="../index.html#culture">← 返回循迹</a></div>
+
+<div class="hero hero-green">
+  <div class="hero-title" id="detail-title">加载中…</div>
+  <div class="hero-sub" id="detail-type"></div>
+</div>
+
+<div class="info-block">
+  <h2>故事内容</h2>
+  <p id="detail-content">加载中…</p>
+</div>
+
+<div class="info-block">
+  <h2>实践行动</h2>
+  <p id="detail-action"></p>
+</div>
+
+<script src="../assets/js/data.js"></script>
+<script>
+(function () {
+  var id = new URL(window.location.href).searchParams.get('id');
+  var story = (STORIES || []).find(function (s) { return s.id === id; }) || (STORIES[0]);
+
+  document.getElementById('detail-title').textContent = story.title;
+  document.getElementById('detail-type').textContent = story.type;
+  document.getElementById('detail-content').textContent = story.content;
+  document.getElementById('detail-action').textContent = story.action;
+  document.title = story.title + ' · 一码游伍湖';
+})();
+</script>
+</body>
+</html>

@@ -3,216 +3,147 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta property="og:title" content="循迹悟思想 · 数智兴农旅" />
-  <meta property="og:description" content="追寻习近平总书记足迹，探索农文旅融合发展，走好新时代长征路" />
-  <meta property="og:image" content="assets/images/og-cover.svg" />
-  <title>循迹悟思想 · 数智兴农旅</title>
+  <meta property="og:title" content="一码游伍湖" />
+  <meta property="og:description" content="循迹悟思想 · 数智兴农旅" />
+  <title>一码游伍湖</title>
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 
-  <!-- 顶部标题栏 -->
-  <header class="top-bar">
-    <h1>循迹悟思想 · 数智兴农旅</h1>
-    <span class="subtitle">走好新时代长征路 | 云梦 · 伍湖村</span>
-  </header>
-
-  <!-- 内容区域：6个Tab页面 -->
+  <!-- 内容区域 -->
   <main id="content-area">
 
-    <!-- Tab 1: 循迹（红色文化 + 博物馆） -->
-    <section class="tab-page active" id="tab-red">
-      <div class="hero-banner">
-        <img src="assets/images/red-hero.svg" alt="云梦县博物馆" class="hero-img" loading="lazy" />
-        <div class="hero-text">追寻总书记足迹 · 走好新时代长征路</div>
+    <!-- ===== Tab 0: 首页 ===== -->
+    <section class="tab-page active" id="tab-home">
+      <div class="hero hero-green">
+        <div class="hero-title">游伍湖</div>
+        <div class="hero-sub">循迹悟思想 · 数智兴农旅<br/>伍湖村农文旅融合数字导览</div>
       </div>
 
-      <!-- 第一块：循迹——习近平考察云梦 -->
-      <div class="info-block">
-        <h2>循迹：总书记的云梦之行</h2>
-        <p><strong>2024年11月</strong>，习近平总书记来到湖北省孝感市云梦县博物馆，参观出土秦汉简牍展，就文物保护研究利用和中华优秀传统文化传承发展作出重要指示，为推进文化自信自强、促进农文旅融合发展提供了根本遵循。</p>
-        <div class="timeline-card">
-          <div class="tl-dot">📍</div>
-          <div class="tl-content">
-            <h4>云梦县博物馆</h4>
-            <p class="placeholder">（现场采集：博物馆简介、展厅分布、参观路线、习总书记考察细节）</p>
-          </div>
+      <div class="section-intro">
+        围绕"循迹云梦、稻虾产业、生态农旅、产业档案、建言献策"五个入口，展示伍湖村农文旅融合实践成果。
+      </div>
+
+      <div class="home-grid">
+        <div class="home-card" onclick="switchTab('culture')">
+          <div class="card-icon">🏛️</div>
+          <div class="card-title">循迹云梦</div>
+          <div class="card-tag">博物馆 · 简牍 · 总书记足迹</div>
+          <div class="card-desc">云梦县博物馆、秦汉简牍、总书记考察足迹。</div>
         </div>
-        <div class="timeline-card">
-          <div class="tl-dot">📜</div>
-          <div class="tl-content">
-            <h4>秦汉简牍与中华优秀传统文化</h4>
-            <p class="placeholder">（现场采集：睡虎地秦简等珍贵文物介绍、历史文化价值）</p>
-          </div>
+
+        <div class="home-card" onclick="switchTab('farming')">
+          <div class="card-icon">🌾</div>
+          <div class="card-title">稻虾产业</div>
+          <div class="card-tag">稻虾共作 · 双水双绿</div>
+          <div class="card-desc">梦辰泽农业、生态种养、农产品溯源。</div>
+        </div>
+
+        <div class="home-card" onclick="switchTab('tour')">
+          <div class="card-icon">🎣</div>
+          <div class="card-title">生态农旅</div>
+          <div class="card-tag">生态园 · 路线 · 应急</div>
+          <div class="card-desc">伍湖四海生态园、体验项目、游玩路线。</div>
+        </div>
+
+        <div class="home-card" onclick="goPage('pages/onefield.html')">
+          <div class="card-icon">📋</div>
+          <div class="card-title">产业档案</div>
+          <div class="card-tag">轻量溯源展示</div>
+          <div class="card-desc">聚焦示范田块，展示产地、种养方式与产品故事。</div>
+        </div>
+
+        <div class="home-card full-width" onclick="goPage('pages/survey.html')">
+          <div class="card-icon">💬</div>
+          <div class="card-title">建言献策</div>
+          <div class="card-tag">问卷反馈 · 游客画像</div>
+          <div class="card-desc">收集游客来源、游玩偏好、文化认知、购买意愿和发展建议。</div>
         </div>
       </div>
 
-      <!-- 第二块：溯源——长征90周年 -->
-      <div class="info-block red-accent">
-        <h2>溯源：红军长征胜利90周年</h2>
-        <p>2026年是<strong>中国工农红军长征胜利90周年</strong>。习近平总书记指出："每一代人有每一代人的长征路，每一代人都要走好自己的长征路。"新时代的长征路延伸到乡村振兴一线，数字技术正成为整合资源、传播文化、服务发展的重要力量。</p>
-        <div class="highlight-box">
-          <span class="highlight-icon">⭐</span>
-          <span>走好新时代长征路：数字赋能乡村振兴</span>
-        </div>
-      </div>
-
-      <!-- 第三块：传承——伍湖村红色基因 -->
-      <div class="info-block">
-        <h2>传承：伍湖村的红色基因</h2>
-        <div class="timeline-card">
-          <div class="tl-dot">🪖</div>
-          <div class="tl-content">
-            <h4>龚华铭烈士纪念广场</h4>
-            <p class="placeholder">（现场采集：烈士生平事迹、革命历程、纪念设施）</p>
-          </div>
-        </div>
-        <div class="timeline-card">
-          <div class="tl-dot">🏛️</div>
-          <div class="tl-content">
-            <h4>红色文化在乡村</h4>
-            <p class="placeholder">（现场采集：红色文化融入乡村治理、乡风文明和产业发展的真实案例）</p>
-          </div>
-        </div>
-      </div>
+      <button class="btn-primary" onclick="goPage('pages/about.html')">查看项目说明</button>
     </section>
 
-    <!-- Tab 2: 稻虾共作 -->
+    <!-- ===== Tab 1: 循迹 ===== -->
+    <section class="tab-page" id="tab-culture">
+      <div class="hero hero-red">
+        <div class="hero-title">循迹云梦</div>
+        <div class="hero-sub">云梦县博物馆 · 秦汉简牍 · 总书记考察足迹</div>
+      </div>
+
+      <div class="info-block">
+        <h2>循迹云梦</h2>
+        <p>本页聚焦云梦县博物馆、云梦秦汉简牍和总书记考察足迹；同时延伸到伍湖村红色文化和乡村振兴故事。</p>
+      </div>
+
+      <div class="info-block">
+        <h2>走进伍湖</h2>
+        <p>伍湖村简介、龚华铭烈士纪念广场、乡村振兴故事，是连接县域文化资源与乡村实践场景的重要内容。</p>
+      </div>
+
+      <div id="story-list"></div>
+    </section>
+
+    <!-- ===== Tab 2: 稻虾 ===== -->
     <section class="tab-page" id="tab-farming">
-      <div class="hero-banner">
-        <img src="assets/images/farming-hero.svg" alt="稻虾共作基地" class="hero-img" loading="lazy" />
-        <div class="hero-text">稻虾共作 · 一田双收</div>
+      <div class="hero hero-green">
+        <div class="hero-title">稻虾产业</div>
+        <div class="hero-sub">稻虾共作 · 双水双绿 · 梦辰泽农业</div>
       </div>
+
       <div class="info-block">
-        <h2>什么是稻虾共生？</h2>
-        <p>稻虾共作是一种将水稻种植与小龙虾养殖有机结合的生态农业模式。稻田为龙虾提供栖息环境和天然饵料，龙虾的排泄物为水稻提供有机肥料，实现"一水两用、一田双收、粮渔共赢"。</p>
+        <h2>产业模块</h2>
+        <p>本页展示可落地的项目。</p>
       </div>
-      <div class="info-block">
-        <h2>伍湖村的实践</h2>
-        <p>伍湖村依托得天独厚的水土资源，大力发展稻虾共作产业，形成了"双水双绿"的生态种养体系。目前全村稻虾共作面积达<span class="highlight">XXX亩</span>，年产优质虾稻米<span class="highlight">XXX吨</span>、小龙虾<span class="highlight">XXX吨</span>。</p>
-      </div>
-      <div class="info-block">
-        <h2>种养流程</h2>
-        <ol class="process-list">
-          <li><strong>3-4月</strong> 投放虾苗，水稻育秧</li>
-          <li><strong>5-6月</strong> 龙虾生长旺季，分批捕捞上市</li>
-          <li><strong>6月中</strong> 水稻插秧，稻虾共生</li>
-          <li><strong>9-10月</strong> 水稻成熟收割，虾稻米上市</li>
-        </ol>
-      </div>
+
+      <div id="agri-list"></div>
+
+      <button class="btn-primary" onclick="goPage('pages/onefield.html')">查看产业档案 →</button>
     </section>
 
-    <!-- Tab 3: 特产溯源 -->
-    <section class="tab-page" id="tab-products">
-      <div class="info-block">
-        <h2>特色农产品</h2>
-        <p>点击下方产品，查看从田间到餐桌的完整溯源信息。</p>
-      </div>
-      <a href="traceability/index.html?product=rice" class="product-card">
-        <img src="traceability/images/rice-thumb.svg" alt="虾稻米" />
-        <div class="product-info">
-          <h3>伍湖虾稻米</h3>
-          <p>绿色生态种植，虾稻共生孕育的优质大米</p>
-          <span class="arrow">→</span>
-        </div>
-      </a>
-      <a href="traceability/index.html?product=crayfish" class="product-card">
-        <img src="traceability/images/crayfish-thumb.svg" alt="小龙虾" />
-        <div class="product-info">
-          <h3>伍湖小龙虾</h3>
-          <p>清水养殖，个大肉弹，产地直供</p>
-          <span class="arrow">→</span>
-        </div>
-      </a>
-    </section>
-
-    <!-- Tab 4: 游玩路线 -->
+    <!-- ===== Tab 3: 农旅 ===== -->
     <section class="tab-page" id="tab-tour">
-      <div class="info-block">
-        <h2>云梦 · 伍湖文旅路线</h2>
-        <p class="placeholder">（现场采集后补充：云梦县博物馆 → 伍湖村 → 伍湖四海生态园的完整游览路线）</p>
+      <div class="hero hero-blue">
+        <div class="hero-title">生态农旅</div>
+        <div class="hero-sub">伍湖四海生态园 · 体验项目 · 路线规划</div>
       </div>
-      <div class="info-block">
-        <h2>伍湖四海生态园</h2>
-        <p class="placeholder">（现场采集后补充：园区介绍、开放时间、门票信息）</p>
-      </div>
-      <div class="info-block">
-        <h2>游玩路线推荐</h2>
-        <div class="route-map" id="tour-map"></div>
-      </div>
-      <div class="info-block">
-        <h2>体验项目</h2>
-        <ul class="experience-list">
-          <li class="placeholder-item">钓虾体验（现场补充详情）</li>
-          <li class="placeholder-item">稻田观光（现场补充详情）</li>
-          <li class="placeholder-item">农家菜品尝（现场补充详情）</li>
-        </ul>
-      </div>
-    </section>
 
-    <!-- Tab 5: 节庆活动 -->
-    <section class="tab-page" id="tab-events">
       <div class="info-block">
-        <h2>节庆与活动</h2>
-        <p class="placeholder">（现场采集后补充：钓虾节、丰收节、红色文化主题活动等节庆信息）</p>
+        <h2>路线设计原则</h2>
+        <p>从伍湖村出发，按照近远顺序串联农业、文化和旅游点位；兼顾沿途风景、素材拍摄和安全应急，避免路线来回折返。</p>
       </div>
-      <div class="info-block">
-        <h2>近期活动预告</h2>
-        <div class="event-card placeholder-item">
-          <span class="event-date">待定</span>
-          <span class="event-name">（现场补充活动信息）</span>
-        </div>
-      </div>
-    </section>
 
-    <!-- Tab 6: 微宣讲 -->
-    <section class="tab-page" id="tab-video">
-      <div class="info-block">
-        <h2>走好新时代长征路</h2>
-        <p>青年党员微宣讲：追寻习近平总书记足迹，探索农文旅融合发展，在乡村振兴一线走好新时代长征路。</p>
-      </div>
-      <div class="info-block">
-        <h2>理论宣讲</h2>
-        <p>围绕习近平新时代中国特色社会主义思想、习近平总书记关于"三农"工作和文化传承发展的重要论述，开展互动式宣讲。</p>
-      </div>
-      <div class="video-placeholder">
-        <div class="play-icon">▶</div>
-        <p>微宣讲视频即将上线</p>
-      </div>
+      <div id="route-list"></div>
+
+      <button class="btn-primary" onclick="goPage('pages/service.html')">实践服务</button>
     </section>
 
   </main>
 
-  <!-- 底部导航栏 -->
+  <!-- 底部导航栏（与微信小程序 tabBar 一致） -->
   <nav class="bottom-nav">
-    <button class="nav-btn active" data-tab="red">
-      <span class="nav-icon">🚩</span>
-      <span class="nav-label">循迹研学</span>
+    <button class="nav-btn active" data-tab="home">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">首页</span>
+    </button>
+    <button class="nav-btn" data-tab="culture">
+      <span class="nav-icon">🏛️</span>
+      <span class="nav-label">循迹</span>
     </button>
     <button class="nav-btn" data-tab="farming">
       <span class="nav-icon">🌾</span>
-      <span class="nav-label">稻虾共作</span>
-    </button>
-    <button class="nav-btn" data-tab="products">
-      <span class="nav-icon">📦</span>
-      <span class="nav-label">特产溯源</span>
+      <span class="nav-label">稻虾</span>
     </button>
     <button class="nav-btn" data-tab="tour">
-      <span class="nav-icon">🗺️</span>
-      <span class="nav-label">游玩路线</span>
-    </button>
-    <button class="nav-btn" data-tab="events">
-      <span class="nav-icon">🎉</span>
-      <span class="nav-label">节庆活动</span>
-    </button>
-    <button class="nav-btn" data-tab="video">
-      <span class="nav-icon">🎬</span>
-      <span class="nav-label">微宣讲</span>
+      <span class="nav-icon">🎣</span>
+      <span class="nav-label">农旅</span>
     </button>
   </nav>
 
   <script src="assets/js/qrcode.min.js"></script>
   <script src="assets/js/config.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="https://webapi.amap.com/maps?v=2.0&key=4fdae096ccadbd8631d6ea2557a6b2a7"></script>
   <script src="assets/js/map.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
