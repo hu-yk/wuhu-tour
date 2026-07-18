@@ -1,67 +1,37 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>游客画像 · 一码游伍湖</title>
-  <link rel="stylesheet" href="../assets/css/style.css" />
-</head>
-<body>
-
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/><title>游客画像 · 一码游伍湖</title><link rel="stylesheet" href="../assets/css/style.css"/></head><body>
 <div class="back-bar"><a href="survey.html">← 返回建言</a></div>
+<div class="hero h-orange"><div class="h-t">游客画像</div><div class="h-s">本机问卷数据统计 · 初步游客画像</div></div>
 
-<div class="hero hero-orange">
-  <div class="hero-title">游客画像演示</div>
-  <div class="hero-sub">本机问卷数据统计</div>
-</div>
+<div class="kpi-row"><div class="kpi"><span class="kpi-n" id="kpi-total">0</span><span class="kpi-l">总提交数</span></div><div class="kpi"><span class="kpi-n" id="kpi-valid">0</span><span class="kpi-l">实际到访</span></div><div class="kpi"><span class="kpi-n" id="kpi-invalid">0</span><span class="kpi-l">未到访(不计入)</span></div></div>
 
-<div class="info-block">
-  <h2>问卷总数</h2>
-  <p style="font-size: 36px; font-weight: 800; color: #EF6C00;" id="total-count">0</p>
-</div>
+<div class="info-block"><h2>客源地分布</h2><div id="stat-city"></div></div>
+<div class="info-block"><h2>同行方式</h2><div id="stat-companion"></div></div>
+<div class="info-block"><h2>兴趣分布</h2><div id="stat-interest"></div></div>
+<div class="info-block"><h2>购买意愿</h2><div id="stat-willing"></div></div>
+<div class="info-block"><h2>获客渠道</h2><div id="stat-channel"></div></div>
 
-<div class="info-block">
-  <h2>兴趣分布</h2>
-  <div id="stats-list"><p>暂无数据</p></div>
-</div>
-
-<button class="btn-primary btn-secondary" onclick="clearData()" style="margin-bottom:24px;">清空本机数据</button>
+<div class="notice">以上为本地设备问卷数据。正式实践时结合经营者历史数据形成"初步游客画像"，不混成同一批样本。</div>
+<button class="btn btn-s mt" onclick="clearAll()" style="margin-bottom:24px">清空本机数据</button>
 
 <script>
-function loadStats() {
-  var list = JSON.parse(localStorage.getItem('surveyList') || '[]');
-  document.getElementById('total-count').textContent = list.length;
+function loadAll(){
+  var list=JSON.parse(localStorage.getItem('surveyList')||'[]');
+  var valid=list.filter(function(r){return r.visited==='yes'}),invalid=list.filter(function(r){return r.visited!=='yes'});
+  document.getElementById('kpi-total').textContent=list.length;
+  document.getElementById('kpi-valid').textContent=valid.length;
+  document.getElementById('kpi-invalid').textContent=invalid.length;
 
-  var groups = {};
-  list.forEach(function (r) {
-    if (r.interest) {
-      groups[r.interest] = (groups[r.interest] || 0) + 1;
-    }
-  });
-
-  var statsList = document.getElementById('stats-list');
-  if (Object.keys(groups).length === 0) {
-    statsList.innerHTML = '<p>暂无数据</p>';
-    return;
-  }
-
-  statsList.innerHTML = '';
-  Object.keys(groups).sort(function (a, b) { return groups[b] - groups[a]; }).forEach(function (key) {
-    var div = document.createElement('div');
-    div.className = 'field-line';
-    div.innerHTML = '<strong>' + key + '</strong>：' + groups[key] + ' 人';
-    statsList.appendChild(div);
-  });
+  ['city','companion','interest','willing','channel'].forEach(function(f){
+    var groups={};valid.forEach(function(r){var v=r[f];if(v){if(f==='channel'){(v.split('、')||[]).forEach(function(c){groups[c]=(groups[c]||0)+1})}else{groups[v]=(groups[v]||0)+1}}});
+    var el=document.getElementById('stat-'+f);if(!el)return;
+    el.innerHTML='';
+    if(Object.keys(groups).length===0){el.innerHTML='<p class="text-sm text-muted">暂无数据</p>';return}
+    Object.keys(groups).sort(function(a,b){return groups[b]-groups[a]}).forEach(function(k){
+      el.innerHTML+='<div class="field-line"><span class="fl-k">'+k+'</span><span class="fl-v">'+groups[k]+' 人</span></div>'
+    })
+  })
 }
-
-function clearData() {
-  if (confirm('确定要清空所有本机问卷数据吗？此操作不可恢复。')) {
-    localStorage.removeItem('surveyList');
-    loadStats();
-  }
-}
-
-loadStats();
+function clearAll(){if(confirm('确定清空所有本机问卷数据？不可恢复。')){localStorage.removeItem('surveyList');loadAll()}}
+loadAll();
 </script>
-</body>
-</html>
+</body></html>

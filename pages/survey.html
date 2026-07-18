@@ -1,87 +1,76 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>建言献策 · 一码游伍湖</title>
-  <link rel="stylesheet" href="../assets/css/style.css" />
-</head>
-<body>
-
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/><title>建言献策 · 一码游伍湖</title><link rel="stylesheet" href="../assets/css/style.css"/></head><body>
 <div class="back-bar"><a href="../index.html">← 返回首页</a></div>
+<div class="hero h-orange"><div class="h-t">建言献策</div><div class="h-s">游客问卷 · 村民反馈 · 初步游客画像</div><div class="h-chip">7月19日 生态园调研</div></div>
 
-<div class="hero hero-orange">
-  <div class="hero-title">建言献策</div>
-  <div class="hero-sub">游客问卷 · 村民反馈 · 游客画像</div>
-</div>
-
-<div class="notice">本页面为本地演示版：提交后数据保存在当前设备缓存中。正式实践时可替换为腾讯问卷或问卷星。</div>
+<div class="notice">本页面为调研辅助工具。现场优先收集经营者历史数据和真实游客反馈；无游客时不硬凑问卷。结论统一标注为"初步游客画像"。</div>
 
 <form id="survey-form">
-  <div class="form-group">
-    <label>您来自哪里？</label>
-    <input class="form-input" name="city" placeholder="如：武汉、孝感、云梦" />
+  <div class="form-g">
+    <label>您是否曾实际到访伍湖村相关农旅点位？ *</label>
+    <select class="form-s" name="visited" required><option value="">请选择</option><option value="yes">是——计入游客画像</option><option value="no">否——不计入游客画像</option></select>
   </div>
 
-  <div class="form-group">
-    <label>您通过什么渠道了解伍湖村？</label>
-    <input class="form-input" name="channel" placeholder="如：朋友推荐、公众号、短视频" />
+  <div class="form-g"><label>您来自哪里？ *</label>
+    <select class="form-s" name="city"><option value="">请选择</option><option>伍湖村本地</option><option>云梦县城</option><option>孝感市区</option><option>省内其他城市</option><option>省外</option></select>
   </div>
 
-  <div class="form-group">
-    <label>您最感兴趣的内容</label>
-    <select class="form-select" name="interest">
-      <option value="">请选择</option>
-      <option>稻虾共作</option>
-      <option>红色文化</option>
-      <option>生态旅游</option>
-      <option>农产品购买</option>
-      <option>亲子研学</option>
-      <option>AI科普</option>
-    </select>
+  <div class="form-g"><label>您通过什么渠道了解伍湖村的？</label>
+    <div style="display:flex;flex-wrap:wrap;gap:6px" id="channel-box">
+      <label class="chk-chip"><input type="checkbox" name="channel" value="熟人推荐"> 熟人推荐</label>
+      <label class="chk-chip"><input type="checkbox" name="channel" value="微信朋友圈"> 微信朋友圈</label>
+      <label class="chk-chip"><input type="checkbox" name="channel" value="抖音/短视频"> 抖音/短视频</label>
+      <label class="chk-chip"><input type="checkbox" name="channel" value="公众号"> 公众号</label>
+      <label class="chk-chip"><input type="checkbox" name="channel" value="路过发现"> 路过发现</label>
+      <label class="chk-chip"><input type="checkbox" name="channel" value="旅游平台"> 旅游平台</label>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label>您是否愿意了解或购买伍湖特色农产品？</label>
-    <select class="form-select" name="willing">
-      <option value="">请选择</option>
-      <option>愿意</option>
-      <option>看价格和品质</option>
-      <option>暂不考虑</option>
-    </select>
+  <div class="form-g"><label>您和谁一起来？</label>
+    <select class="form-s" name="companion"><option value="">请选择</option><option>独自</option><option>亲子家庭</option><option>朋友结伴</option><option>单位/团体</option><option>学生团队</option></select>
   </div>
 
-  <div class="form-group">
-    <label>您对伍湖村农文旅融合发展的建议</label>
-    <textarea class="form-textarea" name="suggestion" placeholder="请输入建议"></textarea>
+  <div class="form-g"><label>您对哪些内容感兴趣？</label>
+    <select class="form-s" name="interest"><option value="">请选择</option><option>稻虾共作</option><option>红色文化</option><option>生态旅游</option><option>农产品购买</option><option>亲子研学</option><option>AI科普</option></select>
   </div>
 
-  <button type="submit" class="btn-primary">提交建言</button>
+  <div class="form-g"><label>是否愿意了解或购买伍湖特色农产品？</label>
+    <select class="form-s" name="willing"><option value="">请选择</option><option>愿意</option><option>看价格和品质</option><option>暂不考虑</option></select>
+  </div>
+
+  <div class="form-g"><label>您对伍湖村农文旅融合发展的建议</label>
+    <textarea class="form-t" name="suggestion" placeholder="请输入建议"></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-p mt">提交建言</button>
 </form>
 
-<button class="btn-primary btn-secondary" onclick="goStats()" style="margin-bottom:24px;">查看游客画像演示 →</button>
+<button class="btn btn-s mt" onclick="goStats()" style="margin-bottom:24px">查看游客画像数据 →</button>
 
+<div class="info-block"><h2>初步游客画像形成方法</h2>
+<div class="field-line"><span class="fl-k">步骤1</span><span class="fl-v">按时间范围整理客流、客源、活动、消费、渠道和反馈，不急于给游客命名</span></div>
+<div class="field-line"><span class="fl-k">步骤2</span><span class="fl-v">不同经营者重复提到的特征→高可信；仅一人提到且无记录→待验证</span></div>
+<div class="field-line"><span class="fl-k">步骤3</span><span class="fl-v">总结2-3类典型游客，每类填客源地、年龄、同行方式、时间、活动、消费、渠道</span></div></div>
+
+<div class="notice">隐私要求：只收集汇总数据和区间，不记录游客姓名、电话、微信号、车牌、头像或完整支付记录。</div>
+
+<style>
+.chk-chip{padding:5px 12px;border-radius:16px;border:1px solid #d9c7b8;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:4px}
+.chk-chip input[type=checkbox]:checked+span{font-weight:700}
+</style>
 <script>
-var form = document.getElementById('survey-form');
-form.addEventListener('submit', function (e) {
+var form=document.getElementById('survey-form');
+form.addEventListener('submit',function(e){
   e.preventDefault();
-  var fd = new FormData(form);
-  var data = {};
-  fd.forEach(function (v, k) { data[k] = v; });
-  if (!data.city || !data.interest) {
-    alert('请至少填写"来自哪里"和"最感兴趣的内容"');
-    return;
-  }
-  var list = JSON.parse(localStorage.getItem('surveyList') || '[]');
-  list.push({ city: data.city, channel: data.channel, interest: data.interest, willing: data.willing, suggestion: data.suggestion, time: new Date().toISOString() });
-  localStorage.setItem('surveyList', JSON.stringify(list));
-  alert('提交成功！感谢您的建言。');
+  var fd=new FormData(form);var data={};fd.forEach(function(v,k){data[k]=v;});
+  if(!data.city||!data.visited){alert('请至少填写"是否实际到访"和"来自哪里"');return}
+  if(data.visited==='no'){alert('感谢关注！由于您未实际到访，此份反馈不计入游客画像。')}
+  var channels=[];form.querySelectorAll('input[name=channel]:checked').forEach(function(c){channels.push(c.value)});data.channel=channels.join('、');
+  var list=JSON.parse(localStorage.getItem('surveyList')||'[]');
+  list.push({city:data.city,channel:data.channel,companion:data.companion,interest:data.interest,willing:data.willing,suggestion:data.suggestion,visited:data.visited,time:new Date().toISOString()});
+  localStorage.setItem('surveyList',JSON.stringify(list));
+  alert('提交成功！'+(data.visited==='no'?'（样本未计入游客画像）':''));
   form.reset();
 });
-
-function goStats() {
-  window.location.href = 'stats.html';
-}
+function goStats(){window.location.href='stats.html'}
 </script>
-</body>
-</html>
+</body></html>
