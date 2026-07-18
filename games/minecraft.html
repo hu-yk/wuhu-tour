@@ -3,427 +3,461 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<title>方块伍湖 · 一码游伍湖</title>
+<title>3D方块伍湖 · 一码游伍湖</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  background:#1a1a2e;color:#fff;max-width:750px;margin:0 auto;
+  background:#000;color:#fff;max-width:100vw;margin:0 auto;
   overflow:hidden;user-select:none;-webkit-user-select:none;
-  touch-action:none;height:100vh;display:flex;flex-direction:column
+  touch-action:none;height:100vh;position:relative
 }
-.top-hud{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:8px 14px;background:rgba(0,0,0,.7);z-index:10
-}
-.top-hud span{font-size:15px;font-weight:700}
-.top-hud .back-btn{color:#fff;background:rgba(255,255,255,.15);padding:5px 12px;border-radius:16px;font-size:13px;text-decoration:none}
-.hotbar-row{display:flex;align-items:center;gap:4px;padding:8px;background:rgba(0,0,0,.8);overflow-x:auto;z-index:10}
-.hotbar-row::-webkit-scrollbar{display:none}
-.slot{
-  flex-shrink:0;width:48px;height:48px;border-radius:8px;border:2px solid #555;
-  display:flex;align-items:center;justify-content:center;font-size:22px;
-  cursor:pointer;transition:all .15s;position:relative
-}
-.slot.active{border-color:#ffd54f;box-shadow:0 0 12px rgba(255,213,79,.5);transform:translateY(-3px)}
-.slot .count{position:absolute;bottom:1px;right:4px;font-size:10px;color:#fff;text-shadow:0 0 3px #000;font-weight:700}
-.canvas-wrap{flex:1;position:relative;overflow:hidden}
-canvas{display:block;width:100%;height:100%}
-.msg-toast{
+#game{display:block;width:100%;height:100%}
+
+/* 准星 */
+.crosshair{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  background:rgba(0,0,0,.8);color:#fff;padding:10px 20px;border-radius:12px;
-  font-size:14px;font-weight:700;pointer-events:none;opacity:0;transition:opacity .3s
+  width:20px;height:20px;pointer-events:none;z-index:5
 }
-.msg-toast.show{opacity:1}
-.v-joystick{
-  position:absolute;bottom:60px;left:20px;width:100px;height:100px;
-  border-radius:50%;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);
-  display:none
+.crosshair::before,.crosshair::after{content:'';position:absolute;background:rgba(255,255,255,.7)}
+.crosshair::before{left:9px;top:0;width:2px;height:20px}
+.crosshair::after{left:0;top:9px;width:20px;height:2px}
+
+/* 顶部HUD */
+.hud{
+  position:absolute;top:0;left:0;right:0;padding:8px 14px;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(0,0,0,.5);z-index:10;pointer-events:none
 }
-.v-joystick .knob{
+.hud a,.hud button{pointer-events:all}
+.hud .back{
+  color:#fff;background:rgba(255,255,255,.15);padding:4px 12px;
+  border-radius:14px;font-size:12px;text-decoration:none
+}
+.hud .title{font-size:14px;font-weight:700}
+.hud .mode{font-size:12px;opacity:.7}
+
+/* 底部热键栏 */
+.hotbar{
+  position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+  display:flex;gap:4px;background:rgba(0,0,0,.75);padding:6px 10px;
+  border-radius:14px;z-index:10
+}
+.slot{
+  width:44px;height:44px;border-radius:8px;border:2px solid #555;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;cursor:pointer;transition:all .15s;position:relative;
+  background:rgba(255,255,255,.05)
+}
+.slot.active{border-color:#ffd54f;box-shadow:0 0 12px rgba(255,213,79,.5);transform:translateY(-4px)}
+.slot .cnt{position:absolute;bottom:1px;right:4px;font-size:9px;color:#fff;text-shadow:0 0 3px #000}
+
+/* 消息 */
+.toast{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:rgba(0,0,0,.8);color:#fff;padding:8px 18px;border-radius:10px;
+  font-size:13px;font-weight:700;pointer-events:none;opacity:0;transition:opacity .3s;z-index:20
+}
+.toast.show{opacity:1}
+
+/* 移动端摇杆 */
+.joystick{
+  position:absolute;bottom:100px;left:20px;width:100px;height:100px;
+  border-radius:50%;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);
+  display:none;z-index:10
+}
+.joystick .knob{
   position:absolute;width:44px;height:44px;border-radius:50%;
-  background:rgba(255,255,255,.35);left:50%;top:50%;transform:translate(-50%,-50%)
+  background:rgba(255,255,255,.3);left:50%;top:50%;transform:translate(-50%,-50%)
 }
-.action-btns{position:absolute;bottom:60px;right:20px;display:none;flex-direction:column;gap:10px}
-.action-btns button{
-  width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.15);
-  border:2px solid rgba(255,255,255,.25);color:#fff;font-size:20px;cursor:pointer
+.act-btns{position:absolute;bottom:100px;right:16px;display:none;flex-direction:column;gap:8px;z-index:10}
+.act-btns button{
+  width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.12);
+  border:2px solid rgba(255,255,255,.2);color:#fff;font-size:22px;cursor:pointer
 }
-.action-btns button:active{background:rgba(255,255,255,.35)}
-@media(max-width:768px){.v-joystick,.action-btns{display:flex}}
-.help-bar{display:flex;justify-content:space-between;padding:4px 14px;background:rgba(0,0,0,.5);font-size:11px;color:#aaa}
+.act-btns button:active{background:rgba(255,255,255,.3)}
+
+@media(max-width:768px){.joystick,.act-btns{display:flex}}
+
+.instructions{
+  position:absolute;bottom:70px;left:50%;transform:translateX(-50%);
+  font-size:10px;color:rgba(255,255,255,.5);text-align:center;pointer-events:none;z-index:5;
+  background:rgba(0,0,0,.4);padding:4px 12px;border-radius:8px
+}
 </style>
 </head>
 <body>
-
-<div class="top-hud">
-  <a href="../index.html" class="back-btn">← 返回</a>
-  <span id="mode-hint">🧱 建造模式</span>
-  <span style="font-size:13px;opacity:.7" id="pos-display">0,0</span>
+<div class="crosshair"></div>
+<div class="hud">
+  <a href="../index.html" class="back">← 返回</a>
+  <span class="title">⛏ 3D方块伍湖</span>
+  <span class="mode" id="mode-txt">🧱 建造</span>
 </div>
-
-<div class="canvas-wrap" id="canvas-wrap">
-  <canvas id="game"></canvas>
-  <div class="msg-toast" id="toast"></div>
-  <div class="v-joystick" id="joystick"><div class="knob" id="knob"></div></div>
-  <div class="action-btns">
-    <button id="btn-place">🔨</button>
-    <button id="btn-break">⛏</button>
-  </div>
+<div class="toast" id="toast"></div>
+<div class="joystick" id="js"><div class="knob" id="knob"></div></div>
+<div class="act-btns">
+  <button id="btn-place">🔨</button>
+  <button id="btn-break">⛏</button>
 </div>
+<div class="instructions" id="instr">WASD移动 | 鼠标拖拽看方向 | 左键破坏 | 右键放置 | 滚轮切换 | 空格飞行</div>
+<div class="hotbar" id="hotbar"></div>
 
-<div class="help-bar">
-  <span id="help-text">WASD 移动 | 鼠标滚轮切换方块 | 左键破坏 | 右键放置 | 空格切换模式</span>
-</div>
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}
+</script>
 
-<div class="hotbar-row" id="hotbar"></div>
+<script type="module">
+import * as THREE from 'three';
 
-<script>
 // ═══════════════════════════════════
-//  方块伍湖 · Mini Minecraft
+//  3D方块伍湖 · Minecraft-style
 // ═══════════════════════════════════
-
-var canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
-var wrap=document.getElementById('canvas-wrap'),toast=document.getElementById('toast');
 
 // ── 方块定义 ──
-var BLOCKS=[
-  {id:0,name:'空气',color:'transparent',solid:false,emoji:''},
-  {id:1,name:'草地',color:'#7CB342',solid:true,emoji:'🟩',top:'#8BC34A'},
-  {id:2,name:'泥土',color:'#8D6E63',solid:true,emoji:'🟫'},
-  {id:3,name:'水',color:'#42A5F5',solid:false,emoji:'🟦',top:'#64B5F6'},
-  {id:4,name:'石头',color:'#9E9E9E',solid:true,emoji:'🪨',top:'#BDBDBD'},
-  {id:5,name:'木头',color:'#A1887F',solid:true,emoji:'🟤',top:'#BCAAA4'},
-  {id:6,name:'树叶',color:'#388E3C',solid:true,emoji:'🌿',top:'#4CAF50'},
-  {id:7,name:'沙地',color:'#FFE082',solid:true,emoji:'🟨'},
-  {id:8,name:'红砖',color:'#D32F2F',solid:true,emoji:'🧱',top:'#E53935'},
-  {id:9,name:'木板',color:'#FFB74D',solid:true,emoji:'🪵',top:'#FFCC80'},
-  {id:10,name:'玻璃',color:'#B3E5FC',solid:true,emoji:'🪟',top:'#E1F5FE',alpha:0.6}
+var BLOCK_TYPES=[
+  {id:0,name:'空气',color:0x000000,solid:false},
+  {id:1,name:'草地',color:0x7CB342,topColor:0x8BC34A,solid:true},
+  {id:2,name:'泥土',color:0x8D6E63,solid:true},
+  {id:3,name:'水',color:0x42A5F5,solid:false,transparent:true},
+  {id:4,name:'石头',color:0x9E9E9E,topColor:0xBDBDBD,solid:true},
+  {id:5,name:'木头',color:0x8D6E63,topColor:0xA1887F,sideColor:0x795548,solid:true},
+  {id:6,name:'树叶',color:0x388E3C,topColor:0x4CAF50,solid:true},
+  {id:7,name:'沙地',color:0xFFE082,solid:true},
+  {id:8,name:'红砖',color:0xC62828,topColor:0xD32F2F,solid:true},
+  {id:9,name:'木板',color:0xFFB74D,topColor:0xFFCC80,solid:true},
+  {id:10,name:'玻璃',color:0xB3E5FC,solid:true,transparent:true},
+  {id:11,name:'白色',color:0xFAFAFA,solid:true},
+  {id:12,name:'黑色',color:0x424242,solid:true}
 ];
+var HOTBAR=[1,2,4,5,6,7,8,9,10];
+
+// ── 场景 ──
+var scene=new THREE.Scene();
+scene.background=new THREE.Color(0x87CEEB);
+scene.fog=new THREE.Fog(0xC8E6C9,60,180);
+
+var camera=new THREE.PerspectiveCamera(65,window.innerWidth/window.innerHeight,0.5,200);
+camera.position.set(50,45,50);
+
+var renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.1;
+document.getElementById('game').appendChild(renderer.domElement);
+
+// ── 光照 ──
+var ambient=new THREE.AmbientLight(0x8899aa,0.8);scene.add(ambient);
+var sun=new THREE.DirectionalLight(0xffeedd,4);sun.position.set(80,120,40);
+sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);
+sun.shadow.camera.left=-80;sun.shadow.camera.right=80;
+sun.shadow.camera.top=80;sun.shadow.camera.bottom=-80;
+sun.shadow.camera.far=300;sun.shadow.bias=-0.0005;
+scene.add(sun);
+var hemi=new THREE.HemisphereLight(0x87CEEB,0x5a8a3c,0.6);scene.add(hemi);
 
 // ── 世界参数 ──
-var WORLD_W=80,WORLD_H=60,TILE=32;
-var world=[]; // world[y][x] = blockId
-var camera={x:0,y:0};
-var player={x:40,y:30}; // 玩家所在格子
-var hotbar=[1,2,4,5,6,8,9,10,3,7]; // 可选方块
-var selected=0,mode='build'; // build | fly
-var showGrid=true;
-var keys={};
-var particles=[];
-var msgTimer=null;
+var WORLD_SIZE=128,WORLD_HEIGHT=48;
+var worldData=[]; // worldData[y][x][z] = blockId
+var chunkGroup=new THREE.Group();scene.add(chunkGroup);
+var selected=0,placing=true,mode='build';
+var raycaster=new THREE.Raycaster();raycaster.far=12;
+var highlightBox=null;
 
-// ── 生成世界 ──
+// ── 方块纹理 ──
+function makeBlockMat(baseColor,topColor,sideColor,transparent){
+  var bc=new THREE.Color(baseColor),tc=new THREE.Color(topColor||baseColor),sc=new THREE.Color(sideColor||baseColor);
+  var lighten=function(c,f){var r=c.clone();r.r=Math.min(1,r.r*f);r.g=Math.min(1,r.g*f);r.b=Math.min(1,r.b*f);return r};
+  var mats=[
+    new THREE.MeshStandardMaterial({color:sc,roughness:.9}),        // right
+    new THREE.MeshStandardMaterial({color:lighten(sc,.85),roughness:.9}), // left
+    new THREE.MeshStandardMaterial({color:tc,roughness:.85}),      // top
+    new THREE.MeshStandardMaterial({color:lighten(bc,.75),roughness:.95}), // bottom
+    new THREE.MeshStandardMaterial({color:sc,roughness:.9}),        // front
+    new THREE.MeshStandardMaterial({color:lighten(sc,.9),roughness:.9})  // back
+  ];
+  if(transparent){mats.forEach(function(m){m.transparent=true;m.opacity=0.55;m.depthWrite=false})}
+  return mats
+}
+
+var blockGeo=new THREE.BoxGeometry(1,1,1);
+var blockMeshes={}; // cache by blockId -> THREE.Mesh []
+var pendingUpdates=[];
+
+function getBlockMesh(bid){
+  if(blockMeshes[bid]){var pool=blockMeshes[bid];if(pool.length){var m=pool.pop();m.visible=true;return m}}
+  var b=BLOCK_TYPES[bid];
+  var mats=makeBlockMat(b.color,b.topColor||b.color,b.sideColor||b.color,b.transparent);
+  var mesh=new THREE.Mesh(blockGeo,mats);
+  mesh.castShadow=true;mesh.receiveShadow=true;mesh.userData.blockId=bid;
+  return mesh
+}
+
+function recycleMesh(mesh){var bid=mesh.userData.blockId;if(!blockMeshes[bid])blockMeshes[bid]=[];mesh.visible=false;blockMeshes[bid].push(mesh)}
+
+// ── 世界生成 ──
 function generateWorld(){
-  for(var y=0;y<WORLD_H;y++){world[y]=[];for(var x=0;x<WORLD_W;x++){world[y][x]=0}}
+  // 初始化
+  for(var y=0;y<WORLD_HEIGHT;y++){worldData[y]=[];for(var x=0;x<WORLD_SIZE;x++){worldData[y][x]=[];for(var z=0;z<WORLD_SIZE;z++){worldData[y][x][z]=0}}}
 
-  // 地形高度 (柏林噪声简化版)
-  var heights=[];
-  for(var x=0;x<WORLD_W;x++){
-    var h=28+Math.sin(x*0.15)*5+Math.sin(x*0.08)*8+Math.sin(x*0.3)*3+Math.sin(x*0.04)*12;
-    heights[x]=Math.floor(h);
-  }
+  // 地形
+  var heights=[];for(var x=0;x<WORLD_SIZE;x++){heights[x]=[];for(var z=0;z<WORLD_SIZE;z++){heights[x][z]=Math.floor(22+Math.sin(x*0.1+2)*4+Math.sin(z*0.08+1)*5+Math.sin(x*0.05+z*0.05)*10+Math.sin(x*0.18+z*0.12)*3)}}
 
-  // 填充地层
-  for(var x=0;x<WORLD_W;x++){
-    for(var y=0;y<WORLD_H;y++){
-      if(y>heights[x]){world[y][x]=3} // 水
-      else if(y===heights[x]){world[y][x]=1} // 草地
-      else if(y>heights[x]-4){world[y][x]=2} // 泥土
-      else{world[y][x]=4} // 石头
-    }
-  }
-
-  // 树木
-  for(var x=5;x<WORLD_W-5;x+=8+Math.floor(Math.random()*6)){
-    var h=heights[x];if(h<10||h>50)continue;
-    world[h-1][x]=2; // 树根
-    for(var ty=2;ty<=5;ty++){if(h-ty>=0)world[h-ty][x]=5} // 树干
-    var foliage=3+Math.floor(Math.random()*2);
-    for(var fx=-foliage;fx<=foliage;fx++){
-      for(var fy=-2;fy<=0;fy++){
-        var lx=x+fx,ly=h-5+fy;
-        if(lx>=0&&lx<WORLD_W&&ly>=0&&world[ly][lx]===0)world[ly][lx]=6
+  for(var x=0;x<WORLD_SIZE;x++){
+    for(var z=0;z<WORLD_SIZE;z++){
+      var h=heights[x][z];
+      for(var y=0;y<WORLD_HEIGHT;y++){
+        if(y>h)worldData[y][x][z]=3; // 水
+        else if(y===h)worldData[y][x][z]=1; // 草
+        else if(y>h-4)worldData[y][x][z]=2; // 土
+        else worldData[y][x][z]=4; // 石
       }
     }
   }
 
-  // 伍湖村建筑区
-  buildVillage(35,heights[35]);
-  buildVillage(55,heights[55]);
+  // 树
+  placeTree(10,heights[10][10],10);
+  placeTree(20,heights[20][20],20);
+  placeTree(35,heights[35][18],18);
+  placeTree(50,heights[50][30],30);
+  placeTree(15,heights[15][40],40);
+  placeTree(25,heights[25][50],50);
+  placeTree(45,heights[45][55],55);
+  placeTree(60,heights[60][45],45);
+  placeTree(70,heights[70][35],35);
+  placeTree(80,heights[80][50],50);
+  placeTree(65,heights[65][60],60);
+  placeTree(40,heights[40][70],70);
+
+  // 伍湖村
+  buildVillage(55,heights[55][55],55);
+  buildVillage(75,heights[75][65],65);
+  buildVillage(35,heights[35][70],70);
 
   // 稻田
-  for(var rx=15;rx<=25;rx++){
-    var rh=heights[rx];
-    for(var ry=0;ry<3;ry++){if(rh-ry>=0)world[rh-ry][rx]=7}
-    world[rh][rx]=8; // 田埂
-  }
-  for(var rx=45;rx<=52;rx++){
-    var rh=heights[rx];
-    for(var ry=0;ry<3;ry++){if(rh-ry>=0)world[rh-ry][rx]=7}
-    world[rh][rx]=8;
-  }
-
-  // 玩家初始位置
-  player.x=40;player.y=heights[40]-6;
+  buildField(20,heights[20][20],20);
+  buildField(45,heights[45][45],45);
 }
 
-function buildVillage(cx,gh){
-  // 地面平整
-  for(var dx=-3;dx<=3;dx++)for(var dy=-1;dy<=6;dy++){
-    var wx=cx+dx,wy=gh+dy;if(wx>=0&&wx<WORLD_W&&wy>=0&&wy<WORLD_H)world[wy][wx]=2
-  }
-  for(var dx=-2;dx<=2;dx++){if(cx+dx>=0&&cx+dx<WORLD_W)world[gh][cx+dx]=9}
+function placeTree(x,h,z){
+  if(h<8||h>44)return;
+  worldData[h-1][x][z]=2;
+  for(var ty=2;ty<=5;ty++){if(h-ty>=0)worldData[h-ty][x][z]=5}
+  for(var dx=-2;dx<=2;dx++)for(var dz=-2;dz<=2;dz++)for(var dy=-2;dy<=0;dy++){var lx=x+dx,lz=z+dz,ly=h-5+dy;if(lx>=0&&lx<WORLD_SIZE&&lz>=0&&lz<WORLD_SIZE&&ly>=0&&worldData[ly][lx][lz]===0)worldData[ly][lx][lz]=6}
+}
 
-  // 墙壁
-  for(var wy=1;wy<=4;wy++){
-    for(var dx=-2;dx<=2;dx++){
-      var wx=cx+dx,ty=gh-wy;
-      if(wx>=0&&wx<WORLD_W&&ty>=0){
-        if(dx===-2||dx===2)world[ty][wx]=8;else world[ty][wx]=5
-      }
+function buildVillage(cx,h,cz){
+  for(var dx=-4;dx<=4;dx++)for(var dz=-4;dz<=4;dz++)for(var dy=-1;dy<=5;dy++){var wx=cx+dx,wz=cz+dz,wy=h+dy;if(wx>=0&&wx<WORLD_SIZE&&wz>=0&&wz<WORLD_SIZE&&wy>=0&&wy<WORLD_HEIGHT)worldData[wy][wx][wz]=2}
+  for(var dx=-3;dx<=3;dx++)for(var dz=-3;dz<=3;dz++){var wx=cx+dx,wz=cz+dz;if(wx>=0&&wx<WORLD_SIZE&&wz>=0&&wz<WORLD_SIZE)worldData[h][wx][wz]=9}
+  for(var wy=1;wy<=4;wy++)for(var dx=-3;dx<=3;dx++)for(var dz=-3;dz<=3;dz++){
+    var wx=cx+dx,wz=cz+dz,ty=h-wy;
+    if(wx>=0&&wx<WORLD_SIZE&&wz>=0&&wz<WORLD_SIZE&&ty>=0){
+      if(dx===-3||dx===3||dz===-3||dz===3)worldData[ty][wx][wz]=8;else worldData[ty][wx][wz]=5
     }
   }
-  // 窗户
-  if(gh-2>=0){world[gh-2][cx-1]=10;world[gh-2][cx+1]=10}
-  // 门
-  if(gh-2>=0&&gh-1>=0){world[gh-2][cx]=10;world[gh-1][cx]=10}
-  // 屋顶
-  var ry=gh-5;
-  for(var dx=-3;dx<=3;dx++){
-    var wx=cx+dx;if(wx>=0&&wx<WORLD_W&&ry>=0)world[ry][wx]=8
-  }
-  if(ry-1>=0)for(var dx=-2;dx<=2;dx++){var wx=cx+dx;if(wx>=0&&wx<WORLD_W)world[ry-1][wx]=8}
+  if(h-2>=0){worldData[h-2][cx-1][cz]=10;worldData[h-2][cx+1][cz]=10;worldData[h-2][cx][cz-1]=10;worldData[h-2][cx][cz+1]=10}
+  if(h-1>=0)worldData[h-1][cx][cz]=10;
+  var ry=h-5;if(ry>=0)for(var dx=-4;dx<=4;dx++)for(var dz=-4;dz<=4;dz++){var wx=cx+dx,wz=cz+dz;if(wx>=0&&wx<WORLD_SIZE&&wz>=0&&wz<WORLD_SIZE)worldData[ry][wx][wz]=8}
+  if(ry-1>=0)for(var dx=-3;dx<=3;dx++)for(var dz=-3;dz<=3;dz++){var wx=cx+dx,wz=cz+dz;if(wx>=0&&wx<WORLD_SIZE&&wz>=0&&wz<WORLD_SIZE)worldData[ry-1][wx][wz]=8}
 }
 
-// ── 渲染 ──
-function render(){
-  canvas.width=wrap.clientWidth;canvas.height=wrap.clientHeight;
-  var cols=Math.ceil(canvas.width/TILE)+2,rows=Math.ceil(canvas.height/TILE)+2;
-  var startX=Math.floor(camera.x/TILE)-1,startY=Math.floor(camera.y/TILE)-1;
+function buildField(cx,h,cz){
+  for(var dx=0;dx<6;dx++)for(var dz=0;dz<6;dz++){var wx=cx+dx,wz=cz+dz;if(wx>=0&&wx<WORLD_SIZE&&wz>=0&&wz<WORLD_SIZE){for(var y=h;y>=h-2;y--){if(y>=0&&y<WORLD_HEIGHT&&worldData[y][wx][wz]===0)worldData[y][wx][wz]=7}}}
+  for(var dx=-1;dx<=6;dx++)for(var dz=-1;dz<=6;dz++)if(dx===-1||dx===6||dz===-1||dz===6){var wx=cx+dx,wz=cz+dz;if(wx>=0&&wx<WORLD_SIZE&&wz>=0&&wz<WORLD_SIZE&&h>=0)worldData[h+1][wx][wz]=8}
+}
 
-  // 天空渐变
-  var skyGrad=ctx.createLinearGradient(0,0,0,canvas.height);
-  skyGrad.addColorStop(0,'#87CEEB');skyGrad.addColorStop(.6,'#B0D9B1');skyGrad.addColorStop(1,'#5a8a3c');
-  ctx.fillStyle=skyGrad;ctx.fillRect(0,0,canvas.width,canvas.height);
-
-  // 世界方块
-  for(var y=0;y<rows;y++){
-    for(var x=0;x<cols;x++){
-      var wx=startX+x,wy=startY+y;
-      if(wx<0||wx>=WORLD_W||wy<0||wy>=WORLD_H)continue;
-      var bid=world[wy][wx];if(bid===0)continue;
-      var b=BLOCKS[bid],sx=wx*TILE-camera.x,sy=wy*TILE-camera.y;
-
-      // 方块本体
-      if(bid===3){
-        // 水：半透明动画
-        var wave=Math.sin((wx+wy+Date.now()/800))*0.08;
-        ctx.fillStyle='rgba(66,165,245,'+(0.7+wave)+')';
-      }else if(b.alpha){
-        ctx.fillStyle=b.color;ctx.globalAlpha=b.alpha;
-      }else if(b.top){
-        var side=0.15;
-        // 主面
-        ctx.fillStyle=b.top;ctx.fillRect(sx, sy, TILE, TILE);
-        // 侧面阴影（3D感）
-        ctx.fillStyle=b.color;
-        ctx.fillRect(sx, sy+TILE-4, TILE, 4); // 底边
-        ctx.fillRect(sx+TILE-4, sy, 4, TILE); // 右边
-        ctx.globalAlpha=1;
-        // 高光
-        ctx.fillStyle='rgba(255,255,255,.1)';ctx.fillRect(sx, sy, TILE, TILE*.4);
-        ctx.fillStyle='rgba(0,0,0,.1)';ctx.fillRect(sx, sy+TILE*.6, TILE, TILE*.4);
-        drawBorder(sx,sy);continue;
-      }else{
-        ctx.fillStyle=b.color;
-      }
-      ctx.fillRect(sx, sy, TILE, TILE);
-      if(b.alpha)ctx.globalAlpha=1;
-      drawBorder(sx,sy);
-    }
-  }
-
-  // 网格
-  if(showGrid){
-    ctx.strokeStyle='rgba(255,255,255,.08)';ctx.lineWidth=.5;
-    for(var y=0;y<rows;y++)for(var x=0;x<cols;x++){
-      var sx=(startX+x)*TILE-camera.x,sy=(startY+y)*TILE-camera.y;
-      ctx.strokeRect(sx,sy,TILE,TILE)
-    }
-  }
-
-  // 玩家指示
-  var px=player.x*TILE-camera.x+4,py=player.y*TILE-camera.y+4,ps=TILE-8;
-  ctx.fillStyle='rgba(255,255,255,.9)';ctx.fillRect(px,py,ps,ps);
-  ctx.fillStyle='#333';ctx.fillRect(px+4,py+4,ps-8,ps-8);
-  // 眼睛
-  ctx.fillStyle='#fff';ctx.fillRect(px+6,py+5,3,3);ctx.fillRect(px+12,py+5,3,3);
-  ctx.fillStyle='#000';ctx.fillRect(px+7,py+6,2,2);ctx.fillRect(px+13,py+6,2,2);
-
-  // 粒子
-  for(var i=particles.length-1;i>=0;i--){
-    var p=particles[i];p.x+=p.vx;p.y+=p.vy;p.life--;p.vy+=0.3;
-    var sx=p.x-camera.x,sy=p.y-camera.y;
-    ctx.fillStyle='rgba('+p.r+','+p.g+','+p.b+','+(p.life/p.maxLife)+')';
-    ctx.fillRect(sx,sy,p.size,p.size);
-    if(p.life<=0)particles.splice(i,1)
+// ── 渲染世界 ──
+function buildWorld(){
+  while(chunkGroup.children.length)chunkGroup.children.length=0;
+  for(var x=0;x<WORLD_SIZE;x++)for(var z=0;z<WORLD_SIZE;z++)for(var y=0;y<WORLD_HEIGHT;y++){
+    var bid=worldData[y][x][z];if(bid===0)continue;
+    var mesh=getBlockMesh(bid);mesh.position.set(x,y,z);chunkGroup.add(mesh)
   }
 }
 
-function drawBorder(sx,sy){
-  ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=.5;ctx.strokeRect(sx,sy,TILE,TILE)
+// ── 高亮选中方块 ──
+highlightBox=new THREE.Mesh(new THREE.BoxGeometry(1.02,1.02,1.02),new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.15,depthTest:true}));
+highlightBox.visible=false;scene.add(highlightBox);
+
+function getTargetBlock(){
+  raycaster.setFromCamera(new THREE.Vector2(0,0),camera);
+  var intersects=raycaster.intersectObjects(chunkGroup.children);
+  if(intersects.length===0)return null;
+  var point=intersects[0].point,normal=intersects[0].face.normal.clone();
+  normal.transformDirection(intersects[0].object.matrixWorld);
+  var hitX=Math.floor(point.x+normal.x*.1-.5*(normal.x<0?1:0)),hitY=Math.floor(point.y+normal.y*.1-.5*(normal.y<0?1:0)),hitZ=Math.floor(point.z+normal.z*.1-.5*(normal.z<0?1:0));
+  var placeX=Math.floor(point.x+normal.x*.5),placeY=Math.floor(point.y+normal.y*.5),placeZ=Math.floor(point.z+normal.z*.5);
+  var hb=worldData[hitY]?.[hitX]?.[hitZ];
+  return {hit:{x:hitX,y:hitY,z:hitZ,block:hb!==undefined?hb:-1},place:{x:placeX,y:placeY,z:placeZ}}
 }
 
-// ── 世界操作 ──
-function getBlock(wx,wy){if(wx<0||wx>=WORLD_W||wy<0||wy>=WORLD_H)return-1;return world[wy][wx]}
-
-function setBlock(wx,wy,bid){
-  if(wx<0||wx>=WORLD_W||wy<0||wy>=WORLD_H)return;
-  if(bid===0&&world[wy][wx]!==0){spawnParticles(wx*TILE,wy*TILE,BLOCKS[world[wy][wx]].color)}
-  world[wy][wx]=bid
+function updateHighlight(){
+  var t=getTargetBlock();
+  if(t&&t.hit.block&&t.hit.block>0){
+    highlightBox.position.set(t.hit.x+.5,t.hit.y+.5,t.hit.z+.5);highlightBox.visible=true
+  }else{highlightBox.visible=false}
 }
 
-function spawnParticles(x,y,colorHex){
-  var r=parseInt(colorHex.slice(1,3),16),g=parseInt(colorHex.slice(3,5),16),b=parseInt(colorHex.slice(5,7),16);
-  for(var i=0;i<8;i++){particles.push({x:x+TILE/2,y:y+TILE/2,vx:(Math.random()-.5)*6,vy:-Math.random()*8-2,size:2+Math.random()*4,life:15+Math.random()*15,maxLife:30,r:r,g:g,b:b})}
+// ── 方块操作 ──
+function doBreak(){
+  var t=getTargetBlock();if(!t||t.hit.block<=0)return;
+  var h=t.hit,bid=worldData[h.y][h.x][h.z];
+  worldData[h.y][h.x][h.z]=0;
+  // 移除对应mesh
+  for(var i=chunkGroup.children.length-1;i>=0;i--){
+    var c=chunkGroup.children[i];
+    if(Math.abs(c.position.x-h.x)<.1&&Math.abs(c.position.y-h.y)<.1&&Math.abs(c.position.z-h.z)<.1){recycleMesh(c);chunkGroup.remove(c);break}
+  }
+  showToast(BLOCK_TYPES[bid]?.name||'方块','破坏')
 }
 
-function toastMsg(msg){if(msgTimer)clearTimeout(msgTimer);var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');msgTimer=setTimeout(function(){t.classList.remove('show')},1200)}
-
-// ── 破坏方块 ──
-function breakBlock(wx,wy){
-  var bid=getBlock(wx,wy);if(bid<=0)return;
-  setBlock(wx,wy,0);toastMsg(BLOCKS[bid].emoji+' '+BLOCKS[bid].name+' 破坏')
+function doPlace(){
+  var t=getTargetBlock();if(!t)return;
+  var p=t.place,bid=worldData[p.y]?.[p.x]?.[p.z];
+  if(bid===undefined||bid>0)return;
+  worldData[p.y][p.x][p.z]=HOTBAR[selected];
+  var mesh=getBlockMesh(HOTBAR[selected]);mesh.position.set(p.x,p.y,p.z);chunkGroup.add(mesh);
+  showToast(BLOCK_TYPES[HOTBAR[selected]]?.name,'放置')
 }
 
-// ── 放置方块 ──
-function placeBlock(wx,wy){
-  var bid=getBlock(wx,wy);if(bid>0||bid===-1)return;
-  var placeId=hotbar[selected];
-  if(placeId===3&&getNeighborWater(wx,wy)<1)return; // 水只能邻水放
-  setBlock(wx,wy,placeId);toastMsg(BLOCKS[placeId].emoji+' '+BLOCKS[placeId].name+' 放置')
+// ── Toast ──
+var toastTimer=null;
+function showToast(name,action){
+  if(toastTimer)clearTimeout(toastTimer);
+  var el=document.getElementById('toast');
+  el.textContent=(action==='破坏'?'⛏ ':'🔨 ')+action+' '+name;
+  el.classList.add('show');toastTimer=setTimeout(function(){el.classList.remove('show')},1000)
 }
 
-function getNeighborWater(wx,wy){
-  var n=0;if(getBlock(wx-1,wy)===3)n++;if(getBlock(wx+1,wy)===3)n++;if(getBlock(wx,wy-1)===3)n++;if(getBlock(wx,wy+1)===3)n++;return n
-}
-
-// ── 输入处理 ──
-document.addEventListener('keydown',function(e){keys[e.key.toLowerCase()]=true;e.preventDefault()});
+// ── 移动控制器 ──
+var moveState={forward:0,right:0,up:0};
+var keys={};
+document.addEventListener('keydown',function(e){keys[e.key.toLowerCase()]=true;
+  if(e.key===' '){e.preventDefault();mode=mode==='build'?'fly':'build';document.getElementById('mode-txt').textContent=mode==='build'?'🧱 建造':'🕊 飞行'}
+  if(e.key==='e'){e.preventDefault();placing=!placing;document.getElementById('mode-txt').textContent=(mode==='build'?'🧱':'🕊')+(placing?' 放置':' 破坏')}
+});
 document.addEventListener('keyup',function(e){keys[e.key.toLowerCase()]=false});
 
-canvas.addEventListener('wheel',function(e){e.preventDefault();selected=(selected+(e.deltaY>0?1:-1)+hotbar.length)%hotbar.length;updateHotbar()});
+// 鼠标方向
+var pitch=0,yaw=0,isLocked=false;
+function onMouseMove(e){
+  if(!isLocked)return;
+  yaw-=e.movementX*.002;pitch-=e.movementY*.002;
+  pitch=Math.max(-Math.PI/2.2,Math.min(Math.PI/2.2,pitch));
+  camera.rotation.order='YXZ';
+  camera.rotation.y=yaw;camera.rotation.x=pitch
+}
 
-canvas.addEventListener('click',function(e){
-  var rect=canvas.getBoundingClientRect();
-  var mx=(e.clientX-rect.left+camera.x),my=(e.clientY-rect.top+camera.y);
-  var wx=Math.floor(mx/TILE),wy=Math.floor(my/TILE);
-  if(e.button===0)breakBlock(wx,wy);else if(e.button===2)placeBlock(wx,wy)
+renderer.domElement.addEventListener('click',function(){if(!isLocked)renderer.domElement.requestPointerLock()});
+document.addEventListener('pointerlockchange',function(){isLocked=document.pointerLockElement===renderer.domElement});
+document.addEventListener('mousemove',onMouseMove);
+
+// 滚轮
+renderer.domElement.addEventListener('wheel',function(e){e.preventDefault();selected=(selected+(e.deltaY>0?1:-1)+HOTBAR.length)%HOTBAR.length;updateHotbar()});
+
+// 点击
+renderer.domElement.addEventListener('mousedown',function(e){
+  if(!isLocked)return;
+  if(e.button===0){if(placing)doPlace();else doBreak()}
+  if(e.button===2){if(placing)doBreak();else doPlace()}
 });
-canvas.addEventListener('contextmenu',function(e){e.preventDefault()});
+renderer.domElement.addEventListener('contextmenu',function(e){e.preventDefault()});
 
-// ── 移动端摇杆 ──
+// 触屏
+var touchLook={active:false,lastX:0,lastY:0};
+renderer.domElement.addEventListener('touchstart',function(e){
+  if(e.touches.length===1){touchLook.active=true;touchLook.lastX=e.touches[0].clientX;touchLook.lastY=e.touches[0].clientY}
+  if(e.touches.length>=3)document.exitPointerLock()
+});
+renderer.domElement.addEventListener('touchmove',function(e){
+  if(!touchLook.active)return;e.preventDefault();
+  var dx=e.touches[0].clientX-touchLook.lastX,dy=e.touches[0].clientY-touchLook.lastY;
+  touchLook.lastX=e.touches[0].clientX;touchLook.lastY=e.touches[0].clientY;
+  yaw-=dx*.003;pitch-=dy*.003;pitch=Math.max(-Math.PI/2.2,Math.min(Math.PI/2.2,pitch));
+  camera.rotation.order='YXZ';camera.rotation.y=yaw;camera.rotation.x=pitch
+});
+renderer.domElement.addEventListener('touchend',function(){touchLook.active=false});
+
+// 摇杆
 var joyMove=null;
 (function(){
-  var js=document.getElementById('joystick'),kn=document.getElementById('knob'),center={x:50,y:50};
-  function jStart(e){e.preventDefault();joyMove={x:(e.touches[0].clientX),y:(e.touches[0].clientY)}}
-  function jMove(e){
+  var jsEl=document.getElementById('js'),knEl=document.getElementById('knob');
+  jsEl.addEventListener('touchstart',function(e){e.preventDefault();joyMove={x:e.touches[0].clientX,y:e.touches[0].clientY}});
+  jsEl.addEventListener('touchmove',function(e){
     if(!joyMove)return;e.preventDefault();
-    var dx=(e.touches[0].clientX-joyMove.x),dy=(e.touches[0].clientY-joyMove.y);
+    var dx=e.touches[0].clientX-joyMove.x,dy=e.touches[0].clientY-joyMove.y;
     var dist=Math.sqrt(dx*dx+dy*dy),maxDist=40;
     if(dist>maxDist){dx=dx/dist*maxDist;dy=dy/dist*maxDist}
-    kn.style.transform='translate(calc(-50% + '+dx+'px), calc(-50% + '+dy+'px))';
-    playerMove(dx/20,dy/20);
-  }
-  function jEnd(){joyMove=null;kn.style.transform='translate(-50%,-50%)';playerMove(0,0)}
-  js.addEventListener('touchstart',jStart,{passive:false});
-  js.addEventListener('touchmove',jMove,{passive:false});
-  js.addEventListener('touchend',jEnd);
-  document.getElementById('btn-place').addEventListener('touchstart',function(e){e.preventDefault();var wx=player.x,wy=player.y+1;placeBlock(wx,wy)});
-  document.getElementById('btn-break').addEventListener('touchstart',function(e){e.preventDefault();var wx=player.x,wy=player.y+1;breakBlock(wx,wy)});
+    knEl.style.transform='translate(calc(-50% + '+dx+'px), calc(-50% + '+dy+'px))';
+    moveState.forward=-dy/40;moveState.right=dx/40
+  });
+  jsEl.addEventListener('touchend',function(){joyMove=null;knEl.style.transform='translate(-50%,-50%)';moveState.forward=0;moveState.right=0});
+  document.getElementById('btn-place').addEventListener('touchstart',function(e){e.preventDefault();if(placing)doPlace();else doBreak()});
+  document.getElementById('btn-break').addEventListener('touchstart',function(e){e.preventDefault();if(placing)doBreak();else doPlace()});
 })();
 
-// ── 移动逻辑 ──
-var moveX=0,moveY=0;
-function playerMove(dx,dy){moveX=dx;moveY=dy}
+// ── 游戏循环 ──
+var clock=new THREE.Clock();
+function animate(){
+  requestAnimationFrame(animate);
+  var dt=Math.min(clock.getDelta(),0.1);
 
-function updatePlayer(){
-  if(moveX===0&&moveY===0){
-    if(keys['w']||keys['arrowup']){player.y-=0.15;moveY=-1}
-    if(keys['s']||keys['arrowdown']){player.y+=0.15;moveY=1}
-    if(keys['a']||keys['arrowleft']){player.x-=0.15;moveX=-1}
-    if(keys['d']||keys['arrowright']){player.x+=0.15;moveX=1}
-  }else{
-    var speed=mode==='fly'?0.3:0.12;
-    player.x+=moveX*speed;player.y+=moveY*speed;
+  // 移动输入
+  var speed=mode==='fly'?12:5;
+  if(keys['shift']||keys['shiftleft'])speed*=2;
+  var fw=0,rt=0;
+  if(keys['w']||keys['arrowup'])fw+=1;if(keys['s']||keys['arrowdown'])fw-=1;
+  if(keys['a']||keys['arrowleft'])rt-=1;if(keys['d']||keys['arrowright'])rt+=1;
+  if(moveState.forward!==0){fw=moveState.forward}if(moveState.right!==0){rt=moveState.right}
+
+  if(fw!==0||rt!==0){
+    var forward=new THREE.Vector3(0,0,-fw).applyQuaternion(camera.quaternion);forward.y=0;forward.normalize();
+    var right=new THREE.Vector3(rt,0,0).applyQuaternion(camera.quaternion);right.y=0;right.normalize();
+    var vel=forward.add(right).normalize().multiplyScalar(speed*dt);
+    camera.position.add(vel)
   }
-
-  // 重力（建造模式）
-  if(mode==='build'){
-    var below=getBlock(player.x,Math.floor(player.y+1+0.1));
-    if(!BLOCKS[below]||!BLOCKS[below].solid){
-      player.y+=0.18;
-      if(player.y>WORLD_H-3)player.y=WORLD_H-3;
-    }
-  }
-
-  // 水中
-  if(getBlock(Math.floor(player.x),Math.floor(player.y))===3){
-    if(mode==='build')player.y-=0.05;
+  if(mode==='fly'){if(keys['q'])camera.position.y-=speed*dt;if(keys['e'])camera.position.y+=speed*dt}
+  else{
+    camera.position.y-=9.8*dt;
+    var gx=Math.floor(camera.position.x),gz=Math.floor(camera.position.z),gy=Math.floor(camera.position.y-1.62);
+    var blockBelow=worldData[gy]?.[gx]?.[gz];
+    if(blockBelow>0&&BLOCK_TYPES[blockBelow]?.solid){camera.position.y=gy+1.62}else if(blockBelow===3)camera.position.y+=2*dt
+    if(keys[' ']){camera.position.y+=8*dt}
   }
 
   // 边界
-  player.x=Math.max(0,Math.min(WORLD_W-1,player.x));
-  player.y=Math.max(0,Math.min(WORLD_H-2,player.y));
+  camera.position.x=Math.max(.5,Math.min(WORLD_SIZE-.5,camera.position.x));
+  camera.position.y=Math.max(1,Math.min(WORLD_HEIGHT-1,camera.position.y));
+  camera.position.z=Math.max(.5,Math.min(WORLD_SIZE-.5,camera.position.z));
 
-  // 相机跟随
-  camera.x=player.x*TILE-canvas.width/2;
-  camera.y=player.y*TILE-canvas.height/2;
-
-  document.getElementById('pos-display').textContent=Math.floor(player.x)+','+Math.floor(player.y);
+  updateHighlight();
+  renderer.render(scene,camera)
 }
-
-// ── 按空格切换模式 ──
-document.addEventListener('keydown',function(e){
-  if(e.key===' '){e.preventDefault();mode=mode==='build'?'fly':'build';document.getElementById('mode-hint').textContent=mode==='build'?'🧱 建造模式':'🕊 飞行模式'}
-});
 
 // ── 热键栏 ──
 function updateHotbar(){
   var hb=document.getElementById('hotbar');hb.innerHTML='';
-  hotbar.forEach(function(bid,i){
-    var b=BLOCKS[bid];
+  HOTBAR.forEach(function(bid,i){
+    var b=BLOCK_TYPES[bid];
     var s=document.createElement('div');s.className='slot'+(i===selected?' active':'');
-    s.textContent=b.emoji||'?';s.title=b.name;
-    s.onclick=function(){selected=i;updateHotbar()};
-    hb.appendChild(s)
+    s.textContent=b.name.charAt(0);s.title=b.name;
+    s.style.background=i===selected?'rgba(255,213,79,.2)':'rgba(255,255,255,.05)';
+    s.onclick=function(){selected=i;updateHotbar()};hb.appendChild(s)
   })
 }
-updateHotbar();
 
-// 数字键切换
-document.addEventListener('keydown',function(e){
-  var n=parseInt(e.key);if(n>=1&&n<=9&&n<=hotbar.length){selected=n-1;updateHotbar()}
-});
+document.addEventListener('keydown',function(e){var n=parseInt(e.key);if(n>=1&&n<=9&&n<=HOTBAR.length){selected=n-1;updateHotbar()}});
 
-// ── 游戏循环 ──
-generateWorld();
-updateHotbar();
+// ── 启动 ──
+var isMob=/Android|iPhone|iPad/i.test(navigator.userAgent)||('ontouchstart' in window);
+if(isMob){document.getElementById('instr').textContent='摇杆移动 | 🔨放置 | ⛏破坏 | 热键栏切换方块';renderer.domElement.removeEventListener('click',renderer.domElement.click)}
 
-var helpText=document.getElementById('help-text');
-var isMobile=/Android|iPhone|iPad/i.test(navigator.userAgent)||('ontouchstart' in window);
-if(isMobile){helpText.textContent='摇杆移动 | 🔨 放置 | ⛏ 破坏 | 上方热键栏切换方块';document.querySelector('.action-btns').style.display='flex';document.querySelector('.v-joystick').style.display='block'}
-
-function gameLoop(){
-  updatePlayer();
-  render();
-  requestAnimationFrame(gameLoop);
-}
-gameLoop();
-
-// 窗口调整
-window.addEventListener('resize',render);
+generateWorld();buildWorld();updateHotbar();
+camera.position.set(50,heights(50,50)+8,50);
+function heights(x,z){var y=Math.floor(22+Math.sin(x*0.1+2)*4+Math.sin(z*0.08+1)*5+Math.sin(x*0.05+z*0.05)*10+Math.sin(x*0.18+z*0.12)*3);return y}
+animate();
 </script>
 </body>
 </html>
