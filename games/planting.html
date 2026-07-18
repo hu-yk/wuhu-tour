@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>插秧能手 · 一码游伍湖</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(180deg,#87CEEB,#B0D9B1 50%,#5a8a3c 100%);min-height:100vh;max-width:750px;margin:0 auto;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.top-hud{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;color:#1b5e20}
+.top-hud span{font-size:18px;font-weight:800}
+.top-hud .score{background:#fff;color:#1b5e20;padding:6px 18px;border-radius:20px;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.back-btn{color:#fff;background:rgba(0,0,0,.2);padding:6px 12px;border-radius:20px;font-size:14px;text-decoration:none;font-weight:600}
+.paddy{position:relative;width:100%;height:calc(100vh - 200px);min-height:360px;background:linear-gradient(180deg,#87CEEB 0%,#B0D9B1 12%,#8BC34A 18%,#7CB342 25%,#689F38 100%);overflow:hidden}
+.grid-overlay{position:absolute;top:18%;left:5%;right:5%;bottom:5%;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:8px}
+.cell{border-radius:8px;background:rgba(139,195,74,.35);border:1px dashed rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px;transition:all .15s}
+.cell.planted{background:rgba(104,159,56,.6);border-color:rgba(255,255,255,.3)}
+.cell.planted::after{content:'🌱';animation:growIn .3s ease}
+.cell.wrong{background:rgba(244,67,54,.4);animation:shake .4s ease}
+@keyframes growIn{0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.target-highlight{animation:pulse 1s ease infinite}
+@keyframes pulse{0%,100%{box-shadow:inset 0 0 0 0 rgba(255,235,59,.5)}50%{box-shadow:inset 0 0 0 12px rgba(255,235,59,0)}}
+.bottom-bar{display:flex;align-items:center;justify-content:center;gap:16px;padding:12px;color:#fff}
+.bottom-bar .timer{font-size:28px;font-weight:800;background:rgba(0,0,0,.3);padding:8px 20px;border-radius:20px}
+.bottom-bar .hint{font-size:18px;font-weight:700;color:#ffd54f}
+.start-overlay,.game-over-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:100}
+.card{background:#fff;border-radius:20px;padding:40px 32px;text-align:center;box-shadow:0 16px 40px rgba(0,0,0,.2);max-width:320px;width:90%}
+.card h2{font-size:28px;color:#1b5e20;margin-bottom:8px}
+.card p{color:#666;margin-bottom:24px;font-size:14px;line-height:1.6}
+.card button{background:linear-gradient(135deg,#2e7d32,#66bb6a);color:#fff;border:none;padding:14px 48px;border-radius:30px;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(46,125,50,.3);margin:4px}
+.card button:active{transform:scale(.95)}
+.card .btn-outline{background:#fff;color:#2e7d32;border:2px solid #2e7d32}
+.game-over-overlay{display:none}.game-over-overlay.show{display:flex}
+.final-score{font-size:48px;font-weight:900;color:#2e7d32;margin:12px 0}
+.stats{font-size:14px;color:#666;margin-bottom:20px}
+</style>
+</head>
+<body>
+
+<div class="top-hud"><a href="../index.html" class="back-btn">← 返回</a><span class="score">🌱 <span id="score-display">0</span></span><span style="font-size:14px">插秧</span></div>
+<div class="paddy"><div class="grid-overlay" id="grid"></div></div>
+<div class="bottom-bar"><span class="timer" id="timer-display">45</span></div>
+
+<div class="start-overlay" id="start-overlay">
+  <div class="card"><h2>🌾 插秧能手</h2><p>按照田里高亮的位置，<br>快速点击种下秧苗！<br>种对 +1 分，种错扣时间！</p><button onclick="startGame()">开始插秧！</button></div>
+</div>
+
+<div class="game-over-overlay" id="game-over-overlay">
+  <div class="card"><h2 id="go-title">时间到！</h2><div class="final-score" id="go-score">0</div><div class="stats" id="go-stats"></div><button onclick="restartGame()">再来一局</button><button class="btn-outline" onclick="location.href='../index.html'">返回首页</button></div>
+</div>
+
+<script>
+var grid=document.getElementById('grid'),scoreEl=document.getElementById('score-display'),timerEl=document.getElementById('timer-display'),startOv=document.getElementById('start-overlay'),gameOv=document.getElementById('game-over-overlay');
+var score=0,timeLeft=45,targetCell=null,rounds=0,gameRunning=false,timer=null,cells=[];
+
+for(var i=0;i<16;i++){var c=document.createElement('div');c.className='cell';c.addEventListener('click',function(){clickCell(this)});c.addEventListener('touchend',function(e){e.preventDefault();clickCell(this)});grid.appendChild(c);cells.push(c)}
+
+function clickCell(cell){
+  if(!gameRunning)return;
+  if(cell===targetCell){cell.classList.add('planted');score++;rounds++;scoreEl.textContent=score;newTarget()}else if(!cell.classList.contains('planted')){cell.classList.add('wrong');setTimeout(function(){cell.classList.remove('wrong')},400);timeLeft=Math.max(0,timeLeft-2);updateTimer()}
+}
+
+function newTarget(){
+  cells.forEach(function(c){c.classList.remove('target-highlight')});
+  var available=cells.filter(function(c){return!c.classList.contains('planted')});
+  if(available.length===0){cells.forEach(function(c){c.classList.remove('planted')});available=cells}
+  targetCell=available[Math.floor(Math.random()*available.length)];
+  targetCell.classList.add('target-highlight');
+}
+
+function updateTimer(){timerEl.textContent=timeLeft;timerEl.style.color=timeLeft<=10?'#ff7043':'#fff'}
+
+function tick(){timeLeft--;updateTimer();if(timeLeft<=0)endGame()}
+
+function startGame(){
+  score=0;rounds=0;timeLeft=45;gameRunning=true;scoreEl.textContent='0';timerEl.textContent='45';timerEl.style.color='#fff';
+  cells.forEach(function(c){c.className='cell'});
+  startOv.style.display='none';gameOv.classList.remove('show');
+  newTarget();timer=setInterval(tick,1000);
+}
+
+function endGame(){
+  gameRunning=false;clearInterval(timer);cells.forEach(function(c){c.classList.remove('target-highlight')});
+  document.getElementById('go-score').textContent=score+' 株';
+  document.getElementById('go-stats').textContent='轮次: '+rounds+' | 评价: '+(score>=25?'🌾 插秧状元！':score>=12?'👍 合格农夫':'🌱 还得多练');
+  gameOv.classList.add('show');
+}
+
+function restartGame(){gameOv.classList.remove('show');startGame()}
+</script>
+</body>
+</html>

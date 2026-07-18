@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>钓虾达人 · 一码游伍湖</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(180deg,#e8f5e9,#c8e6c9 40%,#8d6e63 100%);min-height:100vh;max-width:750px;margin:0 auto;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.top-hud{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;color:#1b5e20}
+.top-hud span{font-size:18px;font-weight:800}
+.top-hud .score{background:#fff;color:#1b5e20;padding:6px 18px;border-radius:20px;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.back-btn{color:#fff;background:rgba(0,0,0,.2);padding:6px 12px;border-radius:20px;font-size:14px;text-decoration:none;font-weight:600}
+.field{position:relative;width:100%;height:calc(100vh - 260px);min-height:400px;background:linear-gradient(180deg,#66bb6a 0%,#43a047 15%,#2e7d32 30%,#33691e 50%,#5d4037 80%,#4e342e 100%);overflow:hidden}
+.field::before{content:'';position:absolute;top:0;left:0;right:0;height:60%;background:repeating-linear-gradient(0deg,transparent,transparent 18px,rgba(255,255,255,.06) 18px,rgba(255,255,255,.06) 20px)}
+.hole{position:absolute;width:80px;height:80px;border-radius:50%;background:radial-gradient(ellipse at center,#5d4037 0%,#3e2723 60%,#2e7d32 60%,#1b5e20 100%);box-shadow:inset 0 8px 16px rgba(0,0,0,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .1s}
+.hole:active{transform:scale(.9)}
+.shrimp{font-size:44px;animation:popUp .35s cubic-bezier(.18,.89,.32,1.28);pointer-events:none}
+.shrimp.caught{animation:caught .2s ease forwards}
+@keyframes popUp{0%{transform:translateY(30px) scale(0);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+@keyframes caught{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(0);opacity:0}}
+.water-ripple{position:absolute;border-radius:50%;border:2px solid rgba(168,216,220,.6);animation:ripple .8s ease-out forwards;pointer-events:none}
+@keyframes ripple{0%{width:20px;height:20px;opacity:1}100%{width:120px;height:120px;opacity:0}}
+.bottom-bar{display:flex;align-items:center;justify-content:center;gap:16px;padding:16px;color:#fff}
+.bottom-bar .timer{font-size:28px;font-weight:800;background:rgba(0,0,0,.3);padding:8px 20px;border-radius:20px}
+.bottom-bar .combo{font-size:16px;color:#ffd54f;min-width:80px;text-align:center}
+.start-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:100}
+.start-card{background:#fff;border-radius:20px;padding:40px 32px;text-align:center;box-shadow:0 16px 40px rgba(0,0,0,.2);max-width:320px;width:90%}
+.start-card h2{font-size:28px;color:#1b5e20;margin-bottom:8px}
+.start-card p{color:#666;margin-bottom:24px;font-size:14px;line-height:1.6}
+.start-card button{background:linear-gradient(135deg,#2e7d32,#66bb6a);color:#fff;border:none;padding:14px 48px;border-radius:30px;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(46,125,50,.3)}
+.start-card button:active{transform:scale(.95)}
+.game-over-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:100}
+.game-over-overlay.show{display:flex}
+.game-over-card{background:#fff;border-radius:20px;padding:36px 28px;text-align:center;box-shadow:0 16px 40px rgba(0,0,0,.2);max-width:320px;width:90%}
+.game-over-card h2{font-size:32px;margin-bottom:6px}
+.game-over-card .final-score{font-size:48px;font-weight:900;color:#e65100;margin:12px 0}
+.game-over-card .stats{font-size:14px;color:#666;margin-bottom:20px}
+.game-over-card button{background:linear-gradient(135deg,#2e7d32,#66bb6a);color:#fff;border:none;padding:12px 36px;border-radius:30px;font-size:16px;font-weight:700;cursor:pointer;margin:4px}
+.game-over-card button:active{transform:scale(.95)}
+.game-over-card .btn-outline{background:#fff;color:#2e7d32;border:2px solid #2e7d32}
+</style>
+</head>
+<body>
+
+<div class="top-hud">
+  <a href="../index.html" class="back-btn">← 返回</a>
+  <span class="score" id="score-display">0 只</span>
+  <span style="font-size:14px">🎣 钓虾</span>
+</div>
+
+<div class="field" id="field"></div>
+
+<div class="bottom-bar">
+  <span class="combo" id="combo-display"></span>
+  <span class="timer" id="timer-display">30</span>
+</div>
+
+<div class="start-overlay" id="start-overlay">
+  <div class="start-card">
+    <h2>🦐 钓虾达人</h2>
+    <p>伍湖村的小龙虾冒出来了！<br>快点击抓住它们！<br>限时 30 秒，看你能钓多少只~</p>
+    <button onclick="startGame()">开始钓虾！</button>
+  </div>
+</div>
+
+<div class="game-over-overlay" id="game-over-overlay">
+  <div class="game-over-card">
+    <h2 id="go-title">时间到！</h2>
+    <div class="final-score" id="go-score">0</div>
+    <div class="stats" id="go-stats"></div>
+    <button onclick="restartGame()">再来一局</button>
+    <button class="btn-outline" onclick="location.href='../index.html'">返回首页</button>
+  </div>
+</div>
+
+<script>
+var field=document.getElementById('field'),scoreEl=document.getElementById('score-display'),timerEl=document.getElementById('timer-display'),comboEl=document.getElementById('combo-display'),startOv=document.getElementById('start-overlay'),gameOv=document.getElementById('game-over-overlay');
+var score=0,combo=0,maxCombo=0,timeLeft=30,gameRunning=false,timer=null,spawnTimer=null,holes=[],activeHoles=new Set(),emojis=['🦐','🦞','🐟','🦀','🦐','🦐'];
+var positions=[{x:10,y:20},{x:45,y:15},{x:75,y:18},{x:20,y:45},{x:55,y:42},{x:85,y:48},{x:15,y:70},{x:48,y:68},{x:78,y:72}];
+
+function createHoles(){
+  positions.forEach(function(p){
+    var h=document.createElement('div');h.className='hole';h.style.left=p.x+'%';h.style.top=p.y+'%';
+    h.addEventListener('click',function(e){catchShrimp(h,e)});
+    h.addEventListener('touchend',function(e){e.preventDefault();catchShrimp(h,e)});
+    field.appendChild(h);holes.push(h);
+  });
+}
+
+function spawnShrimp(){
+  if(!gameRunning)return;
+  var n=Math.min(3+Math.floor((30-timeLeft)/8),6);
+  for(var i=0;i<n;i++){
+    var available=holes.filter(function(h){return!activeHoles.has(h)});
+    if(available.length===0)break;
+    if(Math.random()<0.35){
+      var hole=available[Math.floor(Math.random()*available.length)];
+      showShrimp(hole);
+    }
+  }
+}
+
+function showShrimp(hole){
+  activeHoles.add(hole);
+  var emoji=emojis[Math.floor(Math.random()*emojis.length)];
+  var s=document.createElement('span');s.className='shrimp';s.textContent=emoji;
+  hole.appendChild(s);
+  var dur=800+Math.random()*1200;
+  setTimeout(function(){if(activeHoles.has(hole)){hideShrimp(hole,false)}},dur);
+}
+
+function hideShrimp(hole,caught){
+  activeHoles.delete(hole);
+  var s=hole.querySelector('.shrimp');
+  if(s){if(caught){s.classList.add('caught')}s.addEventListener('animationend',function(){if(s.parentNode)s.remove()});if(!caught)setTimeout(function(){if(s.parentNode)s.remove()},100)}
+}
+
+function catchShrimp(hole,e){
+  if(!gameRunning)return;
+  if(activeHoles.has(hole)){
+    hideShrimp(hole,true);score++;combo++;if(combo>maxCombo)maxCombo=combo;
+    scoreEl.textContent=score+' 只';
+    if(combo>=3){comboEl.textContent='🔥 '+combo+'连击！';comboEl.style.transform='scale(1.2)';setTimeout(function(){comboEl.style.transform='scale(1)'},200)}
+    // 水花
+    var r=document.createElement('div');r.className='water-ripple';r.style.left=(e.clientX||e.touches[0].clientX)-10+'px';r.style.top=(e.clientY||e.touches[0].clientY)-10+'px';
+    field.appendChild(r);setTimeout(function(){r.remove()},800);
+  }
+}
+
+function tick(){timeLeft--;timerEl.textContent=timeLeft;timerEl.style.color=timeLeft<=10?'#ff7043':timeLeft<=20?'#ffd54f':'#fff';if(timeLeft<=0)endGame()}
+
+function startGame(){
+  score=0;combo=0;maxCombo=0;timeLeft=30;gameRunning=true;scoreEl.textContent='0 只';timerEl.textContent='30';comboEl.textContent='';timerEl.style.color='#fff';
+  holes.forEach(function(h){while(h.firstChild)h.removeChild(h);activeHoles.delete(h)});
+  startOv.style.display='none';gameOv.classList.remove('show');
+  timer=setInterval(tick,1000);spawnTimer=setInterval(spawnShrimp,700+Math.random()*500);spawnShrimp();
+}
+
+function endGame(){
+  gameRunning=false;clearInterval(timer);clearInterval(spawnTimer);
+  holes.forEach(function(h){while(h.firstChild)h.removeChild(h);activeHoles.delete(h)});
+  document.getElementById('go-score').textContent=score+' 只';
+  document.getElementById('go-stats').textContent='最高连击: '+maxCombo+' | 评价: '+(score>=30?'🦐 钓虾王者！':score>=15?'👍 小有收获':'🌱 继续加油');
+  gameOv.classList.add('show');
+}
+
+function restartGame(){gameOv.classList.remove('show');startGame()}
+
+createHoles();
+</script>
+</body>
+</html>
