@@ -59,7 +59,7 @@
   <div class="h-scroll">
     <div class="h-item" onclick="switchTab('culture')">🏛<div class="hi-label">循迹研学</div><div class="hi-hint">总书记考察足迹</div></div>
     <div class="h-item" onclick="switchTab('farming')">🌾<div class="hi-label">稻虾共作</div><div class="hi-hint">一田双收</div></div>
-    <div class="h-item" onclick="switchTab('tour')">🎣<div class="hi-label">生态农旅</div><div class="hi-hint">路线·体验·应急</div></div>
+    <div class="h-item" onclick="switchTab('tour')">🎣<div class="hi-label">生态农旅</div><div class="hi-hint">路线·体验</div></div>
     <div class="h-item" onclick="goPage('pages/onefield.html')">📋<div class="hi-label">产业档案</div><div class="hi-hint">溯源展示</div></div>
     <div class="h-item" onclick="goPage('pages/survey.html')">💬<div class="hi-label">建言献策</div><div class="hi-hint">反馈画像</div></div>
   </div>
@@ -67,23 +67,23 @@
   <div class="sec-hd"><span class="sec-title">热门推荐</span></div>
   <div class="card-grid">
     <div class="c-card" onclick="switchTab('culture')">
-      <div class="cc-img"><img src="assets/images/博物馆外景.jpg" alt="博物馆" onerror="this.parentElement.innerHTML='<span class=cc-emoji>🏛</span>'"/></div>
-      <div class="cc-body"><div class="cc-title">循迹云梦</div><div class="cc-tag">博物馆 · 总书记足迹</div><div class="cc-desc">云梦县博物馆、秦汉简牍、红色文化。</div></div>
+      <div class="cc-img"><img src="assets/images/博物馆外景.jpg" alt="云梦县博物馆" onerror="this.style.display='none'"/></div>
+      <div class="cc-body"><div class="cc-title">循迹云梦</div><div class="cc-tag">博物馆 · 总书记足迹</div><div class="cc-desc">云梦县博物馆、睡虎地秦简、红色文化。</div></div>
     </div>
     <div class="c-card" onclick="switchTab('farming')">
-      <div class="cc-img"><img src="assets/images/耕作插秧1.jpg" alt="耕作" onerror="this.parentElement.innerHTML='<span class=cc-emoji>🌾</span>'"/></div>
-      <div class="cc-body"><div class="cc-title">稻虾产业</div><div class="cc-tag">双水双绿 · 生态种养</div><div class="cc-desc">稻虾共作、农产品溯源、梦辰泽农业。</div></div>
+      <div class="cc-img"><img src="assets/images/耕作插秧1.jpg" alt="耕作插秧" onerror="this.style.display='none'"/></div>
+      <div class="cc-body"><div class="cc-title">稻虾产业</div><div class="cc-tag">双水双绿 · 生态种养</div><div class="cc-desc">6300亩稻虾共作、新红水稻合作社。</div></div>
     </div>
     <div class="c-card" onclick="switchTab('tour')">
-      <div class="cc-img"><img src="assets/images/gMygx.jpg" alt="生态园" onerror="this.parentElement.innerHTML='<span class=cc-emoji>🎣</span>'"/></div>
-      <div class="cc-body"><div class="cc-title">生态农旅</div><div class="cc-tag">路线 · 体验 · 应急</div><div class="cc-desc">伍湖四海生态园、三条游玩路线。</div></div>
+      <div class="cc-img"><img src="assets/images/村内荷花.jpg" alt="荷花" onerror="this.style.display='none'"/></div>
+      <div class="cc-body"><div class="cc-title">生态农旅</div><div class="cc-tag">路线 · 体验 · 打卡点</div><div class="cc-desc">伍湖四海生态园、三条游玩路线。</div></div>
     </div>
     <div class="c-card" onclick="goPage('pages/onefield.html')">
-      <div class="cc-img"><img src="assets/images/FiRuM.jpg" alt="产业" onerror="this.parentElement.innerHTML='<span class=cc-emoji>📋</span>'"/></div>
-      <div class="cc-body"><div class="cc-title">产业档案</div><div class="cc-tag">一田一码 · 溯源</div><div class="cc-desc">6300亩示范田、种养方式、产品故事。</div></div>
+      <div class="cc-img"><img src="assets/images/开插秧机器.jpg" alt="插秧机" onerror="this.style.display='none'"/></div>
+      <div class="cc-body"><div class="cc-title">产业档案</div><div class="cc-tag">一田一码 · 溯源</div><div class="cc-desc">示范田块、机械化插秧、产品故事。</div></div>
     </div>
     <div class="c-card cg-wide" onclick="goPage('pages/survey.html')">
-      <div class="cc-img"><img src="assets/images/会晤.jpg" alt="建言" onerror="this.parentElement.innerHTML='<span class=cc-emoji>💬</span>'"/></div>
+      <div class="cc-img"><img src="assets/images/会晤.jpg" alt="座谈" onerror="this.style.display='none'"/></div>
       <div class="cc-body"><div class="cc-title">建言献策</div><div class="cc-tag">问卷反馈 · 游客画像</div><div class="cc-desc">收集游客来源、偏好、文化认知与发展建议。</div></div>
     </div>
   </div>
@@ -106,18 +106,31 @@
 
 <!-- ═══════ 循迹 ═══════ -->
 <section class="tab-page" id="tab-culture">
-  <div class="hero h-red"><div class="h-t">循迹云梦</div><div class="h-s">云梦县博物馆 · 秦汉简牍 · 总书记考察足迹</div><div class="h-chip">📍 2024年11月习近平总书记考察</div></div>
+  <div class="hero h-red"><div class="h-t">循迹云梦</div><div class="h-s">云梦县博物馆 · 睡虎地秦简 · 总书记考察足迹</div><div class="h-chip">📍 2024年11月习近平总书记考察</div></div>
 
-  <div class="info-block"><h2>从云梦到伍湖</h2><p>2024年11月，习近平总书记考察云梦县博物馆，了解文物保护研究利用。7月16日实践队追寻足迹完成研学，7月17-18日在伍湖村开展产业调研与人物专访，把文化传承保护与乡村振兴实践紧密结合。</p></div>
+  <div class="info-block"><h2>从云梦到伍湖</h2><p>2024年11月，习近平总书记考察云梦县博物馆。7月16日实践队追寻足迹完成研学，参观博物馆展陈、睡虎地秦简、文物修复中心和星空盘；随后前往龚华铭烈士纪念广场，瞻仰烈士纪念碑与烈士像。7月17-18日在伍湖村开展产业调研与人物专访。</p></div>
 
-  <!-- 博物馆照片群 -->
+  <!-- 博物馆 -->
   <div class="sec-hd"><span class="sec-title">📸 云梦县博物馆</span></div>
   <div class="photo-strip">
-    <div class="ps-item"><img src="assets/images/博物馆外景.jpg" alt="外景" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">博物馆外景</span></div>
+    <div class="ps-item"><img src="assets/images/博物馆外景.jpg" alt="博物馆外景" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">博物馆外景</span></div>
+    <div class="ps-item"><img src="assets/images/博物馆外景1.jpg" alt="外景" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">博物馆外景</span></div>
     <div class="ps-item"><img src="assets/images/博物馆参观1.jpg" alt="参观" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">馆内参观</span></div>
-    <div class="ps-item"><img src="assets/images/IMG_20260716_092840.jpg" alt="展陈" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">展陈参观</span></div>
-    <div class="ps-item"><img src="assets/images/IMG_20260716_093207.jpg" alt="研学" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">研学记录</span></div>
-    <div class="ps-item"><img src="assets/images/IMG_20260716_093351.jpg" alt="文物" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">秦汉简牍</span></div>
+    <div class="ps-item"><img src="assets/images/博物馆1.jpg" alt="展陈1" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">馆内展陈</span></div>
+    <div class="ps-item"><img src="assets/images/博物馆2.jpg" alt="展陈2" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">展陈参观</span></div>
+  </div>
+
+  <!-- 秦简 -->
+  <div class="sec-hd"><span class="sec-title">📸 睡虎地秦简</span></div>
+  <div class="photo-strip">
+    <div class="ps-item"><img src="assets/images/睡虎地秦简1.jpg" alt="秦简" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">睡虎地秦简</span></div>
+    <div class="ps-item"><img src="assets/images/睡虎地秦简为吏之道.jpg" alt="为吏之道" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">为吏之道</span></div>
+    <div class="ps-item"><img src="assets/images/睡虎地秦简编年纪.jpg" alt="编年纪" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">编年纪</span></div>
+    <div class="ps-item"><img src="assets/images/秦简说法.jpg" alt="秦简说法" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">秦简说法</span></div>
+    <div class="ps-item"><img src="assets/images/文物修复中心.jpg" alt="修复中心" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">文物修复中心</span></div>
+    <div class="ps-item"><img src="assets/images/博物馆星空盘.jpg" alt="星空盘" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">博物馆星空盘</span></div>
+    <div class="ps-item"><img src="assets/images/博物馆3.jpg" alt="展陈3" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">展陈记录</span></div>
+    <div class="ps-item"><img src="assets/images/博物馆4.jpg" alt="展陈4" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">研学记录</span></div>
   </div>
 
   <!-- 视频 -->
@@ -126,32 +139,26 @@
     <video src="assets/images/video_20260716_093852.mp4" controls preload="none" playsinline style="width:100%;display:block;border-radius:var(--radius)" poster="assets/images/博物馆参观1.jpg"></video>
   </div>
 
-  <!-- 烈士纪念照片群 -->
+  <!-- 烈士纪念 -->
   <div class="sec-hd"><span class="sec-title">📸 龚华铭烈士纪念广场</span></div>
   <div class="photo-strip">
-    <div class="ps-item"><img src="assets/images/烈士纪念.jpg" alt="纪念" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">纪念广场</span></div>
-    <div class="ps-item"><img src="assets/images/IMG_20260716_094037.jpg" alt="" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">走访记录</span></div>
-    <div class="ps-item"><img src="assets/images/IMG_20260716_094133.jpg" alt="" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">红色足迹</span></div>
-    <div class="ps-item"><img src="assets/images/IMG_20260716_094221.jpg" alt="" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">广场全貌</span></div>
-    <div class="ps-item"><img src="assets/images/IMG_20260716_094230.jpg" alt="" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">烈士事迹</span></div>
-    <div class="ps-item"><img src="assets/images/IMG_20260716_094251.jpg" alt="" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">瞻仰学习</span></div>
-    <div class="ps-item"><img src="assets/images/IMG_20260716_094757.jpg" alt="" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">红色教育</span></div>
-    <div class="ps-item"><img src="assets/images/IMG_20260716_094920.jpg" alt="" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">团队合影</span></div>
-    <div class="ps-item"><img src="assets/images/IMG_20260716_095049.jpg" alt="" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">赓续血脉</span></div>
+    <div class="ps-item"><img src="assets/images/烈士纪念.jpg" alt="纪念广场" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">纪念广场</span></div>
+    <div class="ps-item"><img src="assets/images/烈士像.jpg" alt="烈士像" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">烈士像</span></div>
+    <div class="ps-item"><img src="assets/images/烈士碑.jpg" alt="烈士碑" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">烈士纪念碑</span></div>
   </div>
 
-  <!-- 座谈照片 -->
+  <!-- 座谈 -->
   <div class="sec-hd"><span class="sec-title">📸 实践座谈</span></div>
   <div class="photo-grid">
     <div class="photo-card"><img src="assets/images/会晤.jpg" alt="座谈" loading="lazy" onerror="this.style.display='none'"/><span class="pc-label">座谈会</span></div>
-    <div class="photo-card"><img src="assets/images/IMG_20260717_105322.jpg" alt="交流" loading="lazy" onerror="this.style.display='none'"/><span class="pc-label">深入交流</span></div>
-    <div class="photo-card"><img src="assets/images/IMG_20260717_105345.jpg" alt="记录" loading="lazy" onerror="this.style.display='none'"/><span class="pc-label">调研记录</span></div>
+    <div class="photo-card"><img src="assets/images/组长讲话.jpg" alt="组长讲话" loading="lazy" onerror="this.style.display='none'"/><span class="pc-label">组长讲话</span></div>
+    <div class="photo-card"><img src="assets/images/党员，廉洁.jpg" alt="党员廉洁" loading="lazy" onerror="this.style.display='none'"/><span class="pc-label">党员廉洁</span></div>
   </div>
 
   <div class="sec-hd"><span class="sec-title">循迹时间线</span></div>
   <div class="timeline">
     <div class="tl-row"><div class="tl-dot">📍</div><div class="tl-card"><h4>2024.11 总书记考察云梦县博物馆</h4><p>了解文物保护研究利用，为文化传承保护提供根本遵循</p></div></div>
-    <div class="tl-row"><div class="tl-dot">📜</div><div class="tl-card"><h4>云梦秦汉简牍</h4><p>睡虎地秦简等珍贵文物，云梦深厚的历史文化底蕴</p></div></div>
+    <div class="tl-row"><div class="tl-dot">📜</div><div class="tl-card"><h4>睡虎地秦简</h4><p>为吏之道、编年纪——云梦深厚的历史文化底蕴</p></div></div>
     <div class="tl-row"><div class="tl-dot">🚩</div><div class="tl-card"><h4>2026 长征胜利90周年</h4><p>走好新时代长征路，数字赋能乡村振兴</p></div></div>
     <div class="tl-row"><div class="tl-dot">🏘</div><div class="tl-card"><h4>走进伍湖村</h4><p>从县域文化资源走向乡村实践，用青年力量服务农文旅融合</p></div></div>
   </div>
@@ -166,9 +173,10 @@
 
   <div class="photo-strip">
     <div class="ps-item"><img src="assets/images/耕作插秧1.jpg" alt="耕作" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">耕作插秧</span></div>
+    <div class="ps-item"><img src="assets/images/开插秧机器.jpg" alt="插秧机" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">开插秧机器</span></div>
+    <div class="ps-item"><img src="assets/images/开插秧机器1.jpg" alt="机械" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">机械化插秧</span></div>
     <div class="ps-item"><img src="assets/images/农民工作1.jpg" alt="田间" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">田间管理</span></div>
-    <div class="ps-item"><img src="assets/images/FiRuM.jpg" alt="产业" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">产业调研</span></div>
-    <div class="ps-item"><img src="assets/images/gMygx.jpg" alt="基地" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">稻虾基地</span></div>
+    <div class="ps-item"><img src="assets/images/新红水稻种植合作社粮食产后服务中心.jpg" alt="合作社" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">粮食产后服务中心</span></div>
   </div>
 
   <div class="kpi-row" style="margin-top:10px">
@@ -184,7 +192,7 @@
   <div class="feat-list">
     <div class="feat-row" onclick="goPage('pages/onefield.html')">
       <div class="fr-icon" style="background:linear-gradient(135deg,#8b5a2b,#c49060)">📋</div>
-      <div class="fr-body"><h4>产业档案</h4><p>伍湖虾稻米示范田块 · 完整溯源信息</p></div>
+      <div class="fr-body"><h4>产业档案</h4><p>伍湖虾稻米示范田块 · 机械化插秧 · 完整溯源信息</p></div>
       <div class="fr-arrow">→</div>
     </div>
   </div>
@@ -192,11 +200,15 @@
 
 <!-- ═══════ 农旅 ═══════ -->
 <section class="tab-page" id="tab-tour">
-  <div class="hero h-blue"><div class="h-t">生态农旅</div><div class="h-s">伍湖四海生态园 · 体验项目 · 路线规划</div><div class="h-chip">🗺 3条推荐路线 · 年接待约15万人次</div></div>
+  <div class="hero h-blue"><div class="h-t">生态农旅</div><div class="h-s">伍湖四海生态园 · 打卡景点 · 路线规划</div><div class="h-chip">🗺 3条推荐路线 · 年接待约15万人次</div></div>
 
-  <div class="photo-grid">
-    <div class="photo-card"><img src="assets/images/gMygx.jpg" alt="生态园" loading="lazy" onerror="this.style.display='none'"/><span class="pc-label">伍湖四海生态园</span></div>
-    <div class="photo-card"><img src="assets/images/FiRuM.jpg" alt="设施" loading="lazy" onerror="this.style.display='none'"/><span class="pc-label">园区设施</span></div>
+  <div class="photo-strip">
+    <div class="ps-item"><img src="assets/images/村内风光.jpg" alt="风光" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">村内风光</span></div>
+    <div class="ps-item"><img src="assets/images/村内风景.jpg" alt="风景" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">村内风景</span></div>
+    <div class="ps-item"><img src="assets/images/村内荷花.jpg" alt="荷花" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">村内荷花</span></div>
+    <div class="ps-item"><img src="assets/images/村内池塘.jpg" alt="池塘" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">村内池塘</span></div>
+    <div class="ps-item"><img src="assets/images/打卡点全景.jpg" alt="打卡点" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">打卡点全景</span></div>
+    <div class="ps-item"><img src="assets/images/打卡点特写.jpg" alt="特写" loading="lazy" onerror="this.style.display='none'"/><span class="ps-label">打卡点特写</span></div>
   </div>
 
   <div class="sec-hd"><span class="sec-title">游玩路线</span></div>
@@ -208,7 +220,7 @@
     <div class="sc-card" onclick="goPage('pages/onefield.html')"><div class="sc-img"><span>🏷</span></div><div class="sc-body"><h4>产品溯源</h4><p>扫码知来源</p></div></div>
     <div class="sc-card"><div class="sc-img"><span>🎣</span></div><div class="sc-body"><h4>钓虾体验</h4><p>生态园互动项目</p></div></div>
     <div class="sc-card"><div class="sc-img"><span>🍽</span></div><div class="sc-body"><h4>生态农庄</h4><p>农家菜品尝</p></div></div>
-    <div class="sc-card" onclick="goPage('pages/service.html')"><div class="sc-img"><span>🛠</span></div><div class="sc-body"><h4>实践服务</h4><p>AI科普·宣讲</p></div></div>
+    <div class="sc-card"><div class="sc-img"><span>🛠</span></div><div class="sc-body"><h4>实践服务</h4><p>AI科普·宣讲</p></div></div>
   </div>
   <button class="btn btn-p mt" onclick="goPage('pages/service.html')">实践服务</button>
 </section>
