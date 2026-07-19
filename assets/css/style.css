@@ -87,84 +87,24 @@ body{
 .dp-item .dp-arrow{color:#ccc;font-size:13px;margin-left:auto}
 
 /* ═══════ 3D 轮播 ═══════ */
-.carousel{
-  position:relative;margin:12px 14px 0;border-radius:var(--radius-lg);
-  overflow:hidden;box-shadow:var(--shadow-lg);background:var(--bg);
-  padding:8px 0 0
-}
-.carousel::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:4px;z-index:5;
-  background:linear-gradient(90deg,transparent,var(--nature) 20%,var(--water) 50%,var(--nature) 80%,transparent)
-}
-.cr-stage{position:relative;width:100%;min-height:320px;overflow:hidden}
-.cr-stage::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:3rem;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23f9f5f1' d='M0,192L48,181.3C96,171,192,149,288,149.3C384,149,480,171,576,181.3C672,192,768,192,864,181.3C960,171,1056,149,1152,144C1248,139,1344,149,1392,154.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
-  background-size:100% 3rem;z-index:3;pointer-events:none
-}
-.cr-track{
-  position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center
-}
-.cr-slide{
-  position:absolute;width:85%;padding-bottom:56%;border-radius:4px;overflow:hidden;
-  box-shadow:0 6px 20px rgba(0,0,0,.12);border:1px solid #d9c7b8;
-  cursor:pointer;transition:all .6s var(--ease);
-  background:#f0e9e0
-}
-.cr-slide::after{
-  content:'→';position:absolute;top:10px;right:10px;color:rgba(255,255,255,.7);
-  font-size:16px;opacity:0;transition:all .3s;text-shadow:1px 1px 2px rgba(0,0,0,.5)
-}
-.cr-slide:hover::after{opacity:1;transform:translateX(5px)}
-.cr-slide img{width:100%;height:100%;object-fit:cover;display:block}
-.cr-slide .cr-img-placeholder{
-  position:absolute;top:0;left:0;width:100%;height:100%;
-  display:flex;align-items:center;justify-content:center;font-size:48px
-}
-.cr-slide:nth-child(1) .cr-img-placeholder{background:linear-gradient(135deg,#1f5c3a,#2d8659 50%,#4A6F5D)}
-.cr-slide:nth-child(2) .cr-img-placeholder{background:linear-gradient(135deg,#5c2515,#8b5a2b 50%,#a67c52)}
-.cr-slide:nth-child(3) .cr-img-placeholder{background:linear-gradient(135deg,#0d3b4a,#2d5f9b 50%,#4a7ec0)}
-.cr-slide:nth-child(4) .cr-img-placeholder{background:linear-gradient(135deg,#1a4a4a,#3b7d8e 50%,#5aa0b4)}
-.cr-caption{
-  position:absolute;bottom:0;left:0;right:0;padding:14px;
-  background:linear-gradient(transparent,rgba(45,134,89,.8));
-  color:#fff;transform:translateY(100%);transition:transform .3s ease
-}
-.cr-slide:hover .cr-caption{transform:translateY(0)}
-.cr-caption h3{font-size:16px;font-weight:700;border-bottom:1px dashed rgba(255,255,255,.5);padding-bottom:4px;margin-bottom:4px}
-.cr-caption p{font-size:12px;opacity:.9}
-
-/* 轮播指示器 */
-.cr-indicators{
-  display:flex;justify-content:center;gap:10px;padding:12px 0;position:relative;z-index:4;background:var(--bg)
-}
-.cr-indicators button{
-  width:12px;height:12px;border-radius:50% 50% 50% 0;transform:rotate(45deg);
-  background:transparent;border:2px solid var(--water);cursor:pointer;
-  transition:all .3s ease
-}
-.cr-indicators button.active{background:var(--water);border-color:var(--water);transform:rotate(45deg) scale(1.2)}
-
-/* 轮播导航按钮 */
-.cr-prev,.cr-next{
-  position:absolute;top:42%;transform:translateY(-50%);z-index:10;
-  width:40px;height:40px;border-radius:50%;background:var(--wood);
-  border:2px solid #a67c52;color:#fff;font-size:18px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:all .3s ease;box-shadow:0 3px 8px rgba(0,0,0,.15)
-}
-.cr-prev{left:10px}.cr-next{right:10px}
+/* ═══════ 轮播（平面滑动） ═══════ */
+.carousel{margin:12px 14px 0;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);position:relative}
+.carousel::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;z-index:5;background:linear-gradient(90deg,transparent,var(--nature) 20%,var(--water) 50%,var(--nature) 80%,transparent)}
+.cr-stage{position:relative;width:100%;overflow:hidden}
+.cr-track{display:flex;transition:transform .45s ease;height:220px}
+.cr-slide{min-width:100%;position:relative;cursor:pointer;overflow:hidden;height:220px;background:#ddd}
+.cr-slide .cr-img-wrap{position:absolute;top:0;left:0;width:100%;height:100%}
+.cr-slide .cr-img-wrap img{width:100%;height:100%;object-fit:cover}
+.cr-caption{position:absolute;bottom:0;left:0;right:0;padding:16px 18px;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;display:flex;flex-direction:column;gap:4px}
+.cr-caption .cr-tag{display:inline-block;width:fit-content;padding:2px 10px;border-radius:99px;background:rgba(255,255,255,.2);font-size:11px;font-weight:600}
+.cr-caption .cr-title{font-size:17px;font-weight:800;text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.cr-prev,.cr-next{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.35);border:none;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
 .carousel:hover .cr-prev,.carousel:hover .cr-next{opacity:1}
-.cr-prev:hover,.cr-next:hover{background:#744b24;transform:translateY(-50%) scale(1.1)}
-
-@media(max-width:768px){
-  .cr-stage{min-height:260px}
-  .cr-prev,.cr-next{width:34px;height:34px;font-size:14px}
-  .cr-caption{padding:10px}
-  .cr-caption h3{font-size:14px}
-  .cr-caption p{font-size:11px}
-}
-@media(max-width:576px){.cr-stage{min-height:220px}}
+.cr-prev{left:8px}.cr-next{right:8px}
+.cr-indicators{display:flex;justify-content:center;gap:6px;padding:10px 0;background:#fff}
+.cr-indicators span{width:6px;height:6px;border-radius:3px;background:#ddd;transition:all .3s}
+.cr-indicators span.on{background:var(--nature);width:18px}
+@media(max-width:768px){.cr-track,.cr-slide{height:180px}}@media(max-width:576px){.cr-track,.cr-slide{height:150px}}
 
 /* ═══════ 数据看板 ═══════ */
 .kpi-row{display:flex;gap:8px;margin:16px 14px 0}

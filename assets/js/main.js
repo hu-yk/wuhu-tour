@@ -24,7 +24,7 @@ window.addEventListener('scroll',function(){
   if(topbar)topbar.classList.toggle('scrolled',window.scrollY>10);
 });
 
-// ── 轮播 ──
+// ── 轮播（简洁平面滑动） ──
 var HEADLINES=[
   {title:'循迹总书记足迹：2024年考察云梦县博物馆',tag:'循迹研学',url:'pages/storyDetail.html?id=museum001',img:'assets/images/museum-exterior.jpg'},
   {title:'睡虎地秦简：云梦深厚的历史文化底蕴',tag:'传统文化',url:'pages/storyDetail.html?id=jian001',img:'assets/images/qin-slips-1.jpg'},
@@ -41,33 +41,18 @@ function initCarousel(){
   if(!track)return;var total=HEADLINES.length;
   HEADLINES.forEach(function(h,i){
     var s=document.createElement('div');s.className='cr-slide';
-    s.style.zIndex=10-i;s.style.transform='translate(-50%,-50%) scale('+(1-i*0.05)+') translateZ('+(-i*30)+'px)';
-    s.style.opacity=(i===0?'1':(1-i*0.25));
     s.onclick=function(){goPage(h.url)};
-    s.innerHTML='<img src="'+h.img+'" alt="" onerror="this.parentElement.style.background=\'linear-gradient(135deg,'+['#1f5c3a','#2d5f9b','#5c2515','#1a4a4a'][i]+','+['#2d8659','#5a8ec4','#8b5a2b','#3b7d8e'][i]+')\'"/><div class="cr-caption"><h3>'+h.title+'</h3><p>'+h.tag+'</p></div>';
+    s.innerHTML='<div class="cr-img-wrap"><img src="'+h.img+'" alt="" onerror="this.style.display=\'none\'"/></div><div class="cr-caption"><span class="cr-tag">'+h.tag+'</span><span class="cr-title">'+h.title+'</span></div>';
     track.appendChild(s);
-    var d=document.createElement('button');if(i===0)d.className='active';d.onclick=function(){goCr(i)};
-    dots.appendChild(d);
+    var d=document.createElement('span');if(i===0)d.className='on';d.onclick=function(){goCr(i)};dots.appendChild(d);
   });
-  function updateSlides(){
-    var all=track.querySelectorAll('.cr-slide');
-    all.forEach(function(s,i){
-      var pos=((i-crIdx)+total)%total,str='';
-      if(pos===0){s.style.zIndex=10;s.style.opacity='1';str='translate(-50%,-50%) scale(1) translateZ(0px)';}
-      else if(pos===1||pos===total-1){var side=(pos===total-1)?-1:1;s.style.zIndex=5;s.style.opacity='.7';str='translate(calc(-50% + '+side*30+'px),-52%) scale(0.85) translateZ(-30px)';}
-      else{s.style.zIndex=0;s.style.opacity='0';str='translate(-50%,-50%) scale(0.7) translateZ(-60px)';}
-      s.style.transform=str;
-    });
-    dots.querySelectorAll('button').forEach(function(d,i){d.classList.toggle('active',i===crIdx)});
-  }
-  updateSlides();
-  function nextCr(){crIdx=(crIdx+1)%total;updateSlides()}
+  function goTo(n){crIdx=n;track.style.transform='translateX(-'+(crIdx*100)+'%)';dots.querySelectorAll('span').forEach(function(d,i){d.classList.toggle('on',i===crIdx)});}
+  function nextCr(){crIdx=(crIdx+1)%total;goTo(crIdx);}
   window.crNext=nextCr;
-  window.crPrev=function(){crIdx=(crIdx-1+total)%total;updateSlides()};
+  window.crPrev=function(){crIdx=(crIdx-1+total)%total;goTo(crIdx);};
   crTimer=setInterval(nextCr,4000);
   var stage=document.getElementById('cr-stage');
-  if(stage){stage.addEventListener('touchstart',function(){clearInterval(crTimer)},{passive:true});
-  stage.addEventListener('touchend',function(){crTimer=setInterval(nextCr,4000)});}
+  if(stage){stage.addEventListener('touchstart',function(){clearInterval(crTimer)},{passive:true});stage.addEventListener('touchend',function(){crTimer=setInterval(nextCr,4000)});}
 }
 
 // ── 目录 ──
