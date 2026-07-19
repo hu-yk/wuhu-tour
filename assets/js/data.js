@@ -14,7 +14,7 @@ var VILLAGE_DATA = {
   annualCrayfish: '约252万斤（亩产约400斤 × 6300亩）',
   annualVisitors: '约15万人次',
   annualTourismRevenue: '约200万元',
-  incomeIncrease: '户均增收约1.8万元',
+  incomeIncrease: '户均增收约1.8万元（原农民个人打工年均收入约10万元）',
   dailyWage: '约100元/天',
   volunteerStipend: '约150元/天（研学志愿者）',
   source: '陈书记（2026-07-17）'
@@ -96,7 +96,7 @@ var AGRICULTURE_MODULES = [
   },
   {
     title: '农户增收', tag: '产业效益',
-    desc: '户均增收约1.8万元。村民务工约100元/天，研学志愿者约150元/天。人均耕地1.1亩，全村518户、2130人。',
+    desc: '户均增收约1.8万元。原农民个人打工年均收入约10万元，稻虾产业显著提升了收入上限。村民务工约100元/天，研学志愿者约150元/天。人均耕地1.1亩，全村518户、2130人。',
     source: '陈书记（2026-07-17）', updated: '已核实'
   },
   {
