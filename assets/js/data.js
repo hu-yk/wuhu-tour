@@ -90,7 +90,7 @@ var STORIES = [
     content:'2024年11月，习近平总书记来到湖北省孝感市云梦县博物馆，参观出土秦汉简牍展，就文物保护研究利用和中华优秀传统文化传承发展作出重要指示。7月16日，实践队追寻总书记足迹，赴云梦县博物馆开展研学，参观博物馆展陈、睡虎地秦简专题展、文物修复中心和星空盘等展区。沿着总书记的考察足迹，深刻学习历史文化资源保护利用经验，增强文化自信。',
     action:'追寻足迹：参观云梦县博物馆展陈、睡虎地秦简、星空盘、文物修复中心。拍摄研学视频与照片资料。',
     imgs: [IMG.museumExterior, IMG.museumExterior1, IMG.museumExterior2, IMG.museumVisit, IMG.museum1, IMG.museum2, IMG.museum3, IMG.museum4, IMG.museumStarry],
-    video: IMG.museumVideo,
+    video: IMG.museumVideo, videoLabel: '博物馆内',
     source:'2026-07-16 现场研学', status:'已完成' },
   { id:'jian001', title:'睡虎地秦简', type:'传统文化资源',
     content:'睡虎地秦简是云梦县博物馆的镇馆之宝，包括《为吏之道》《编年纪》等珍贵简牍。这些竹简出土于云梦睡虎地秦墓，真实记录秦代法律制度、官吏管理和编年历史，是中国考古学重大发现之一。博物馆通过"秦简说法"等展示板块，让游客近距离了解秦简的历史价值。云梦深厚的秦汉文化底蕴，正成为推进文化传承保护与文旅融合发展的重要基础。',

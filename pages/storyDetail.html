@@ -38,7 +38,8 @@
   // 视频
   if(story.video){
     var vd=document.getElementById('video-area');
-    vd.innerHTML='<div class="sec-hd"><span class="sec-title">🎬 相关视频</span></div><div class="info-block" style="padding:0;overflow:hidden"><video src="../'+story.video+'" controls preload="none" playsinline style="width:100%;display:block;border-radius:12px"></video></div>'
+    var vlabel=story.videoLabel||story.video.split('/').pop().replace('.mp4','');
+    vd.innerHTML='<div class="sec-hd"><span class="sec-title">🎬 '+vlabel+'</span></div><div class="info-block" style="padding:0;overflow:hidden"><video src="../'+story.video+'" controls preload="none" playsinline style="width:100%;display:block;border-radius:12px"></video></div>'
   }
 })();
 </script>
