@@ -19,18 +19,17 @@ document.querySelectorAll('.nav-btn').forEach(function(b){
 });
 function goPage(u){window.location.href=u}
 
-// ── 滚动切换导航栏背景 ──
 window.addEventListener('scroll',function(){
   var topbar=document.getElementById('topbar');
   if(topbar)topbar.classList.toggle('scrolled',window.scrollY>10);
 });
 
-// ── 轮播 ──
+// ── 轮播（真实照片） ──
 var HEADLINES=[
-  {title:'循迹总书记足迹：2024年考察云梦县博物馆',tag:'循迹研学',url:'pages/storyDetail.html?id=museum001'},
-  {title:'红军长征胜利90周年：走好新时代长征路',tag:'红色基因',url:'pages/storyDetail.html?id=foot001'},
-  {title:'伍湖村稻虾共作：一田双收的绿色密码',tag:'产业聚焦',url:'pages/onefield.html'},
-  {title:'伍湖四海生态园：农文旅融合新体验',tag:'旅游动态',url:'pages/routeDetail.html?id=route001'}
+  {title:'循迹总书记足迹：2024年考察云梦县博物馆',tag:'循迹研学',url:'pages/storyDetail.html?id=museum001',img:'assets/images/博物馆外景.jpg'},
+  {title:'红军长征胜利90周年：走好新时代长征路',tag:'红色基因',url:'pages/storyDetail.html?id=foot001',img:'assets/images/烈士纪念.jpg'},
+  {title:'6300亩稻田：一田双收的绿色密码',tag:'产业聚焦',url:'pages/onefield.html',img:'assets/images/耕作插秧1.jpg'},
+  {title:'伍湖四海生态园：农文旅融合新体验',tag:'旅游动态',url:'pages/routeDetail.html?id=route001',img:'assets/images/gMygx.jpg'}
 ];
 var crIdx=0,crTimer;
 
@@ -43,7 +42,7 @@ function initCarousel(){
     s.style.zIndex=10-i;s.style.transform='translate(-50%,-50%) scale('+(1-i*0.05)+') translateZ('+(-i*30)+'px)';
     s.style.opacity=(i===0?'1':(1-i*0.25));
     s.onclick=function(){goPage(h.url)};
-    s.innerHTML='<div class="cr-img-placeholder">'+(i===0?'🏛':i===1?'🚩':i===2?'🌾':'🎣')+'</div><div class="cr-caption"><h3>'+h.title+'</h3><p>'+h.tag+'</p></div>';
+    s.innerHTML='<img src="'+h.img+'" alt="'+h.title+'" onerror="this.parentElement.style.background=\'linear-gradient(135deg,'+['#1f5c3a','#5c2515','#0d3b4a','#1a4a4a'][i]+','+['#2d8659','#8b5a2b','#2d5f9b','#3b7d8e'][i]+')\'"/><div class="cr-caption"><h3>'+h.title+'</h3><p>'+h.tag+'</p></div>';
     track.appendChild(s);
     var d=document.createElement('button');if(i===0)d.className='active';d.onclick=function(){goCr(i)};
     dots.appendChild(d);
@@ -52,34 +51,23 @@ function initCarousel(){
   function updateSlides(){
     var all=track.querySelectorAll('.cr-slide');
     all.forEach(function(s,i){
-      var pos=((i-crIdx)+total)%total;
-      var str='';
-      if(pos===0){
-        s.style.zIndex=10;s.style.opacity='1';
-        str='translate(-50%,-50%) scale(1) translateZ(0px)';
-      }else if(pos===1||pos===total-1){
-        var side=(pos===total-1)?-1:1;s.style.zIndex=5; s.style.opacity='.7';
-        str='translate(calc(-50% + '+side*30+'px),-52%) scale(0.85) translateZ(-30px)';
-      }else{
-        s.style.zIndex=0;s.style.opacity='0';str='translate(-50%,-50%) scale(0.7) translateZ(-60px)';
-      }
+      var pos=((i-crIdx)+total)%total,str='';
+      if(pos===0){s.style.zIndex=10;s.style.opacity='1';str='translate(-50%,-50%) scale(1) translateZ(0px)';}
+      else if(pos===1||pos===total-1){var side=(pos===total-1)?-1:1;s.style.zIndex=5;s.style.opacity='.7';str='translate(calc(-50% + '+side*30+'px),-52%) scale(0.85) translateZ(-30px)';}
+      else{s.style.zIndex=0;s.style.opacity='0';str='translate(-50%,-50%) scale(0.7) translateZ(-60px)';}
       s.style.transform=str;
     });
     dots.querySelectorAll('button').forEach(function(d,i){d.classList.toggle('active',i===crIdx)});
   }
 
   updateSlides();
-
   function nextCr(){crIdx=(crIdx+1)%total;updateSlides()}
   window.crNext=nextCr;
   window.crPrev=function(){crIdx=(crIdx-1+total)%total;updateSlides()};
-
   crTimer=setInterval(nextCr,4000);
   var stage=document.getElementById('cr-stage');
-  if(stage){
-    stage.addEventListener('touchstart',function(){clearInterval(crTimer)},{passive:true});
-    stage.addEventListener('touchend',function(){crTimer=setInterval(nextCr,4000)});
-  }
+  if(stage){stage.addEventListener('touchstart',function(){clearInterval(crTimer)},{passive:true});
+  stage.addEventListener('touchend',function(){crTimer=setInterval(nextCr,4000)});}
 }
 
 // ── 目录 ──
@@ -95,32 +83,38 @@ function doLogin(){
 function updateLoginUI(u){var b=document.getElementById('login-btn');if(!b)return;if(u){b.innerHTML='<span>🟢</span>'+u.nickname;b.classList.add('logged');b.onclick=function(){if(confirm('退出登录？')){localStorage.removeItem('wuhu_user');updateLoginUI(null)}}}else{b.innerHTML='👤 登录';b.classList.remove('logged');b.onclick=doLogin}}
 function initLogin(){var u=JSON.parse(localStorage.getItem('wuhu_user')||'null');updateLoginUI(u)}
 
-// ── 渲染列表 ──
-function makeDC(ic,cl,ti,tg,sub,url){
+// ── 渲染列表（带真实图片） ──
+var DC_COLORS=['#9b2d2d','#2d5f9b','#2c6e3f','#8b5a2b','#a65d2e','#6d3b8b'];
+var DC_ICONS=['🏛','📜','🚩','🏘','🪖','📖'];
+
+function makeDC(img,cl,ti,tg,sub,url){
   var d=document.createElement('div');d.className='dc-card';
   var bg=cl||'linear-gradient(135deg,#2d8659,#4A6F5D)';
   d.onclick=url?function(){goPage(url)}:null;
-  d.innerHTML='<div class="dc-top" style="background:'+bg+'">'+ic+'</div><div class="dc-body"><div class="dc-badge">'+tg+'</div><div class="dc-title">'+ti+'</div><div class="dc-sub">'+sub+'</div></div>';
+  d.innerHTML='<div class="dc-top" style="background:'+bg+'">'+(img?'<img src="'+img+'" style="width:100%;height:120px;object-fit:cover;display:block" onerror="this.style.display=\'none\'">':'')+'</div><div class="dc-body"><div class="dc-badge">'+tg+'</div><div class="dc-title">'+ti+'</div><div class="dc-sub">'+sub+'</div></div>';
   return d
 }
+
 function renderStories(){
-  var l=document.getElementById('story-list'),cl=['linear-gradient(135deg,#9b2d2d,#c45050)','linear-gradient(135deg,#2d5f9b,#5a8ec4)','linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#8b5a2b,#c49060)','linear-gradient(135deg,#a65d2e,#d48058)','linear-gradient(135deg,#6d3b8b,#9b6eb0)'];
-  var ic=['🏛','📜','🚩','🏘','🪖','📖'];if(!l||!STORIES)return;
-  STORIES.forEach(function(s,i){l.appendChild(makeDC(ic[i%6],cl[i%6],s.title,s.type,s.action,'pages/storyDetail.html?id='+s.id))})
+  var l=document.getElementById('story-list');
+  var cl=['linear-gradient(135deg,#9b2d2d,#c45050)','linear-gradient(135deg,#2d5f9b,#5a8ec4)','linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#8b5a2b,#c49060)','linear-gradient(135deg,#a65d2e,#d48058)','linear-gradient(135deg,#6d3b8b,#9b6eb0)'];
+  if(!l||!STORIES)return;
+  STORIES.forEach(function(s,i){l.appendChild(makeDC(s.img,cl[i%6],s.title,s.type,s.action,'pages/storyDetail.html?id='+s.id))})
 }
+
 function renderAgri(){
-  var l=document.getElementById('agri-list'),cl=['linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#2d5f9b,#5a8ec4)','linear-gradient(135deg,#a65d2e,#d48058)'];
-  var ic=['🌾','💧','🏭'];if(!l||!AGRICULTURE_MODULES)return;
-  AGRICULTURE_MODULES.forEach(function(m,i){l.appendChild(makeDC(ic[i%3],cl[i%3],m.title,m.tag,m.desc))})
+  var l=document.getElementById('agri-list');
+  var cl=['linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#2d5f9b,#5a8ec4)','linear-gradient(135deg,#a65d2e,#d48058)','linear-gradient(135deg,#8b5a2b,#c49060)','linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#3b7d8e,#5aa0b4)'];
+  if(!l||!AGRICULTURE_MODULES)return;
+  AGRICULTURE_MODULES.forEach(function(m,i){l.appendChild(makeDC(m.img,cl[i%6],m.title,m.tag,m.desc))})
 }
+
 function renderRoutes(){
-  var l=document.getElementById('route-list'),cl=['linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#9b2d2d,#c45050)','linear-gradient(135deg,#2d5f9b,#5a8ec4)'];
-  var ic=['🥾','🏛','👨‍👩‍👧'];if(!l||!ROUTES)return;
-  ROUTES.forEach(function(r,i){l.appendChild(makeDC(ic[i%3],cl[i%3],r.name,'⏱ '+r.time,r.desc,'pages/routeDetail.html?id='+r.id))})
+  var l=document.getElementById('route-list');
+  var cl=['linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#9b2d2d,#c45050)','linear-gradient(135deg,#2d5f9b,#5a8ec4)'];
+  if(!l||!ROUTES)return;
+  ROUTES.forEach(function(r,i){l.appendChild(makeDC(r.img,cl[i%3],r.name,'⏱ '+r.time,r.desc,'pages/routeDetail.html?id='+r.id))})
 }
 
 // ── 启动 ──
-document.addEventListener('DOMContentLoaded',function(){
-  initCarousel();initLogin();
-  var sv=document.getElementById('kpi-v');if(sv){var s=JSON.parse(localStorage.getItem('surveyList')||'[]');sv.textContent=(1280+s.length).toLocaleString()}
-});
+document.addEventListener('DOMContentLoaded',function(){initCarousel();initLogin()});
