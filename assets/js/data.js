@@ -20,7 +20,6 @@ var IMG = {
   museumVideo:     'assets/images/video_20260716_093852.mp4',
 
   // 龚华铭烈士纪念广场
-  martyrMemorial:  'assets/images/烈士纪念.jpg',
   martyrStatue:    'assets/images/烈士像.jpg',
   martyrMonument:  'assets/images/烈士碑.jpg',
 
@@ -105,7 +104,7 @@ var STORIES = [
   { id:'red001', title:'龚华铭烈士纪念广场', type:'红色文化',
     content:'龚华铭烈士纪念广场是伍湖村重要的红色教育基地，广场中心矗立着烈士纪念碑，碑旁建有烈士像。实践队于7月16日前往纪念广场开展红色研学活动，全体队员瞻仰烈士纪念碑、学习龚华铭烈士的英勇事迹，在广场上重温入党誓词。追寻红色足迹，赓续红色血脉，将革命精神内化于心、外化于行，引导青年党员在乡村振兴一线践行初心使命。',
     action:'瞻仰烈士纪念碑与烈士像；学习龚华铭烈士英勇事迹；重温入党誓词；拍摄红色研学记录。',
-    imgs: [IMG.martyrMemorial, IMG.martyrStatue, IMG.martyrMonument],
+    imgs: [IMG.martyrStatue, IMG.martyrMonument],
     source:'2026-07-16 现场走访', status:'已完成' },
   { id:'talk001', title:'座谈会与党员教育', type:'人物故事',
     content:'7月17日，实践队在伍湖村召开座谈会。组长在会议上讲话，向村方介绍团队成员和实践计划，并就伍湖村产业发展、文化传承和数字化建设等议题提出团队的服务方案。会议期间还开展党员廉洁教育，强调"党员，廉洁"的纪律底线，引导青年党员在实践中保持清正廉洁作风，用行动展现新时代青年党员的良好形象。',
