@@ -26,13 +26,13 @@ window.addEventListener('scroll',function(){
 
 // ── 轮播 ──
 var HEADLINES=[
-  {title:'循迹总书记足迹：2024年考察云梦县博物馆',tag:'循迹研学',url:'pages/storyDetail.html?id=museum001',img:'assets/images/博物馆外景.jpg'},
-  {title:'睡虎地秦简：云梦深厚的历史文化底蕴',tag:'传统文化',url:'pages/storyDetail.html?id=jian001',img:'assets/images/睡虎地秦简1.jpg'},
-  {title:'6300亩稻田：一田双收的绿色密码',tag:'产业聚焦',url:'pages/storyDetail.html?id=farm001',img:'assets/images/耕作插秧1.jpg'},
-  {title:'华农沈院长与陈书记会谈：实践基地揭牌',tag:'基地合作',url:'pages/storyDetail.html?id=meeting001',img:'assets/images/华中农业大学沈院长与陈书记递送基地牌匾.jpg'},
-  {title:'五湖四海生态园：农文旅融合新体验',tag:'旅游动态',url:'pages/storyDetail.html?id=eco001',img:'assets/images/五湖四海生态园.jpg'},
-  {title:'伍子游乐园：亲子家庭的快乐天地',tag:'亲子旅游',url:'pages/storyDetail.html?id=amuse001',img:'assets/images/伍子游乐园.jpg'},
-  {title:'水上餐厅：荷塘边的农家美味',tag:'餐饮休闲',url:'pages/storyDetail.html?id=water001',img:'assets/images/水上餐厅.jpg'},
+  {title:'循迹总书记足迹：2024年考察云梦县博物馆',tag:'循迹研学',url:'pages/storyDetail.html?id=museum001',img:'assets/images/museum-exterior.jpg'},
+  {title:'睡虎地秦简：云梦深厚的历史文化底蕴',tag:'传统文化',url:'pages/storyDetail.html?id=jian001',img:'assets/images/qin-slips-1.jpg'},
+  {title:'6300亩稻田：一田双收的绿色密码',tag:'产业聚焦',url:'pages/storyDetail.html?id=farm001',img:'assets/images/farming-planting.jpg'},
+  {title:'华农沈院长与陈书记会谈：实践基地揭牌',tag:'基地合作',url:'pages/storyDetail.html?id=meeting001',img:'assets/images/plaque.jpg'},
+  {title:'五湖四海生态园：农文旅融合新体验',tag:'旅游动态',url:'pages/storyDetail.html?id=eco001',img:'assets/images/eco-park.jpg'},
+  {title:'伍子游乐园：亲子家庭的快乐天地',tag:'亲子旅游',url:'pages/storyDetail.html?id=amuse001',img:'assets/images/amusement-park.jpg'},
+  {title:'水上餐厅：荷塘边的农家美味',tag:'餐饮休闲',url:'pages/storyDetail.html?id=water001',img:'assets/images/water-restaurant.jpg'},
 ];
 var crIdx=0,crTimer;
 
