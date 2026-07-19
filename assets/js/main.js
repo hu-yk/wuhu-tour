@@ -97,9 +97,12 @@ function makeDC(img,cl,ti,tg,sub,url){
 
 function renderStories(){
   var l=document.getElementById('story-list');
-  var cl=['linear-gradient(135deg,#9b2d2d,#c45050)','linear-gradient(135deg,#2d5f9b,#5a8ec4)','linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#8b5a2b,#c49060)','linear-gradient(135deg,#a65d2e,#d48058)','linear-gradient(135deg,#6d3b8b,#9b6eb0)'];
+  var cl=['linear-gradient(135deg,#9b2d2d,#c45050)','linear-gradient(135deg,#2d5f9b,#5a8ec4)','linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#8b5a2b,#c49060)','linear-gradient(135deg,#a65d2e,#d48058)','linear-gradient(135deg,#6d3b8b,#9b6eb0)','linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#9b2d2d,#c45050)','linear-gradient(135deg,#2d5f9b,#5a8ec4)','linear-gradient(135deg,#a65d2e,#d48058)','linear-gradient(135deg,#6d3b8b,#9b6eb0)','linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#3b7d8e,#5aa0b4)'];
   if(!l||!STORIES)return;
-  STORIES.forEach(function(s,i){l.appendChild(makeDC(s.img,cl[i%6],s.title,s.type,s.action,'pages/storyDetail.html?id='+s.id))})
+  STORIES.forEach(function(s,i){
+    var thumb=s.imgs&&s.imgs[0]?s.imgs[0]:s.img||'';
+    l.appendChild(makeDC(thumb,cl[i%13],s.title,s.type,s.action,'pages/storyDetail.html?id='+s.id))
+  })
 }
 
 function renderAgri(){
