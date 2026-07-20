@@ -76,4 +76,16 @@ function renderRoutes(){
   var l=document.getElementById('route-list');if(!l||!ROUTES)return;
   ROUTES.forEach(function(r,i){l.appendChild(makeDC(r.img,DC_CLR[i%8],r.name,'⏱ '+r.time,r.desc,'pages/routeDetail.html?id='+r.id))})
 }
-document.addEventListener('DOMContentLoaded',function(){initCarousel();initLogin()});
+document.addEventListener('DOMContentLoaded',function(){initCarousel();initLogin();initQR()});
+
+// ── 二维码弹窗 ──
+var qrGenerated=false;
+function showQR(){
+  document.getElementById('qr-overlay').classList.add('show');
+  if(!qrGenerated&&typeof QRCode!=='undefined'){
+    qrGenerated=true;
+    new QRCode(document.getElementById('qrcode'),{text:window.location.href,width:200,height:200,colorDark:'#333',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});
+  }
+}
+function closeQR(e){if(!e||e.target===document.getElementById('qr-overlay'))document.getElementById('qr-overlay').classList.remove('show')}
+function initQR(){}

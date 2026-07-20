@@ -119,6 +119,16 @@
     <div class="sc-card"><div class="sc-img"><span>🍽</span></div><div class="sc-body"><h4>水上餐厅</h4><p>农家菜品尝</p></div></div>
     <div class="sc-card"><div class="sc-img"><span>🏡</span></div><div class="sc-body"><h4>特色民宿</h4><p>住下来慢慢玩</p></div></div>
   </div>
+  <!-- 悬浮二维码按钮 -->
+  <div class="qr-float" id="qr-float" onclick="showQR()">📱</div>
+  <div class="qr-overlay" id="qr-overlay" onclick="closeQR(event)">
+    <div class="qr-card">
+      <div class="qr-card-hd"><span>扫码打开伍湖导览</span><button onclick="closeQR()">✕</button></div>
+      <div id="qrcode"></div>
+      <p style="font-size:13px;color:#888;text-align:center;margin-top:8px">微信扫一扫，立即出发</p>
+    </div>
+  </div>
+
 </section>
 
 </main>
