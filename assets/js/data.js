@@ -1,4 +1,4 @@
-// ══════ 一码游伍湖 · 共享数据 ══════
+// ══════ 云梦伍湖 · 共享数据 ══════
 
 var IMG = {
   museumExterior:  'assets/images/museum-exterior.jpg',

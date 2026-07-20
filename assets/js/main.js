@@ -1,4 +1,4 @@
-// ══════ 一码游伍湖 · 主逻辑 ══════
+// ══════ 云梦伍湖 · 主逻辑 ══════
 var tabMap={home:'tab-home',culture:'tab-culture',farming:'tab-farming',tour:'tab-tour'};
 function switchTab(tid){
   document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active')});

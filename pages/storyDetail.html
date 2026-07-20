@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<title>故事详情 · 一码游伍湖</title>
+<title>故事详情 · 云梦伍湖</title>
 <link rel="stylesheet" href="../assets/css/style.css"/>
 </head>
 <body>
@@ -27,7 +27,7 @@
   document.getElementById('detail-content').textContent=story.content;
   document.getElementById('detail-action').textContent=story.action;
   if(story.source){var el=document.getElementById('detail-source');el.textContent='来源：'+(story.source||'');el.style.display=''}
-  document.title=story.title+' · 一码游伍湖';
+  document.title=story.title+' · 云梦伍湖';
 
   // 照片
   if(story.imgs && story.imgs.length){
