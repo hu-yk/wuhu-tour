@@ -1,18 +1,24 @@
-// ══════ 云梦伍湖 · 主逻辑 ══════
-var tabMap={home:'tab-home',culture:'tab-culture',farming:'tab-farming',tour:'tab-tour'};
-function switchTab(tid){
-  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active')});
-  var btn=document.querySelector('.nav-btn[data-tab="'+tid+'"]');if(btn)btn.classList.add('active');
-  document.querySelectorAll('.tab-page').forEach(function(p){p.classList.remove('active')});
-  var pg=document.getElementById(tabMap[tid]);if(pg)pg.classList.add('active');
-  closeDir();window.scrollTo({top:0,behavior:'instant'});
-  if(tid==='culture'&&!window._cr){window._cr=true;renderCultureStories()}
-  if(tid==='farming'&&!window._fr){window._fr=true;renderAgri()}
-  if(tid==='tour'&&!window._tr){window._tr=true;renderRoutes();renderTourStories()}
-}
-document.querySelectorAll('.nav-btn').forEach(function(b){b.addEventListener('click',function(){var t=this.getAttribute('data-tab');if(t==='menu'){toggleDir();return}switchTab(t)})});
+// ══════ 云梦伍湖 · 网页版主逻辑 ══════
 function goPage(u){window.location.href=u}
-window.addEventListener('scroll',function(){var t=document.getElementById('topbar');if(t)t.classList.toggle('scrolled',window.scrollY>10)});
+function toggleDir(){var p=document.getElementById('dir-overlay');p.classList.contains('open')?closeDir():p.classList.add('open')}
+function closeDir(){document.getElementById('dir-overlay').classList.remove('open')}
+
+// ── 滚动到指定区块 ──
+function scrollToSection(id){
+  var el=document.getElementById('sec-'+id);if(el){el.scrollIntoView({behavior:'smooth',block:'start'})}
+  closeDir();
+  document.querySelectorAll('.desktop-nav a').forEach(function(a){a.classList.remove('active')});
+  var link=document.querySelector('.desktop-nav a[onclick*="'+id+'"]');if(link)link.classList.add('active');
+}
+
+// ── 滚动监听 ──
+window.addEventListener('scroll',function(){
+  var t=document.getElementById('topbar');if(t)t.classList.toggle('scrolled',window.scrollY>10);
+  var secs=['home','culture','farming','tour'];var cur='home';
+  secs.forEach(function(s){var el=document.getElementById('sec-'+s);if(el&&window.scrollY>=el.offsetTop-120)cur=s});
+  document.querySelectorAll('.desktop-nav a').forEach(function(a){a.classList.remove('active')});
+  var lk=document.querySelector('.desktop-nav a[onclick*="'+cur+'"]');if(lk)lk.classList.add('active');
+});
 
 // ── 轮播 ──
 var HEADLINES=[
@@ -40,10 +46,6 @@ function initCarousel(){
   if(stage){stage.addEventListener('touchstart',function(){clearInterval(crTimer)},{passive:true});stage.addEventListener('touchend',function(){crTimer=setInterval(nextCr,4000)});}
 }
 
-// ── 目录 ──
-function toggleDir(){var p=document.getElementById('dir-overlay');p.classList.contains('open')?closeDir():p.classList.add('open')}
-function closeDir(){document.getElementById('dir-overlay').classList.remove('open')}
-
 // ── 登录 ──
 var WEIXIN_APPID='';
 function doLogin(){if(!WEIXIN_APPID){var n=prompt('请输入昵称','伍湖游客');if(n){var u={nickname:n,avatar:'',time:Date.now(),demo:true};localStorage.setItem('wuhu_user',JSON.stringify(u));updateLoginUI(u)}return}var uri=encodeURIComponent(location.origin+'/pages/wxCallback.html'),st=Math.random().toString(36).substr(2);localStorage.setItem('wx_state',st);location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid='+WEIXIN_APPID+'&redirect_uri='+uri+'&response_type=code&scope=snsapi_userinfo&state='+st+'#wechat_redirect'}
@@ -53,39 +55,31 @@ function initLogin(){var u=JSON.parse(localStorage.getItem('wuhu_user')||'null')
 // ── 渲染 ──
 function makeDC(img,cl,ti,tg,sub,url){
   var d=document.createElement('div');d.className='dc-card';d.onclick=url?function(){goPage(url)}:null;
-  d.innerHTML='<div class="dc-top" style="background:'+(cl||'linear-gradient(135deg,#2d8659,#4A6F5D)')+'">'+(img?'<img src="'+img+'" style="width:100%;height:120px;object-fit:cover;display:block" onerror="this.style.display=\'none\'">':'')+'</div><div class="dc-body"><div class="dc-badge">'+tg+'</div><div class="dc-title">'+ti+'</div><div class="dc-sub">'+sub+'</div></div>';
-  return d
+  d.innerHTML='<div class="dc-top" style="background:'+(cl||'linear-gradient(135deg,#2d8659,#4A6F5D)')+'">'+(img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display=\'none\'">':'')+'</div><div class="dc-body"><div class="dc-badge">'+tg+'</div><div class="dc-title">'+ti+'</div><div class="dc-sub">'+sub+'</div></div>';return d
 }
-var DC_CLR=['linear-gradient(135deg,#9b2d2d,#c45050)','linear-gradient(135deg,#2d5f9b,#5a8ec4)','linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#8b5a2b,#c49060)','linear-gradient(135deg,#a65d2e,#d48058)','linear-gradient(135deg,#6d3b8b,#9b6eb0)','linear-gradient(135deg,#3b7d8e,#5aa0b4)','linear-gradient(135deg,#1f5c3a,#4A6F5D)'];
+var CLR=['linear-gradient(135deg,#9b2d2d,#c45050)','linear-gradient(135deg,#2d5f9b,#5a8ec4)','linear-gradient(135deg,#2d8659,#6aaa6a)','linear-gradient(135deg,#8b5a2b,#c49060)','linear-gradient(135deg,#a65d2e,#d48058)','linear-gradient(135deg,#6d3b8b,#9b6eb0)','linear-gradient(135deg,#3b7d8e,#5aa0b4)','linear-gradient(135deg,#1f5c3a,#4A6F5D)'];
 
-var CULTURE_IDS=['museum001','jian001','red001'];
-function renderCultureStories(){
-  var l=document.getElementById('story-list');if(!l||!STORIES)return;
-  CULTURE_IDS.forEach(function(id,i){var s=STORIES.find(function(x){return x.id===id});if(!s)return;var thumb=s.imgs&&s.imgs[0]?s.imgs[0]:s.img||'';l.appendChild(makeDC(thumb,DC_CLR[i%8],s.title,s.type,s.action,'pages/storyDetail.html?id='+s.id))})
+function renderAll(){
+  // 文化研学
+  var C_IDS=['museum001','jian001','red001'];
+  var sl=document.getElementById('story-list');
+  if(sl&&typeof STORIES!=='undefined'){C_IDS.forEach(function(id,i){var s=STORIES.find(function(x){return x.id===id});if(!s)return;var t=s.imgs&&s.imgs[0]?s.imgs[0]:'';sl.appendChild(makeDC(t,CLR[i%8],s.title,s.type,s.action,'pages/storyDetail.html?id='+s.id))})}
+  // 稻虾
+  var al=document.getElementById('agri-list');
+  if(al&&typeof AGRICULTURE_MODULES!=='undefined'){AGRICULTURE_MODULES.forEach(function(m,i){al.appendChild(makeDC(m.img,CLR[i%8],m.title,m.tag,m.desc))})}
+  // 路线
+  var rl=document.getElementById('route-list');
+  if(rl&&typeof ROUTES!=='undefined'){ROUTES.forEach(function(r,i){rl.appendChild(makeDC(r.img,CLR[i%8],r.name,'⏱ '+r.time,r.desc,'pages/routeDetail.html?id='+r.id))})}
+  // 农旅故事
+  var T_IDS=['eco001','amuse001','water001','village001','minsu001'];
+  var tl=document.getElementById('tour-story-list');
+  if(tl&&typeof STORIES!=='undefined'){T_IDS.forEach(function(id,i){var s=STORIES.find(function(x){return x.id===id});if(!s)return;var t=s.imgs&&s.imgs[0]?s.imgs[0]:'';tl.appendChild(makeDC(t,CLR[(i+3)%8],s.title,s.type,s.action,'pages/storyDetail.html?id='+s.id))})}
 }
-function renderAgri(){
-  var l=document.getElementById('agri-list');if(!l||!AGRICULTURE_MODULES)return;
-  AGRICULTURE_MODULES.forEach(function(m,i){l.appendChild(makeDC(m.img,DC_CLR[i%8],m.title,m.tag,m.desc))})
-}
-var TOUR_IDS=['eco001','amuse001','water001','village001','minsu001'];
-function renderTourStories(){
-  var l=document.getElementById('tour-story-list');if(!l||!STORIES)return;
-  TOUR_IDS.forEach(function(id,i){var s=STORIES.find(function(x){return x.id===id});if(!s)return;var thumb=s.imgs&&s.imgs[0]?s.imgs[0]:s.img||'';l.appendChild(makeDC(thumb,DC_CLR[(i+3)%8],s.title,s.type,s.action,'pages/storyDetail.html?id='+s.id))})
-}
-function renderRoutes(){
-  var l=document.getElementById('route-list');if(!l||!ROUTES)return;
-  ROUTES.forEach(function(r,i){l.appendChild(makeDC(r.img,DC_CLR[i%8],r.name,'⏱ '+r.time,r.desc,'pages/routeDetail.html?id='+r.id))})
-}
-document.addEventListener('DOMContentLoaded',function(){initCarousel();initLogin();initQR()});
 
-// ── 二维码弹窗 ──
-var qrGenerated=false;
-function showQR(){
-  document.getElementById('qr-overlay').classList.add('show');
-  if(!qrGenerated&&typeof QRCode!=='undefined'){
-    qrGenerated=true;
-    new QRCode(document.getElementById('qrcode'),{text:window.location.href,width:200,height:200,colorDark:'#333',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});
-  }
-}
+// ── QR ──
+var qrG=false;
+function showQR(){document.getElementById('qr-overlay').classList.add('show');if(!qrG&&typeof QRCode!=='undefined'){qrG=true;new QRCode(document.getElementById('qrcode'),{text:window.location.href,width:200,height:200,colorDark:'#333',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M})}}
 function closeQR(e){if(!e||e.target===document.getElementById('qr-overlay'))document.getElementById('qr-overlay').classList.remove('show')}
-function initQR(){}
+
+// ── 启动 ──
+document.addEventListener('DOMContentLoaded',function(){initCarousel();initLogin();renderAll()});

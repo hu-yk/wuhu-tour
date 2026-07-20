@@ -1,2 +1,0 @@
-<!-- 首页 —— 直接跳转到 webview 加载 H5 -->
-<web-view src="{{url}}"></web-view>

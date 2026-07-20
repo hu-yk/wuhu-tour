@@ -1,2 +1,0 @@
-<!-- webview 容器页 —— 支持从首页传入自定义 URL -->
-<web-view src="{{url}}"></web-view>

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta property="og:title" content="云梦伍湖"/>
 <meta property="og:description" content="伍湖村旅游导览 · 稻虾共作 · 生态休闲"/>
 <meta property="og:image" content="assets/images/museum-exterior.jpg"/>
@@ -12,10 +12,17 @@
 <body>
 
 <header class="topbar" id="topbar">
-  <div class="t-l"><span class="t-brand">一码游<em>伍湖</em></span></div>
+  <div class="t-l"><span class="t-brand">游<em>伍湖</em></span></div>
+  <nav class="desktop-nav">
+    <a onclick="scrollToSection('home')" class="active">首页</a>
+    <a onclick="scrollToSection('culture')">文化研学</a>
+    <a onclick="scrollToSection('farming')">稻虾产业</a>
+    <a onclick="scrollToSection('tour')">休闲游玩</a>
+    <a onclick="goPage('pages/about.html')">关于伍湖</a>
+  </nav>
   <div class="t-r">
     <button class="t-btn" id="login-btn" onclick="doLogin()">👤 登录</button>
-    <button class="t-menu" onclick="toggleDir()" style="margin-left:2px">☰</button>
+    <button class="t-menu" onclick="toggleDir()">☰</button>
   </div>
 </header>
 
@@ -23,10 +30,10 @@
   <div class="dir-panel">
     <div class="dp-hd"><h3>全站导航</h3><button class="dp-close" onclick="closeDir()">✕</button></div>
     <div class="dp-list">
-      <a class="dp-item" onclick="switchTab('home');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#2d8659,#4A6F5D)">🏠</div>首页</a>
-      <a class="dp-item" onclick="switchTab('culture');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#9b2d2d,#c45050)">🚩</div>文化研学</a>
-      <a class="dp-item" onclick="switchTab('farming');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#2d8659,#6aaa6a)">🌾</div>稻虾产业</a>
-      <a class="dp-item" onclick="switchTab('tour');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#2d5f9b,#5a8ec4)">🎣</div>休闲游玩</a>
+      <a class="dp-item" onclick="scrollToSection('home');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#2d8659,#4A6F5D)">🏠</div>首页</a>
+      <a class="dp-item" onclick="scrollToSection('culture');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#9b2d2d,#c45050)">🚩</div>文化研学</a>
+      <a class="dp-item" onclick="scrollToSection('farming');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#2d8659,#6aaa6a)">🌾</div>稻虾产业</a>
+      <a class="dp-item" onclick="scrollToSection('tour');closeDir()"><div class="dp-badge" style="background:linear-gradient(135deg,#2d5f9b,#5a8ec4)">🎣</div>休闲游玩</a>
       <a class="dp-item" onclick="goPage('pages/onefield.html')"><div class="dp-badge" style="background:linear-gradient(135deg,#8b5a2b,#c49060)">📋</div>特产溯源</a>
       <a class="dp-item" onclick="goPage('pages/survey.html')"><div class="dp-badge" style="background:linear-gradient(135deg,#a65d2e,#d48058)">💬</div>游客反馈</a>
       <a class="dp-item" onclick="goPage('pages/about.html')"><div class="dp-badge" style="background:linear-gradient(135deg,#3b7d8e,#5aa0b4)">ℹ</div>关于伍湖</a>
@@ -36,8 +43,8 @@
 
 <main>
 
-<!-- ═══════ 首页 ═══════ -->
-<section class="tab-page active" id="tab-home">
+<!-- ═══════ 首页 —— 轮播 + 全览 ═══════ -->
+<section id="sec-home">
   <div class="carousel" id="carousel">
     <div class="cr-stage" id="cr-stage">
       <div class="cr-track" id="cr-track"></div>
@@ -46,28 +53,32 @@
     </div>
     <div class="cr-indicators" id="cr-indicators"></div>
   </div>
+
   <div class="kpi-row">
     <div class="kpi"><span class="kpi-n">6,300</span><span class="kpi-l">亩生态稻田</span></div>
     <div class="kpi"><span class="kpi-n">700万</span><span class="kpi-l">年产稻米(斤)</span></div>
     <div class="kpi"><span class="kpi-n">15万</span><span class="kpi-l">年游客量</span></div>
     <div class="kpi"><span class="kpi-n">3</span><span class="kpi-l">推荐路线</span></div>
   </div>
+
   <div class="sec-hd"><span class="sec-title">特色体验</span></div>
   <div class="h-scroll">
-    <div class="h-item" onclick="switchTab('culture')">🏛<div class="hi-label">文化研学</div><div class="hi-hint">博物馆·秦简·烈士</div></div>
-    <div class="h-item" onclick="switchTab('farming')">🌾<div class="hi-label">稻虾共作</div><div class="hi-hint">一田双收</div></div>
-    <div class="h-item" onclick="switchTab('tour')">🎣<div class="hi-label">休闲游玩</div><div class="hi-hint">生态园·游乐园</div></div>
+    <div class="h-item" onclick="scrollToSection('culture')">🏛<div class="hi-label">文化研学</div><div class="hi-hint">博物馆·秦简·烈士</div></div>
+    <div class="h-item" onclick="scrollToSection('farming')">🌾<div class="hi-label">稻虾共作</div><div class="hi-hint">一田双收</div></div>
+    <div class="h-item" onclick="scrollToSection('tour')">🎣<div class="hi-label">休闲游玩</div><div class="hi-hint">生态园·游乐园</div></div>
     <div class="h-item" onclick="goPage('pages/onefield.html')">📋<div class="hi-label">特产溯源</div><div class="hi-hint">扫码查来源</div></div>
     <div class="h-item" onclick="goPage('pages/survey.html')">💬<div class="hi-label">游客反馈</div><div class="hi-hint">告诉我们</div></div>
   </div>
+
   <div class="sec-hd"><span class="sec-title">热门推荐</span></div>
   <div class="card-grid">
-    <div class="c-card" onclick="switchTab('culture')"><div class="cc-img"><img src="assets/images/museum-exterior.jpg" alt="" onerror="this.style.display='none'"/></div><div class="cc-body"><div class="cc-title">文化研学</div><div class="cc-tag">博物馆 · 睡虎地秦简</div><div class="cc-desc">云梦县博物馆、龚华铭烈士纪念广场。</div></div></div>
-    <div class="c-card" onclick="switchTab('farming')"><div class="cc-img"><img src="assets/images/farming-planting.jpg" alt="" onerror="this.style.display='none'"/></div><div class="cc-body"><div class="cc-title">稻虾产业</div><div class="cc-tag">双水双绿 · 一田双收</div><div class="cc-desc">6300亩稻虾共作、钓虾体验。</div></div></div>
-    <div class="c-card" onclick="switchTab('tour')"><div class="cc-img"><img src="assets/images/eco-park.jpg" alt="" onerror="this.style.display='none'"/></div><div class="cc-body"><div class="cc-title">休闲游玩</div><div class="cc-tag">生态园 · 游乐园 · 美食</div><div class="cc-desc">五湖四海生态园、伍子游乐园。</div></div></div>
-    <div class="c-card" onclick="goPage('pages/onefield.html')"><div class="cc-img"><img src="assets/images/farming-machine.jpg" alt="" onerror="this.style.display='none'"/></div><div class="cc-body"><div class="cc-title">特产溯源</div><div class="cc-tag">一田一码 · 虾稻米</div><div class="cc-desc">扫码查看虾稻米产地、种养方式。</div></div></div>
+    <div class="c-card" onclick="scrollToSection('culture')"><div class="cc-img"><img src="assets/images/museum-exterior.jpg" alt="" onerror="this.style.display='none'"/></div><div class="cc-body"><div class="cc-title">文化研学</div><div class="cc-tag">博物馆 · 睡虎地秦简</div><div class="cc-desc">云梦县博物馆、龚华铭烈士纪念广场。</div></div></div>
+    <div class="c-card" onclick="scrollToSection('farming')"><div class="cc-img"><img src="assets/images/farming-planting.jpg" alt="" onerror="this.style.display='none'"/></div><div class="cc-body"><div class="cc-title">稻虾产业</div><div class="cc-tag">双水双绿 · 一田双收</div><div class="cc-desc">6300亩稻虾共作、体验钓虾乐趣。</div></div></div>
+    <div class="c-card" onclick="scrollToSection('tour')"><div class="cc-img"><img src="assets/images/eco-park.jpg" alt="" onerror="this.style.display='none'"/></div><div class="cc-body"><div class="cc-title">休闲游玩</div><div class="cc-tag">生态园 · 游乐园 · 美食</div><div class="cc-desc">五湖四海生态园、伍子游乐园。</div></div></div>
+    <div class="c-card" onclick="goPage('pages/onefield.html')"><div class="cc-img"><img src="assets/images/farming-machine.jpg" alt="" onerror="this.style.display='none'"/></div><div class="cc-body"><div class="cc-title">特产溯源</div><div class="cc-tag">插秧体验 · 虾稻米</div><div class="cc-desc">扫码查看虾稻米产地与种养方式。</div></div></div>
     <div class="c-card cg-wide" onclick="goPage('pages/survey.html')"><div class="cc-img"><img src="assets/images/village-lotus.jpg" alt="" onerror="this.style.display='none'"/></div><div class="cc-body"><div class="cc-title">游客反馈</div><div class="cc-tag">问卷 · 建议 · 分享</div><div class="cc-desc">告诉我们你的游玩体验，帮伍湖变得更好。</div></div></div>
   </div>
+
   <div class="sec-hd"><span class="sec-title">休闲一刻</span></div>
   <div class="card-grid" style="margin-top:6px">
     <div class="c-card" onclick="goPage('games/shrimp.html')"><div class="cc-img"><span class="cc-emoji">🦐</span></div><div class="cc-body"><div class="cc-title">钓虾达人</div><div class="cc-tag" style="background:#fff3e0;color:#e65100">手速挑战</div><div class="cc-desc">30秒抓龙虾，连击加分！</div></div></div>
@@ -77,7 +88,7 @@
 </section>
 
 <!-- ═══════ 文化研学 ═══════ -->
-<section class="tab-page" id="tab-culture">
+<section id="sec-culture">
   <div class="hero h-red"><div class="h-t">文化研学</div><div class="h-s">云梦县博物馆 · 睡虎地秦简 · 龚华铭烈士纪念广场</div><div class="h-chip">📍 从伍湖村出发约30分钟车程</div></div>
   <div class="info-block"><h2>伍湖周边好去处</h2><p>2024年11月习近平总书记考察云梦县博物馆，让这座宝藏博物馆火出了圈。从伍湖村驱车约半小时就能到达，看看两千年前的秦简，再去龚华铭烈士纪念广场缅怀先烈，一日游安排得明明白白。</p></div>
   <div class="sec-hd"><span class="sec-title">文化故事</span></div>
@@ -85,7 +96,7 @@
 </section>
 
 <!-- ═══════ 稻虾产业 ═══════ -->
-<section class="tab-page" id="tab-farming">
+<section id="sec-farming">
   <div class="hero h-green"><div class="h-t">稻虾产业</div><div class="h-s">稻虾共作 · 双水双绿 · 梦辰泽农业</div><div class="h-chip">🌱 6300亩生态种养 · 一田双收 · 绿色循环</div></div>
   <div class="kpi-row" style="margin-top:10px">
     <div class="kpi"><span class="kpi-n">6,300</span><span class="kpi-l">亩生态田</span></div>
@@ -96,16 +107,12 @@
   <div class="sec-hd"><span class="sec-title">产业故事</span></div>
   <div id="agri-list" class="dc-list"></div>
   <div class="feat-list">
-    <div class="feat-row" onclick="goPage('pages/onefield.html')">
-      <div class="fr-icon" style="background:linear-gradient(135deg,#8b5a2b,#c49060)">📋</div>
-      <div class="fr-body"><h4>特产溯源</h4><p>扫码查看伍湖虾稻米 · 产地 · 种养全程</p></div>
-      <div class="fr-arrow">→</div>
-    </div>
+    <div class="feat-row" onclick="goPage('pages/onefield.html')"><div class="fr-icon" style="background:linear-gradient(135deg,#8b5a2b,#c49060)">📋</div><div class="fr-body"><h4>特产溯源</h4><p>扫码查看伍湖虾稻米 · 产地 · 种养全程</p></div><div class="fr-arrow">→</div></div>
   </div>
 </section>
 
 <!-- ═══════ 休闲游玩 ═══════ -->
-<section class="tab-page" id="tab-tour">
+<section id="sec-tour">
   <div class="hero h-blue"><div class="h-t">休闲游玩</div><div class="h-s">五湖四海生态园 · 伍子游乐园 · 水上餐厅</div><div class="h-chip">🗺 3条推荐路线 · 年接待约15万人次</div></div>
   <div class="sec-hd"><span class="sec-title">推荐路线</span></div>
   <div id="route-list" class="dc-list"></div>
@@ -119,27 +126,24 @@
     <div class="sc-card"><div class="sc-img"><span>🍽</span></div><div class="sc-body"><h4>水上餐厅</h4><p>农家菜品尝</p></div></div>
     <div class="sc-card"><div class="sc-img"><span>🏡</span></div><div class="sc-body"><h4>特色民宿</h4><p>住下来慢慢玩</p></div></div>
   </div>
-  <!-- 悬浮二维码按钮 -->
-  <div class="qr-float" id="qr-float" onclick="showQR()">📱</div>
-  <div class="qr-overlay" id="qr-overlay" onclick="closeQR(event)">
-    <div class="qr-card">
-      <div class="qr-card-hd"><span>扫码打开伍湖导览</span><button onclick="closeQR()">✕</button></div>
-      <div id="qrcode"></div>
-      <p style="font-size:13px;color:#888;text-align:center;margin-top:8px">微信扫一扫，立即出发</p>
-    </div>
-  </div>
-
 </section>
 
 </main>
 
-<nav class="btm-nav">
-  <button class="nav-btn active" data-tab="home"><span class="nb-icon">🏠</span><span>首页</span></button>
-  <button class="nav-btn" data-tab="culture"><span class="nb-icon">🚩</span><span>研学</span></button>
-  <button class="nav-btn" data-tab="farming"><span class="nb-icon">🌾</span><span>稻虾</span></button>
-  <button class="nav-btn" data-tab="tour"><span class="nb-icon">🎣</span><span>游玩</span></button>
-  <button class="nav-btn" data-tab="menu"><span class="nb-icon">☰</span><span>目录</span></button>
-</nav>
+<div class="site-footer">
+  <p>湖北省孝感市云梦县沙河乡伍湖村</p>
+  <p>© 云梦伍湖 · 一码畅游美丽乡村</p>
+</div>
+
+<!-- 悬浮二维码 -->
+<div class="qr-float" id="qr-float" onclick="showQR()">📱</div>
+<div class="qr-overlay" id="qr-overlay" onclick="closeQR(event)">
+  <div class="qr-card">
+    <div class="qr-card-hd"><span>扫码打开伍湖导览</span><button onclick="closeQR()">✕</button></div>
+    <div id="qrcode"></div>
+    <p style="font-size:13px;color:#888;text-align:center;margin-top:8px">微信扫一扫，立即出发</p>
+  </div>
+</div>
 
 <script src="assets/js/qrcode.min.js"></script>
 <script src="assets/js/config.js"></script>
