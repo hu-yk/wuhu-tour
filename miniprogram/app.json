@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/webview/webview"
+  ],
+  "window": {
+    "navigationBarTitleText": "一码游伍湖",
+    "navigationBarBackgroundColor": "#2d8659",
+    "navigationBarTextStyle": "white",
+    "backgroundTextStyle": "light",
+    "backgroundColor": "#f9f5f1"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
